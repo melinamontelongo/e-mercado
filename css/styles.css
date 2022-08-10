@@ -188,3 +188,67 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
+
+/*Estilos de login.html*/
+.login-form-container{
+  display: block;
+  align-items: center;
+  text-align: center;
+  max-width: min-content;
+  margin: auto;
+}
+
+.login-form-img{
+  display: block;
+  width: 40%;
+  margin: auto;
+  text-align: center;
+  align-items: center;
+}
+
+.form-input{
+font-family: inherit;
+width: 350px;
+margin: 15px;
+padding: 10px;
+border: 1px;
+border-radius: 5px;
+border: 1px solid rgb(190, 190, 190);
+}
+
+.form-input{
+  font-family: inherit;
+  width: 350px;
+  margin: 15px;
+  padding: 10px;
+  border: 1px;
+  border-radius: 5px;
+  border: 1px solid rgb(190, 190, 190);
+  }
+
+.input-error {
+  font-family: inherit;
+  width: 350px;
+  margin: 15px;
+  padding: 10px;
+  border: 1px;
+  border-radius: 5px;
+  border: 1px solid rgb(224, 9, 9);
+}
+
+#login-form-submit{
+  font-family: inherit;
+  background-color: #0d6efd;
+  color: #f4f8fe;
+  padding: 10px;
+  width: 100px;
+  border: none;
+  border-radius: 10px;
+}
+
+#password-error, #email-error{
+  display: none;
+  color:  rgb(224, 9, 9);
+  font-size: 0.9em;
+}
+
