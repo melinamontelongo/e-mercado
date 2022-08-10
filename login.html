@@ -19,8 +19,26 @@
 <body>
   <main class="mt-5">
     <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+      <div class="login-img-container"> <!--Saqué las clases de alerta // puse otras clases para darle estilo-->
+        <img src= "img/login.png" class="login-form-img"> <!--Saqué el h4 // agregué la imagen de portada-->
+      </div>
+      <div class="login-form-container">
+  
+        <form id="login-form" name="login" action="" method="post">
+
+          <h2>Inicio de sesión</h2>
+
+          <label for="email">Email</label>
+          <input type="email" name="email" placeholder="Email" id="form-email" class="form-input">
+          <p id="email-error"class="error">Ingrese su e-mail</p>
+         <!--Los inputs no llevan required porque la validación se hace en .js-->
+          <label for="password">Contraseña</label>
+          <input type="password" name="password" placeholder="Contraseña" id="form-password" class="form-input">
+          <p id="password-error" class="error">Ingrese su contraseña</p>
+          
+          <button type="submit" id="login-form-submit" value="Ingresar">Ingresar</button>
+
+        </form>
       </div>
     </div>
   </main>
