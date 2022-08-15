@@ -1,32 +1,39 @@
 let email = document.getElementById("form-email");
 let password = document.getElementById("form-password");
 let form = document.getElementById("login-form");
-let googleSignIn = document.getElementById("g-signin2");
-let googleSignOut = document.getElementById("g-signout")
 //Se obtienen los elementos necesarios y se almacenan en variables
 
-form.addEventListener("submit", function(e){  //Escucha de eventos para cuando se envíe el formulario
-    e.preventDefault();                        //Se previene la acción por defecto (subir el formulario)
-   if (email.value === ""){                    //Validación de e-mail equivalente al required(no tiene que estar vacío)
-    document.getElementById("email-error").style.display ="block";  //Si está vacío, se muestra el mensaje de error...
+form.addEventListener("submit", function (e) {  //Escucha de eventos para cuando se envíe el formulario
+  e.preventDefault();                        //Se previene la acción por defecto (subir el formulario)
+  if (email.value === "") {                    //Validación de e-mail equivalente al required(no tiene que estar vacío)
+    document.getElementById("email-error").style.display = "block";  //Si está vacío, se muestra el mensaje de error...
     email.classList.replace("form-input", "input-error");           //y se remplaza la clase del input por otra que tiene el estilo para marcar el error.
-}
- if (password.value === ""){                                             //Validación de contraseña
+  }
+  if (password.value === "") {                                             //Validación de contraseña
     document.getElementById("password-error").style.display = "block"   //mismo proceso que con la validación de e-mail.
-    password.classList.replace("form-input", "input-error");           
-} else if (email.value !== "" && password.value !== ""){            //Se chequea que estén ambos campos
+    password.classList.replace("form-input", "input-error");
+  }
+  if (email.value !== "" && password.value === "") {                  //Si uno de los inputs (email) está correcto y el otro no,  
+    document.getElementById("email-error").style.display = "none"     //se le quita el estilo de error al correcto
+    email.classList.replace("input-error", "form-input");
+  }
+  if (password.value !== "" && email.value === "") {                   //Lo mismo pero con la contraseña        
+    document.getElementById("password-error").style.display = "none"
+    password.classList.replace("input-error", "form-input");
+
+  } else if (email.value !== "" && password.value !== "") {         //Se chequea que estén ambos campos
     sessionStorage.setItem("logged_in", true);                     //Asigna un par de valores de session storage y
     window.location.href = "index.html";                          //se carga la portada del sitio.
-}
+  }
 })
 
 function handleCredentialResponse(response) {   //Recibe las credenciales de usuario en jwt y
- const data = jwt_decode(response.credential); //las decodifica con la biblioteca
- console.log(data);             
- if (data.email_verified){                    //accede a la propiedad del objeto, y si es true
-  sessionStorage.setItem("logged_in", true)  //asigna valores de session storage para identificar que el usuario ya inició sesión y
-  window.location.href = "index.html";       //redirecciona a la portada.
-}
+  const data = jwt_decode(response.credential); //las decodifica con la biblioteca
+  console.log(data);
+  if (data.email_verified) {                    //accede a la propiedad del objeto, y si es true
+    sessionStorage.setItem("logged_in", true)  //asigna valores de session storage para identificar que el usuario ya inició sesión y
+    window.location.href = "index.html";       //redirecciona a la portada.
+  }
 }
 
 window.onload = function () {            //Cuando carga
@@ -36,12 +43,13 @@ window.onload = function () {            //Cuando carga
   });
   google.accounts.id.renderButton(       //Configura el botón de Google
     document.getElementById("googleBtn"),
-    { theme: "filled_blue",
-    size: "large" ,
-    type:"standard",
-    shape:"pill",
-    text:"$ {button.text}",
-    logo_alignment:"center"
-  }  
+    {
+      theme: "filled_blue",
+      size: "large",
+      type: "standard",
+      shape: "pill",
+      text: "$ {button.text}",
+      logo_alignment: "center"
+    }
   );
 }
