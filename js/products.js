@@ -3,14 +3,15 @@ const ORDER_DESC_BY_COST = "Down$";
 const ORDER_BY_SOLD_COUNT = "Rel.";
 
 let currentCategoryName = "";
-let currentProductsArray = [];      //Se inicializa una variable que define un arreglo vacío, para luego "cargarle" los datos
-let currentSortCriteria = undefined;    //Inicializa el criterio en undefined para luego definir y llamarlo
+let currentProductsArray = [];            //Se inicializa una variable que define un arreglo vacío, para luego "cargarle" los datos
+let currentSortCriteria = undefined;     //Inicializa el criterio en undefined para luego definir y llamarlo
 let minCost = undefined;                //Inicializa el precio mínimo del rango como undefined para definir si el usuario hace click en filtrar
-let maxCost = undefined;                //lo mismo pero con el precio máximo
+let maxCost = undefined;               //lo mismo pero con el precio máximo
 
 let searchBar = document.getElementById("searchBar"); //Barra de búsqueda
 
-function sortProducts(criteria, array) {    //Función para ordenar los productos
+//Función para ordenar los productos
+function sortProducts(criteria, array) {    
     let result = [];
     if (criteria === ORDER_ASC_BY_COST) {   
         result = array.sort(function (a, b) {
@@ -35,7 +36,8 @@ function sortProducts(criteria, array) {    //Función para ordenar los producto
     return result;
 }
 
-function showProductsList() {        //Función para mostrar los productos en products.html
+//Función para mostrar los productos en products.html
+function showProductsList() {       
 
 
     let htmlContentToAppend = "";   //Se inicializa la variable a la que luego se le "cargará" la información
@@ -137,5 +139,8 @@ document.addEventListener("DOMContentLoaded", function (e) {    //Cuando se carg
         showProductsList();
     }
     )
+//Evento input para filtrar listado de acuerdo a lo que ingrese el usuario en la barra de búsqueda
+    searchBar.addEventListener("input", function(){
+        showProductsList();
+    });
 });
-
