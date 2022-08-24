@@ -37,11 +37,47 @@
     </div>
   </nav>
   <main class="pb-5 container">
-    <div class="container">
-    <div class="text-center"> <!--Se le quitaron las clases "alert" y "alert-danger", también el hijo (h4) que contenía
-                                (desde html porque sino se podía visualizar el contenido antiguo en los 
-                                segundos que cargaba la página)-->
-                              <!--Aquí dentro se creará el div al que se le agrega el contenido con DOM-->
+    <div class="text-center p-4" id="product-list-heading"></div>
+    <div class="container"> 
+      <div class="col">
+        <input class="form-control " type="search" placeholder="Buscar..." id="searchBar" oninput="showProductsList()"> <!--Evento input para que se filtre la lista de forma dinámica-->
+      </div>
+      <div class="row">
+        <div class="col text-end">
+          <div class="btn-group btn-group-toggle mb-4" data-bs-toggle="buttons">
+            <input type="radio" class="btn-check" name="options" id="sortDesc">
+            <label class="btn btn-light" for="sortDesc" title="Precio de mayor a menor"><i class="fas fa-sort-amount-down mr-1"></i>$</label>
+            <input type="radio" class="btn-check" name="options" id="sortAsc" >
+            <label class="btn btn-light" for="sortAsc" title="Precio de menor a mayor"><i class="fas fa-sort-amount-up mr-1"></i>$</label>
+            <input type="radio" class="btn-check" name="options" id="sortByRel" checked>
+            <label class="btn btn-light" for="sortByRel" title="Relevancia: ¡Lo más vendido!"><i class="fas fa-sort-amount-down mr-1"></i>Rel.</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 offset-lg-6 col-md-12 mb-1 container">
+          <div class="row container p-0 m-0">
+            <div class="col">
+              <p class="font-weight-normal text-end my-2">Precio</p>
+            </div>
+            <div class="col">
+              <input class="form-control" type="number" placeholder="min." id="rangeFilterCostMin">
+            </div>
+            <div class="col">
+              <input class="form-control" type="number" placeholder="máx." id="rangeFilterCostMax">
+            </div>
+            <div class="col-3 p-0">
+              <div class="btn-group" role="group">
+                <button class="btn btn-light btn-block" id="rangeFilterCost">Filtrar</button>
+                <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      <div class="list-group" id="product-list-container"></div>
+    </div>
       </div>
     </div>
   </main>

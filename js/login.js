@@ -22,16 +22,15 @@ form.addEventListener("submit", function (e) {  //Escucha de eventos para cuando
     password.classList.replace("input-error", "form-input");
 
   } else if (email.value !== "" && password.value !== "") {         //Se chequea que estén ambos campos
-    sessionStorage.setItem("logged_in", true);                     //Asigna un par de valores de session storage y
-    window.location.href = "index.html";                          //se carga la portada del sitio.
+    localStorage.setItem("user", email.value);                     //almacena lo que el usuario ingresó en input email
+    window.location.href = "index.html";                          //y se carga la portada del sitio.
   }
 })
 
 function handleCredentialResponse(response) {   //Recibe las credenciales de usuario en jwt y
   const data = jwt_decode(response.credential); //las decodifica con la biblioteca
-  console.log(data);
   if (data.email_verified) {                    //accede a la propiedad del objeto, y si es true
-    sessionStorage.setItem("logged_in", true)  //asigna valores de session storage para identificar que el usuario ya inició sesión y
+    localStorage.setItem("user", data.email)    //almacena data.email en localStorage
     window.location.href = "index.html";       //redirecciona a la portada.
   }
 }

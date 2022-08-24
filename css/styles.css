@@ -263,3 +263,9 @@ border: 1px solid rgb(190, 190, 190);
   margin: auto;
   margin-top: 10px;
 }
+/*Search bar*/
+
+#searchBar{
+  width: 350px;
+  margin: auto; 
+}

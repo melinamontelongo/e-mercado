@@ -1,14 +1,12 @@
-//Función que chequea si ya fue realizado el login
-function checkLogin(){       
-    if (!sessionStorage.getItem("logged_in")){ //Si no se encuentra un valor asociado al item, redirecciona al login
+function checkLogin(){                  //Chequea si ya fue realizado el login
+    if (!localStorage.getItem("user")){ //Si no se encuentra un valor asociado al item, redirecciona al login
         window.location = "login.html"
     }
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-
     checkLogin(); //Llama a la función 
-
+    showUser();   //Muestra al usuario en la barra de navegación
     document.getElementById("autos").addEventListener("click", function() {
         localStorage.setItem("catID", 101);
         window.location = "products.html"
