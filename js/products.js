@@ -9,6 +9,7 @@ let minCost = undefined;                //Inicializa el precio mínimo del rango
 let maxCost = undefined;               //lo mismo pero con el precio máximo
 
 let searchBar = document.getElementById("searchBar"); //Barra de búsqueda
+let search = undefined;
 
 //Función para ordenar los productos
 function sortProducts(criteria, array) {    
@@ -48,7 +49,7 @@ function showProductsList() {
 
         if (((minCost == undefined) || (minCost != undefined && product.cost >= minCost)) &&    //Filtros para mostrar los productos según el precio ingresado
             ((maxCost == undefined) || (maxCost != undefined && product.cost <= maxCost)) &&
-            (product.name.toLowerCase().includes(searchBar.value) || product.description.toLowerCase().includes(searchBar.value))) { //Filtros para mostrar los productos según lo que ingrese el usuario en el buscador
+            ((search == undefined)||(product.name.toLowerCase().includes(search) || product.description.toLowerCase().includes(search)))) { //Filtros para mostrar los productos según lo que ingrese el usuario en el buscador
 
             htmlContentToAppend += `            
 
@@ -69,6 +70,10 @@ function showProductsList() {
                     `
         }
         document.getElementById("product-list-container").innerHTML = htmlContentToAppend
+        
+        if(document.getElementById("product-list-container").innerHTML == ""){
+            document.getElementById("product-list-container").innerHTML = `<h3 class="lead text-center p-5">No se han encontrado productos que coincidan</h3>`
+        }
     }
     document.getElementById("product-list-heading").innerHTML =
 
@@ -141,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function (e) {    //Cuando se carg
     )
 //Evento input para filtrar listado de acuerdo a lo que ingrese el usuario en la barra de búsqueda
     searchBar.addEventListener("input", function(){
+        search = searchBar.value.toLowerCase();
         showProductsList();
     });
 });
