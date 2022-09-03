@@ -1,6 +1,6 @@
 function checkLogin(){                  //Chequea si ya fue realizado el login
-    if (!localStorage.getItem("user")){ //Si no se encuentra un valor asociado al item, redirecciona al login
-        window.location = "login.html"
+    if ((!localStorage.getItem("user")) && (!sessionStorage.getItem("user"))){ //Si no se encuentra un valor asociado al item, redirecciona al login
+        window.location = "login.html"                                       
     }
 }
 

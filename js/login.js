@@ -1,6 +1,7 @@
 let email = document.getElementById("form-email");
 let password = document.getElementById("form-password");
 let form = document.getElementById("login-form");
+let check = document.getElementById("form-check");
 //Se obtienen los elementos necesarios y se almacenan en variables
 
 form.addEventListener("submit", function (e) {  //Escucha de eventos para cuando se envíe el formulario
@@ -22,16 +23,24 @@ form.addEventListener("submit", function (e) {  //Escucha de eventos para cuando
     password.classList.replace("input-error", "form-input");
 
   } else if (email.value !== "" && password.value !== "") {         //Se chequea que estén ambos campos
-    localStorage.setItem("user", email.value);                     //almacena lo que el usuario ingresó en input email
-    window.location.href = "index.html";                          //y se carga la portada del sitio.
+    loginSession(email.value);
   }
 })
+
+//Función para permitirle al usuario decidir si mantener iniciada la sesión (localStorage) o no (sessionStorage)
+function loginSession(userData){
+  if (check.checked) {
+    localStorage.setItem("user", userData);
+  } else {
+    sessionStorage.setItem("user", userData)
+  }
+  window.location.href = "index.html";    
+}
 
 function handleCredentialResponse(response) {   //Recibe las credenciales de usuario en jwt y
   const data = jwt_decode(response.credential); //las decodifica con la biblioteca
   if (data.email_verified) {                    //accede a la propiedad del objeto, y si es true
-    localStorage.setItem("user", data.email)    //almacena data.email en localStorage
-    window.location.href = "index.html";       //redirecciona a la portada.
+    loginSession(data.email);                   //guarda el dato en almacenamiento
   }
 }
 

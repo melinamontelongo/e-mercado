@@ -39,9 +39,34 @@ let getJSONData = function (url) {
       return result;
     });
 }
+//Nueva función para mostrar el usuario en el nav de todas las páginas
+//Funcionalidad de cerrar sesión esta vez en un dropdown
+function showUser() {
+  let user = "";
+  if (localStorage.getItem("user")){
+    user = localStorage.getItem("user");
+  } else if (sessionStorage.getItem("user")){
+    user = sessionStorage.getItem("user");
+  }
+  let userField = document.querySelectorAll(".nav-item")[3];
+  userField.classList.add("dropdown");
+  userField.innerHTML =
+    `<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      ${user}
+    </a>
+<ul class="dropdown-menu">
+  <li><a class="dropdown-item" href="#" id="log-out">Cerrar sesión</a></li>
+</ul>
+</li>`
+  document.getElementById("log-out").addEventListener("click", function () {
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
+    window.location = "login.html";
+  })
+}
 
 //Función para mostrar el usuario en el nav en todas las páginas:
-function showUser() {                                        
+/*function showUser() {                                        
   let user = localStorage.getItem("user");                    //Obtiene el item asociado al user
   let userField = document.querySelectorAll(".nav-item")[3];  //selecciona el nav item del índice 3 (el último en todos los html)
   let userElement = document.createElement("a");              //crea un nuevo <a></a>
@@ -55,4 +80,4 @@ function showUser() {
       window.location = "login.html";                 //y redirecciona al login
     };
   });
-}
+}*/
