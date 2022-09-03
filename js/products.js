@@ -18,11 +18,11 @@ function sortProducts(criteria, array) {
         result = array.sort(function (a, b) {
             return a.cost - b.cost          //optimización del código anterior, misma funcionalidad
         });
-    } else if (criteria === ORDER_DESC_BY_COST) {
+    } if (criteria === ORDER_DESC_BY_COST) {
         result = array.sort(function (a, b) {
             return b.cost - a.cost
         });
-    } else if (criteria === ORDER_BY_SOLD_COUNT) {
+    } if (criteria === ORDER_BY_SOLD_COUNT) {
         result = array.sort(function (a, b) {
             return b.soldCount - a.soldCount
         });
