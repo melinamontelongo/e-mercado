@@ -68,6 +68,9 @@ function showCategoriesList(){
         }
 
         document.getElementById("cat-list-container").innerHTML = htmlContentToAppend;
+        if(document.getElementById("cat-list-container").innerHTML == ""){
+            document.getElementById("cat-list-container").innerHTML = `<h3 class="lead text-center p-5">No se han encontrado productos que coincidan</h3>`
+        }
     }
 }
 
