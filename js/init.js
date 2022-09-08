@@ -39,15 +39,23 @@ let getJSONData = function (url) {
       return result;
     });
 }
-//Nueva función para mostrar el usuario en el nav de todas las páginas
-//Funcionalidad de cerrar sesión esta vez en un dropdown
-function showUser() {
+
+//Modularización para obtener el usuario para las funcionalidades que lo requieran
+function getUser(){   
   let user = "";
   if (localStorage.getItem("user")){
     user = localStorage.getItem("user");
+    return user
   } else if (sessionStorage.getItem("user")){
     user = sessionStorage.getItem("user");
+    return user
   }
+}
+
+//Nueva función para mostrar el usuario en el nav de todas las páginas
+//Funcionalidad de cerrar sesión esta vez en un dropdown
+function showUser() {
+  let user = getUser();
   let userField = document.querySelectorAll(".nav-item")[3];
   userField.classList.add("dropdown");
   userField.innerHTML =
@@ -64,20 +72,3 @@ function showUser() {
     window.location = "login.html";
   })
 }
-
-//Función para mostrar el usuario en el nav en todas las páginas:
-/*function showUser() {                                        
-  let user = localStorage.getItem("user");                    //Obtiene el item asociado al user
-  let userField = document.querySelectorAll(".nav-item")[3];  //selecciona el nav item del índice 3 (el último en todos los html)
-  let userElement = document.createElement("a");              //crea un nuevo <a></a>
-  userField.appendChild(userElement);                         //le agrega un child al nav item seleccionado
-  userElement.href = "#"                                      //agrega atributo href
-  userElement.classList.add("nav-link");                      //y la clase para el estilo
-  userElement.innerHTML = user;                              //Escribe el nombre de usuario en el nuevo elemento
-  userElement.addEventListener("click", function () { //Evento de click en el elemento que contiene el nombre de usuario
-    if (confirm("¿Desea cerrar sesión?")) {           //para cerrar sesión si el usuario desea
-      localStorage.removeItem("user");                //de ser así, elimina el item de user
-      window.location = "login.html";                 //y redirecciona al login
-    };
-  });
-}*/
