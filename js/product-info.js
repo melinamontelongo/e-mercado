@@ -1,6 +1,8 @@
 //Variables donde se guardará la información obtenida con getJSONData
 let productInfo = [];
 let productComments = [];
+let currentProduct = localStorage.getItem("productID"); //Obtiene el ID de producto
+let commentsContainer = document.getElementById("productComments") //Donde se cargarán los comentarios
 
 //Función para mostrar la información del producto a partir de lo almacenado en productInfo
 function showProductInfo() {
@@ -24,10 +26,6 @@ function showProductInfo() {
                     <strong class="mb-4">Imagenes ilustrativas</strong>
                       <div id="productImages" class"">
                       </div>
-
-                    <div id="productComments">
-                        <h3>Comentarios</h3>
-                    </div>
                 </div>
             </div>
         `
@@ -38,84 +36,118 @@ function showProductInfo() {
         document.getElementById("productImages").innerHTML += `<img src="${img}"  class="img-thumbnail me-2 mb-3 mt-2" width="255px">`
     }
 }
-//Función para agregar comentarios nuevos (se llama para cargar los comentarios que vienen de la solicitud y para los que agrega el usuario)
-function addComment(user, date, score, description) {
-    let commentsContainer = document.getElementById("productComments");
-    let comment = `   <div class="list-group list-group-item">
-    <p class="commentsInfo"><strong>${user}</strong> - ${date} - ${addStars(score)}</p>
-    <p>${description}</p>
-    </div>`
-    commentsContainer.innerHTML += comment;
-}
-//Función para mostrar los comentarios obtenidos a partir de la solicitud
-function showComments() {
-    let commentsContainer = document.getElementById("productComments");
 
-    //Si no hay comentarios se agrega un div para mostrarle la situación al usuario
-    if (productComments == "") {
+//Función para mostrar los comentarios obtenidos a partir de la solicitud:
+//Si no hay comentarios (en la lista o en localStorage), muestra un div alertando al usuario
+//Si hay, itera sobre ellos y los muestra
+function showComments() {
+
+    if (productComments == "" && !localStorage.getItem(`${currentProduct}`)) {
         commentsContainer.innerHTML += `<div id="no-comments-alert"class="list-group list-group-item">
         <p class="lead text-center">Aún no hay comentarios ¡Sé el primero!</p>
         </div>`
-    //Sino itera agregando los comentarios en base a cuántos haya
+
     } else {
         for (let i = 0; i < productComments.length; i++) {
             let comment = productComments[i];
-            addComment(comment.user, comment.dateTime, comment.score, comment.description);
+            commentsContainer.innerHTML += `<div class="list-group list-group-item">
+            <p class="commentsInfo"><strong>${comment.user}</strong> - ${comment.dateTime} - ${addStars(comment.score)}</p>
+            <p>${comment.description}</p>
+            </div>`
         }
     }
 }
 
-//Función que retorna un string conteniendo el star rating de acuerdo al puntaje del producto (es utilizada por addComments())
+//Función que retorna un string conteniendo el star rating de acuerdo al puntaje del producto
+    //Toma el puntaje y en base a éste agrega estrellas rellenas
+    //Lo que reste, teniendo en cuenta los 5 <span> necesarios, se agrega como estrellas vacías
 function addStars(score) {
     let spans = ``;
-    let num = 5;    //variable a modo de contador (5 spans)
+    let num = 5;    //variable a modo de contador (5 <span>)
 
-    for (let i = 0; i < score; i++) {   //itera agregando spans que representan el puntaje (checked)
+    for (let i = 0; i < score; i++) { 
         spans +=
             `<span class="fa fa-star checked"></span>`
-        num--       //se resta 1 por cada iteración
+        num--
     }
-    if (num > 0) {      //si el num resultante es mayor a 0 (puntaje menor a 5)
-        for (let i = 0; i < num; i++) {     //itera agregando el resto como <span> representando estrellas vacías
-            spans += `<span class="fa fa-star"></span>` 
+    if (num > 0) {                       
+        for (let i = 0; i < num; i++) {    
+            spans += `<span class="fa fa-star"></span>`
         }
     }
     return spans;
 }
 
+//Función para añadir el comentario nuevo del usuario
+    //Obtiene los valores que ingresa
+    //Define un objeto comentario, lo almacena en localStorage y en array de comentarios
+    //Elimina la alerta de que no hay comentarios
+    //Limpia los campos e inhabilita el botón
+function addUserComment(){
+    productComments = []; //Vacía el array para no duplicar elementos
+    let newComment = document.getElementById("userComment");
+    let newScore = document.getElementById("userScore");
+    let dateTime = new Date().toLocaleString().replaceAll("/", "-").replace(",", ""); //Conversión a string y al formato de los demás comentarios
+
+    let userComment = { product: parseInt(currentProduct), score: parseInt(newScore.value), description: newComment.value, dateTime: dateTime, user: getUser() }
+    localStorage.setItem(`${currentProduct}`, JSON.stringify(userComment));
+    productComments.push(userComment);
+
+    let noComments = document.getElementById("no-comments-alert")
+    if (noComments != null) {
+        noComments.remove()
+    }
+
+    newComment.value = "";
+    newScore.value = "";
+    document.getElementById("sendInfo").setAttribute("disabled", "")
+}
+
+//Función que valida los campos con bootstrap
+    //Escucha de eventos onsubmit:
+    //Chequea la validez de los datos enviados por el usuario (que no estén en blanco)
+    //Agrega/quita las clases de validación
+    //Llama a addUserComment() y showComments() para añadir y mostrar los comentarios
+function validateUserComment() {
+    let form = document.getElementById("submitComment");
+    form.addEventListener('submit', event => {
+        event.preventDefault()
+        form.classList.add('was-validated')
+        if (form.checkValidity()) {
+            form.classList.remove('was-validated');
+            addUserComment();
+            showComments();
+        }
+    })
+}
+
+//Función que obtiene el comentario del usuario almacenado (si existe)
+    //Lo agrega al array de comentarios
+    //Deshabilita el botón
+    //Llama a showComments() para mostrarlo junto a los demás
+function retrieveUserComment() {
+    let userComment = JSON.parse(localStorage.getItem(`${currentProduct}`))
+    if (userComment) {
+        productComments.push(userComment)
+        document.getElementById("sendInfo").setAttribute("disabled", "") //Una vez enviado el comentario, no se le permite añadir más
+        showComments();
+    }
+}
+
+//Cuando se carga el documento
+    //Solicita la información del producto actual y si se resuelve:
+        //Muestra la info
+        //Solicita los comentarios del producto actual y si se resuelve:
+            //Muestra los comentarios
+    //Llama a la función que muestra al usuario
+    //y a las que gestionan los comentarios realizados por el usuario
 document.addEventListener("DOMContentLoaded", function () {
-
-    showUser(); //Definida en init.js, muestra al user en el nav
-
-    (() => {    //Para añadir comentarios nuevos y validar los campos con bootstrap
-        let form = document.getElementById("submitComment");
-        form.addEventListener('submit', event => {
-            event.preventDefault()
-            form.classList.add('was-validated') //Se agregan las clases de validación (bootstrap)
-            if (form.checkValidity()) { //Chequea que los datos sean válidos (que no estén en blanco)
-                let newComment = document.getElementById("userComment");
-                let newScore = document.getElementById("userScore");
-                let dateTime = new Date().toLocaleString().replaceAll("/", "-").replace(",", ""); //Convierte el objeto date a string y con el mismo formato que los demás comentarios
-                addComment(getUser(), dateTime, parseInt(newScore.value), newComment.value); //Se agrega el comentario con la info pasada por parámetro (getUser() se define en init.js)
-
-                let noComments = document.getElementById("no-comments-alert")
-                if (noComments != null){
-                   noComments.remove()      //Elimina el div que avisa que no hay comentarios
-                }
-
-                newComment.value = "";
-                newScore.value = "";
-                form.classList.remove('was-validated') //Se quitan las clases de validación
-            }
-        })
-    })();
-
-    let currentProduct = localStorage.getItem("productID"); //Obtiene el ID de producto
-    getJSONData(PRODUCT_INFO_URL + currentProduct + EXT_TYPE).then(function (resultObj) { //Solicitud a la información del producto actual
+    getJSONData(PRODUCT_INFO_URL + currentProduct + EXT_TYPE).then(function (resultObj) { 
         if (resultObj.status === "ok") {
             productInfo = resultObj.data;
             showProductInfo();  //Muestra la info
-            getJSONData(PRODUCT_INFO_COMMENTS_URL + currentProduct + EXT_TYPE).then(function (resultObj) { //Solicitud a los comentarios del producto actual
+
+            getJSONData(PRODUCT_INFO_COMMENTS_URL + currentProduct + EXT_TYPE).then(function (resultObj) {
                 if (resultObj.status === "ok") {
                     productComments = resultObj.data;
                     showComments(); //Muestra los comentarios
@@ -123,6 +155,9 @@ document.addEventListener("DOMContentLoaded", function () {
             })
         }
     })
+    showUser(); //Definida en init.js, muestra al user en el nav
+    validateUserComment(); 
+    retrieveUserComment();
 })
 
 
