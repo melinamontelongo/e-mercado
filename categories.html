@@ -38,19 +38,19 @@
   </nav>
   <main class="pb-5">
     <div class="text-center p-4">
-      <h2>Categorías</h2>
-      <p class="lead">Verás aquí todas las categorías del sitio.</p>
+      <h1 class="fw-light">Categorías</h1>
+      <h4 class="lead fs-5 text-muted">Verás aquí todas las categorías del sitio.</h4>
     </div>
     <div class="container">
       <div class="row">
         <div class="col text-end">
           <div class="btn-group btn-group-toggle mb-4" data-bs-toggle="buttons">
             <input type="radio" class="btn-check" name="options" id="sortAsc">
-            <label class="btn btn-light" for="sortAsc" title="De la A a la Z">A-Z</label>
+            <label class="btn btn-secondary" for="sortAsc" title="De la A a la Z">A-Z</label>
             <input type="radio" class="btn-check" name="options" id="sortDesc">
-            <label class="btn btn-light" for="sortDesc" title="De la Z a la A">Z-A</label>
+            <label class="btn btn-secondary" for="sortDesc" title="De la Z a la A">Z-A</label>
             <input type="radio" class="btn-check" name="options" id="sortByCount" checked>
-            <label class="btn btn-light" for="sortByCount" title="Categorías con más productos"><i class="fas fa-sort-amount-down mr-1"></i></label>
+            <label class="btn btn-secondary" for="sortByCount" title="Categorías con más productos"><i class="fas fa-sort-amount-down mr-1"></i></label>
           </div>
         </div>
       </div>
@@ -61,15 +61,15 @@
               <p class="font-weight-normal text-end my-2">Cant.</p>
             </div>
             <div class="col">
-              <input class="form-control" type="number" placeholder="min." id="rangeFilterCountMin">
+              <input class="form-control shadow mb-3 bg-body rounded border-0" type="number" placeholder="min." id="rangeFilterCountMin">
             </div>
             <div class="col">
-              <input class="form-control" type="number" placeholder="máx." id="rangeFilterCountMax">
+              <input class="form-control shadow mb-3 bg-body rounded border-0" type="number" placeholder="máx." id="rangeFilterCountMax">
             </div>
             <div class="col-3 p-0">
               <div class="btn-group" role="group">
-                <button class="btn btn-light btn-block" id="rangeFilterCount">Filtrar</button>
-                <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
+                <button class="btn btn-secondary btn-block" id="rangeFilterCount">Filtrar</button>
+                <button class="btn btn-secondary btn-sm" id="clearRangeFilter">Limpiar</button>
               </div>
             </div>
           </div>

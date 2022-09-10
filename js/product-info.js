@@ -33,7 +33,7 @@ function showProductInfo() {
     let images = productInfo.images;  //las obtiene
     for (let i = 0; i < images.length; i++) {   //e itera según su cantidad para mostrarlas
         let img = images[i];
-        document.getElementById("productImages").innerHTML += `<img src="${img}"  class="img-thumbnail me-2 mb-3 mt-2" width="255px">`
+        document.getElementById("productImages").innerHTML += `<img src="${img}"  class="img-thumbnail me-2 mb-3 mt-2 shadow mb-3 bg-body rounded border-0" width="255px">`
     }
 }
 
@@ -43,14 +43,14 @@ function showProductInfo() {
 function showComments() {
 
     if (productComments == "" && !localStorage.getItem(`${currentProduct}`)) {
-        commentsContainer.innerHTML += `<div id="no-comments-alert"class="list-group list-group-item">
+        commentsContainer.innerHTML += `<div id="no-comments-alert"class="list-group list-group-item shadow p-3 mb-2 bg-body rounded border-0">
         <p class="lead text-center">Aún no hay comentarios ¡Sé el primero!</p>
         </div>`
 
     } else {
         for (let i = 0; i < productComments.length; i++) {
             let comment = productComments[i];
-            commentsContainer.innerHTML += `<div class="list-group list-group-item">
+            commentsContainer.innerHTML += `<div class="list-group list-group-item shadow p-3 mb-2 bg-body rounded border-0">
             <p class="commentsInfo"><strong>${comment.user}</strong> - ${comment.dateTime} - ${addStars(comment.score)}</p>
             <p>${comment.description}</p>
             </div>`

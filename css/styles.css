@@ -192,8 +192,10 @@ a.custom-card:hover {
 .login-form-container {
   min-width: min-content;
 }
-
-
+.carousel-item > img{
+  object-fit:contain;
+  margin: auto;
+}
 /*
 ESTILOS REEMPLAZADOS POR BOOTSTRAP
 

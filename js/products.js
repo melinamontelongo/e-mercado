@@ -54,10 +54,10 @@ function showProductsList() {
 
             htmlContentToAppend += `            
 
-                    <div onclick="setProductID(${product.id})" class="list-group-item list-group-item-action cursor-active">
+                    <div onclick="setProductID(${product.id})" class="list-group-item list-group-item-action cursor-active shadow p-3 mb-3 bg-body rounded border-0">
                         <div class="row">
                             <div class="col-3">
-                                <img src="${product.image}" alt="${product.description}" class="img-thumbnail">
+                                <img src="${product.image}" alt="${product.description}" class="img-thumbnail border-0">
                             </div>
                             <div class="col">
                                 <div class="d-flex w-100 justify-content-between">
@@ -79,8 +79,8 @@ function showProductsList() {
     }
     document.getElementById("product-list-heading").innerHTML =
 
-        `<h1>Productos</h1>
-        <h4 class="lead">Verás aquí todos los productos de la categoría <strong>${currentCategoryName}</strong></h4>`
+        `<h1 class="fw-light">Productos</h1>
+        <h4 class="lead fs-5 text-muted">Verás aquí todos los productos de la categoría <strong>${currentCategoryName}</strong></h4>`
 }
 
 function sortAndShowProducts(sortCriteria, productsArray) {     //Función para ordenar y mostrar productos
