@@ -8,6 +8,7 @@
 
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
 </head>
 
@@ -37,42 +38,114 @@
   </nav>
   <main>
     <div class="jumbotron text-center"></div>
-    <div class="album py-5 bg-light">
+    <div class="py-5 bg-light">
       <div class="container">
-        <div class="row">
-          <div class="col-md-4 text-center ">
-            <div class="card mb-4 shadow p-3 mb-5 bg-body rounded custom-card cursor-active border-0" id="autos">
-              <img class="bd-placeholder-img card-img-top rounded" src="img/cars_index.jpg"
-                alt="Imgagen representativa de la categoría 'Autos'">
-              <h3 class="m-3 text-center">Autos</h3>
-              <div class="card-body">
-                <p class="card-text">Los mejores precios en autos 0 kilómetro, de alta y media gama.</p>
+        <div id="carouselExampleCaptions" class="carousel slide carousel-dark" data-bs-ride="carousel">
+          <div class="carousel-inner text-center">
+            <div class="carousel-item active" data-bs-interval="2000">
+              <div class="cards-wrapper d-flex">
+                <div class="card m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0" id="autos">
+                  <img class="bd-placeholder-img card-img-top rounded" src="img/cars_index.jpg"
+                    alt="Imgagen representativa de la categoría 'Autos'">
+                  <h3 class="m-3 text-center">Autos</h3>
+                  <div class="card-body border-top border-2">
+                    <p class="card-text text-muted">Los mejores precios en autos 0 kilómetro, de alta y media gama.</p>
+                  </div>
+                </div>
+                <div class="card m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0" id="juguetes">
+                  <img class="bd-placeholder-img card-img-top rounded" src="img/toys_index.jpg"
+                    alt="Imgagen representativa de la categoría 'Juguetes'">
+                  <h3 class="m-3 text-center">Juguetes</h3>
+                  <div class="card-body border-top border-2">
+                    <p class="card-text text-muted">Encuentra aquí los mejores precios para niños/as de cualquier edad.
+                    </p>
+                  </div>
+                </div>
+                <div class="card m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0" id="muebles">
+                  <img class="bd-placeholder-img card-img-top rounded" src="img/furniture_index.jpg"
+                    alt="Imgagen representativa de la categoría 'Muebles'">
+                  <h3 class="m-3 text-center">Muebles</h3>
+                  <div class="card-body border-top border-2">
+                    <p class="card-text text-muted">Muebles antiguos, nuevos y para ser armados por uno mismo.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+              <div class="cards-wrapper d-flex">
+                <div class="card m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0"
+                  id="herramientas">
+                  <img class="bd-placeholder-img card-img-top rounded" src="img/cat104_1.jpg"
+                    alt="Imgagen representativa de la categoría 'Herramientas'">
+                  <h3 class="m-3 text-center">Herramientas</h3>
+                  <div class="card-body border-top border-2">
+                    <p class="card-text text-muted">Herramientas para cualquier tipo de trabajo.</p>
+                  </div>
+                </div>
+                <div class="card m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0"
+                  id="computadoras">
+                  <img class="bd-placeholder-img card-img-top rounded" src="img/cat105_1.jpg"
+                    alt="Imgagen representativa de la categoría 'Computadoras'">
+                  <h3 class="m-3 text-center">Computadoras</h3>
+                  <div class="card-body border-top border-2">
+                    <p class="card-text text-muted">Todo en cuanto a computadoras, para uso de oficina y/o juegos.</p>
+                  </div>
+                </div>
+                <div class="card m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0"
+                  id="vestimenta">
+                  <img class="bd-placeholder-img card-img-top rounded" src="img/cat106_1.jpg"
+                    alt="Imgagen representativa de la categoría 'Vestimenta'">
+                  <h3 class="m-3 text-center">Vestimenta</h3>
+                  <div class="card-body border-top border-2">
+                    <p class="card-text text-muted">Gran variedad de ropa, nueva y de segunda mano.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+              <div class="cards-wrapper d-flex">
+                <div class="card m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0"
+                  id="electrodomesticos">
+                  <img class="bd-placeholder-img card-img-top rounded" src="img/cat107_1.jpg"
+                    alt="Imgagen representativa de la categoría 'Electrodomésticos'">
+                  <h3 class="m-3 text-center">Electrodomésticos</h3>
+                  <div class="card-body border-top border-2">
+                    <p class="card-text text-muted">Todos los electrodomésticos modernos y de bajo consumo.</p>
+                  </div>
+                </div>
+                <div class="card m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0" id="deporte">
+                  <img class="bd-placeholder-img card-img-top rounded" src="img/cat108_1.jpg"
+                    alt="Imgagen representativa de la categoría 'Deporte'">
+                  <h3 class="m-3 text-center">Deporte</h3>
+                  <div class="card-body border-top border-2">
+                    <p class="card-text text-muted">Toda la variedad de indumentaria para todo tipo de deporte.</p>
+                  </div>
+                </div>
+                <div class="card m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0" id="celulares">
+                  <img class="bd-placeholder-img card-img-top rounded" src="img/cat109_1.jpg"
+                    alt="Imgagen representativa de la categoría 'Celulares'">
+                  <h3 class="m-3 text-center">Celulares</h3>
+                  <div class="card-body border-top border-2">
+                    <p class="card-text text-muted">Celulares de todo tipo para cubrir todas las necesidades.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="col-md-4 text-center">
-            <div class="card mb-4 shadow p-3 mb-5 bg-body rounded custom-card cursor-active border-0" id="juguetes">
-              <img class="bd-placeholder-img card-img-top rounded" src="img/toys_index.jpg"
-                alt="Imgagen representativa de la categoría 'Juguetes'">
-              <h3 class="m-3 text-center">Juguetes</h3>
-              <div class="card-body">
-                <p class="card-text">Encuentra aquí los mejores precios para niños/as de cualquier edad.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 text-center">
-            <div class="card mb-4 shadow p-3 mb-5 bg-body rounded custom-card cursor-active border-0" id="muebles">
-              <img class="bd-placeholder-img card-img-top rounded" src="img/furniture_index.jpg"
-                alt="Imgagen representativa de la categoría 'Muebles'">
-              <h3 class="m-3 text-center">Muebles</h3>
-              <div class="card-body">
-                <p class="card-text">Muebles antiguos, nuevos y para ser armados por uno mismo.</p>
-              </div>
-            </div>
-          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
-        <div class="row">
-          <a class="btn btn-light btn-lg btn-block" href="categories.html">Y mucho más!</a>
+        <div class="row m-3 p-2">
+          <a class="btn btn-light shadow p-3 mb-3 bg-body rounded  p-2 btn-md w-25 mx-auto rounded-pill" href="categories.html">Ver todas las categorías<span class="ps-3 ms-2 fa fa-arrow-right"></span></a>
+
         </div>
       </div>
     </div>

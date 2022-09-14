@@ -1,22 +1,25 @@
-function checkLogin(){                  //Chequea si ya fue realizado el login
+//Chequea si ya fue realizado el login
+function checkLogin(){                 
     if ((!localStorage.getItem("user")) && (!sessionStorage.getItem("user"))){ //Si no se encuentra un valor asociado al item, redirecciona al login
         window.location = "login.html"                                       
     }
 }
 
+//Función que agrega una escucha de evento de tipo click a un elemento con cierto Id y 
+//almacena un valor dado en localStorage y redirecciona al html de productos
+function getCategory(id, catID){
+    document.getElementById(id).addEventListener("click", function(){
+        localStorage.setItem("catID", catID);
+        window.location = "products.html"
+    })
+}
+
 document.addEventListener("DOMContentLoaded", function(){
     checkLogin(); //Llama a la función 
     showUser();   //Muestra al usuario en la barra de navegación
-    document.getElementById("autos").addEventListener("click", function() {
-        localStorage.setItem("catID", 101);
-        window.location = "products.html"
-    });
-    document.getElementById("juguetes").addEventListener("click", function() {
-        localStorage.setItem("catID", 102);
-        window.location = "products.html"
-    });
-    document.getElementById("muebles").addEventListener("click", function() {
-        localStorage.setItem("catID", 103);
-        window.location = "products.html"
-    });
+
+   let cards = document.querySelectorAll(".card");        //Obtiene todos los elementos que necesitan la escucha de evento
+   let catID = 101;                                      //Inicializa catID en 101 (primer categoría)
+   cards.forEach(card => getCategory(card.id, catID++)) //Para cada elemento llama la función con el Id del mismo 
+                                                        //y el catID se va incrementando (cubriendo todas las categorías)
 });

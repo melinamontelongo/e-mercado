@@ -192,9 +192,22 @@ a.custom-card:hover {
 .login-form-container {
   min-width: min-content;
 }
-.carousel-item > img{
-  object-fit:contain;
-  margin: auto;
+
+.carousel-control-prev, .carousel-control-next{
+  width: min-content;
+  height: min-content;
+  padding: 1%;
+  top: 50%;
+  border-radius: 100%;
+  transform: translateY(-50%);
+}
+
+.carousel-control-prev{
+  left: -5%;
+}
+
+.carousel-control-next{
+  right: -5%;
 }
 /*
 ESTILOS REEMPLAZADOS POR BOOTSTRAP
