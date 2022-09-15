@@ -209,82 +209,67 @@ a.custom-card:hover {
 .carousel-control-next{
   right: -5%;
 }
-/*
-ESTILOS REEMPLAZADOS POR BOOTSTRAP
 
-Estilos de login.html
-.login-form-container{
-  display: block;
-  align-items: center;
-  text-align: center;
-  max-width: min-content;
-  margin: auto;
-}
-
-
-.form-input{
-font-family: inherit;
-width: 350px;
-margin: 15px;
-margin-top: 2px;
-padding: 10px;
-border: 1px;
-border-radius: 5px;
-border: 1px solid rgb(190, 190, 190);
-}
-
-.form-input:focus{
-    outline-style: none; box-shadow: none; border-color:  rgb(81, 149, 238);
+/*PARA PANTALLAS XS*/
+@media (max-width: 576px){
+  .card:not(:first-child){
+    display:none;
   }
-
-.input-error {
-  font-family: inherit;
-  width: 350px;
-  margin: 5px;
-  padding: 10px;
-  border: 1px;
-  border-radius: 5px;
-  border: 1px solid rgb(241, 27, 27);
-  background-image: url("../img/error_outline_icon.svg");
-  background-repeat: no-repeat;
-  background-position: right;
-  background-origin: content-box;
-  outline-style: none; 
-  box-shadow: none; 
+  .card {
+    min-width: 200px;
+  }
+  .card h3{
+    font-size: 15px;
+  }
+  .card-body{
+    display:none;
+  }
+  #categoriesNextBtn-sm{
+    display: none
+  }
+  #categoriesNextBtn-xs{
+    min-width: max-content;
+    width: min-content;
+  }
+  #coverImg-lg{
+    display: none;
+  }
 }
-
-#login-form-submit{
-  font-family: inherit;
-  background-color: #1a73e8;
-  color: #f4f8fe;
-  padding: 10px;
-  width: 100px;
-  border: none;
-  border-radius: 20px;
-  font-weight: 400;
-  display: block;
-  margin: auto;
-  margin-top: 10px;
+/*PARA PANTALLAS SMALL Y LARGE*/
+@media (min-width: 576px) and (max-width: 1200px){
+  #categoriesNextBtn-sm{
+    display: none
+  }
+   #categoriesNextBtn-xs{
+    min-width: max-content;
+    width: min-content;
+  }
+  #coverImg-sm{
+    display:none;
+  }
+  .card-body{
+    display:none;
+  }
+  .card h3{
+    font-size: 10px;
+  }
+  .card{
+    padding: 10px !important;
+    margin: 5px !important ;
+  }
 }
-
-#login-form-submit:hover{
-  background-color: rgb(81, 149, 238);
+/*PARA PANTALLAS LARGE*/
+@media (min-width: 992px) and (max-width: 1200px){
+  .card h3{
+    font-size: 20px;
+  }
 }
-
-#password-error, #email-error{
-  display: none;
-  color:  rgb(241, 27, 27);
-  font-size: 0.9em;
+/*PARA PANTALLAS X-LARGE*/
+@media (min-width: 1200px){
+  #categoriesNextBtn-xs{
+    display: none;
+   }
+   #coverImg-sm{
+    display:none;
+  }
 }
-
-#googleBtn{
-  width: min-content;
-  margin: auto;
-  margin-top: 10px;
-}
-/*Search bar
-
-#searchBar{
-  width: 350px;
-  margin: auto; 
-}*/
