@@ -218,10 +218,10 @@ a.custom-card:hover {
   .card {
     min-width: 200px;
   }
-  .card h3{
+  .card-index h3{
     font-size: 15px;
   }
-  .card-body{
+  .card-index > .card-body{
     display:none;
   }
   #categoriesNextBtn-sm{
@@ -247,10 +247,10 @@ a.custom-card:hover {
   #coverImg-sm{
     display:none;
   }
-  .card-body{
+  .card-index > .card-body{
     display:none;
   }
-  .card h3{
+  .card-index h3{
     font-size: 10px;
   }
   .card{
@@ -260,7 +260,7 @@ a.custom-card:hover {
 }
 /*PARA PANTALLAS LARGE*/
 @media (min-width: 992px) and (max-width: 1200px){
-  .card h3{
+  .card-index h3{
     font-size: 20px;
   }
 }

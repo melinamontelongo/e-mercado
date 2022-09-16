@@ -31,12 +31,6 @@ function sortProducts(criteria, array) {
     return result;
 }
 
-//Función que guarda el id del producto en localStorage y redirecciona
-function setProductID(id) {
-    localStorage.setItem("productID", id);
-    window.location = "product-info.html"
-}
-
 //Función para mostrar los productos en products.html
 function showProductsList() {
 

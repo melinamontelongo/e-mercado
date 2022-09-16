@@ -35,6 +35,22 @@ function showProductInfo() {
         let img = images[i];
         document.getElementById("productImages").innerHTML += `<img src="${img}"  class="img-thumbnail me-2 mb-3 mt-2 shadow mb-3 bg-body rounded border-0" width="255px">`
     }
+    //Para mostrar productos relacionados:
+    let relProdArray = productInfo.relatedProducts;
+    for (let i = 0; i < relProdArray.length; i++) {
+        let relatedProduct = relProdArray[i];
+        document.getElementById("relatedProducts").innerHTML += 
+        `
+    <div onclick="setProductID(${relatedProduct.id})" class="col-lg-3 col-md-12 mx-2 border-0">
+        <div class="card shadow mb-3 bg-body rounded border-0" style="width: 18rem;">
+                <img src="${relatedProduct.image}" class="card-img-top" alt="...">
+            <div class="card-body border-top">
+                <p class="card-text text-center">${relatedProduct.name}</p>
+            </div>
+        </div>
+    </div>
+        `
+    }
 }
 
 //Función para mostrar los comentarios obtenidos a partir de la solicitud:
@@ -59,19 +75,19 @@ function showComments() {
 }
 
 //Función que retorna un string conteniendo el star rating de acuerdo al puntaje del producto
-    //Toma el puntaje y en base a éste agrega estrellas rellenas
-    //Lo que reste, teniendo en cuenta los 5 <span> necesarios, se agrega como estrellas vacías
+//Toma el puntaje y en base a éste agrega estrellas rellenas
+//Lo que reste, teniendo en cuenta los 5 <span> necesarios, se agrega como estrellas vacías
 function addStars(score) {
     let spans = ``;
     let num = 5;    //variable a modo de contador (5 <span>)
 
-    for (let i = 0; i < score; i++) { 
+    for (let i = 0; i < score; i++) {
         spans +=
             `<span class="fa fa-star checked"></span>`
         num--
     }
-    if (num > 0) {                       
-        for (let i = 0; i < num; i++) {    
+    if (num > 0) {
+        for (let i = 0; i < num; i++) {
             spans += `<span class="fa fa-star"></span>`
         }
     }
@@ -79,11 +95,11 @@ function addStars(score) {
 }
 
 //Función para añadir el comentario nuevo del usuario
-    //Obtiene los valores que ingresa
-    //Define un objeto comentario, lo almacena en localStorage y en array de comentarios
-    //Elimina la alerta de que no hay comentarios
-    //Limpia los campos e inhabilita el botón
-function addUserComment(){
+//Obtiene los valores que ingresa
+//Define un objeto comentario, lo almacena en localStorage y en array de comentarios
+//Elimina la alerta de que no hay comentarios
+//Limpia los campos e inhabilita el botón
+function addUserComment() {
     productComments = []; //Vacía el array para no duplicar elementos
     let newComment = document.getElementById("userComment");
     let newScore = document.getElementById("userScore");
@@ -104,10 +120,10 @@ function addUserComment(){
 }
 
 //Función que valida los campos con bootstrap
-    //Escucha de eventos onsubmit:
-    //Chequea la validez de los datos enviados por el usuario (que no estén en blanco)
-    //Agrega/quita las clases de validación
-    //Llama a addUserComment() y showComments() para añadir y mostrar los comentarios
+//Escucha de eventos onsubmit:
+//Chequea la validez de los datos enviados por el usuario (que no estén en blanco)
+//Agrega/quita las clases de validación
+//Llama a addUserComment() y showComments() para añadir y mostrar los comentarios
 function validateUserComment() {
     let form = document.getElementById("submitComment");
     form.addEventListener('submit', event => {
@@ -122,9 +138,9 @@ function validateUserComment() {
 }
 
 //Función que obtiene el comentario del usuario almacenado (si existe)
-    //Lo agrega al array de comentarios
-    //Deshabilita el botón
-    //Llama a showComments() para mostrarlo junto a los demás
+//Lo agrega al array de comentarios
+//Deshabilita el botón
+//Llama a showComments() para mostrarlo junto a los demás
 function retrieveUserComment() {
     let userComment = JSON.parse(localStorage.getItem(`${currentProduct}`))
     if (userComment) {
@@ -135,14 +151,14 @@ function retrieveUserComment() {
 }
 
 //Cuando se carga el documento
-    //Solicita la información del producto actual y si se resuelve:
-        //Muestra la info
-        //Solicita los comentarios del producto actual y si se resuelve:
-            //Muestra los comentarios
-    //Llama a la función que muestra al usuario
-    //y a las que gestionan los comentarios realizados por el usuario
+//Solicita la información del producto actual y si se resuelve:
+//Muestra la info
+//Solicita los comentarios del producto actual y si se resuelve:
+//Muestra los comentarios
+//Llama a la función que muestra al usuario
+//y a las que gestionan los comentarios realizados por el usuario
 document.addEventListener("DOMContentLoaded", function () {
-    getJSONData(PRODUCT_INFO_URL + currentProduct + EXT_TYPE).then(function (resultObj) { 
+    getJSONData(PRODUCT_INFO_URL + currentProduct + EXT_TYPE).then(function (resultObj) {
         if (resultObj.status === "ok") {
             productInfo = resultObj.data;
             showProductInfo();  //Muestra la info
@@ -156,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     })
     showUser(); //Definida en init.js, muestra al user en el nav
-    validateUserComment(); 
+    validateUserComment();
     retrieveUserComment();
 })
 

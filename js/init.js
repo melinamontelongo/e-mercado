@@ -40,6 +40,12 @@ let getJSONData = function (url) {
     });
 }
 
+//Función que guarda el id del producto en localStorage y redirecciona
+function setProductID(id) {
+  localStorage.setItem("productID", id);
+  window.location = "product-info.html"
+}
+
 //Modularización para obtener el usuario para las funcionalidades que lo requieran
 function getUser(){   
   let user = "";
