@@ -6,38 +6,47 @@ let commentsContainer = document.getElementById("productComments") //Donde se ca
 
 //Función para mostrar la información del producto a partir de lo almacenado en productInfo
 function showProductInfo() {
-    document.getElementById("product-info-container").innerHTML = `            
-            <div class="p-4">
-                <div>
-                    <h2 class="mb-3">${productInfo.name}</h2>
-                    <hr>
-                </div>
-                <div>
-                    <strong>Precio</strong>
-                    <p>${productInfo.currency} ${productInfo.cost}</p>
-                    <strong>Descripción</strong>
-                    <p>${productInfo.description}</p>
-                    <strong>Categoría</strong>
-                    <p>${productInfo.category}</p>
-                    <strong>Cantidad de vendidos</strong>
-                    <p>${productInfo.soldCount}</p>
-                </div>
-                <div>
-                    <strong>Imagenes ilustrativas</strong>
-
+    document.getElementById("product-info-container").innerHTML = `
+            <div class="col-12 col-sm-12 col-md-12 col-lg-8 p-4">
                     <div id="productsCarousel" class="carousel slide carousel-dark mt-4" data-bs-ride="carousel">
-                    <div class="carousel-inner" id="carouselInner">
-                    
+                        <div class="carousel-inner" id="carouselInner">
+
+                        
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#productsCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#productsCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#productsCarousel" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#productsCarousel" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
-                  </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modal-img">
+ 
+      </div>
+    </div>
+  </div>
+</div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-4 p-4">
+                 <h2 class="border-bottom pb-2">${productInfo.name}</h2>
+                 <strong>Precio</strong>
+                 <p>${productInfo.currency} ${productInfo.cost}</p>
+                 <strong>Descripción</strong>
+                 <p>${productInfo.description}</p>
+                 <strong>Categoría</strong>
+                 <p>${productInfo.category}</p>
+                 <strong>Cantidad de vendidos</strong>
+                 <p>${productInfo.soldCount}</p>
+            </div>
         `
     //Para mostrar las imágenes:
     let images = productInfo.images;  //las obtiene
@@ -50,7 +59,21 @@ function showProductInfo() {
         </div>
         `
     }
-    carousel.firstElementChild.classList.add("active"); //le agrega la clase active al primer elemento para que funcione el carousel
+
+    //Validación para mostrar el modal solo en pantallas grandes
+    let largeScreen = window.matchMedia("(min-width: 992px)");
+    if (largeScreen.matches){
+    //Escucha de eventos para cuando el usuario haga click en la imagen, se muestre en un modal
+    carousel.addEventListener("mouseup", function(){
+            carousel.setAttribute("data-bs-target", "#exampleModal")
+            carousel.setAttribute("data-bs-toggle", "modal")
+            let modalImg = document.getElementById("modal-img");
+            modalImg.innerHTML = carousel.innerHTML;
+        })
+    }
+    
+    //le agrega la clase active al primer elemento para que funcione el carrusel
+    carousel.firstElementChild.classList.add("active"); 
     
     //Para mostrar productos relacionados:
     let relProdArray = productInfo.relatedProducts;
@@ -58,9 +81,9 @@ function showProductInfo() {
         let relatedProduct = relProdArray[i];
         document.getElementById("relatedProducts").innerHTML +=
             `
-    <div onclick="setProductID(${relatedProduct.id})" class="col-lg-3 col-md-12 mx-2 border-0">
+    <div onclick="setProductID(${relatedProduct.id})" class="relproducts-card col-lg-3 col-md-12 mx-2 border-0">
         <div class="card shadow mb-3 bg-body rounded border-0" style="width: 18rem;">
-                <img src="${relatedProduct.image}" class="card-img-top" alt="...">
+                <img src="${relatedProduct.image}" class="card-img-top" alt="image">
             <div class="card-body border-top">
                 <p class="card-text text-center">${relatedProduct.name}</p>
             </div>

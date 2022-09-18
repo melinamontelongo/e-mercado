@@ -211,8 +211,15 @@ a.custom-card:hover {
 }
 
 #productsCarousel{
-  width: 50%;
+  width: 100%;
+}
+#productsCarousel:hover{
+  cursor: zoom-in;
+}
 
+.relproducts-card:hover{
+  transform: scale(1.1);
+  z-index: 2;
 }
 
 /*PARA PANTALLAS XS*/

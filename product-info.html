@@ -38,44 +38,50 @@
   </nav>
   <main>
     <div class="container">
-      <div id="product-info-container">
+      <div class="row border-2" id="product-info-container">
       </div>
       <div id="productComments">
         <h3>Comentarios</h3>
       </div>
-      <form id="submitComment"class="needs-validation" novalidate>
-        <div class="p-4">
-          <div class="mb-3">
-             <h3>Comentar</h3>
-          <label class="form-label" for="userComment">Tu opinión:</label>
-          <textarea id="userComment" class="form-control shadow p-3 mb-2 bg-body rounded border-0" style="width:600px" required></textarea>
-          <div class="invalid-feedback">
-            Escribe tu opinión
-          </div>
-          <div class="valid-feedback">
-            ¡Gracias por tu opinión!
-          </div>
-          </div>
-         <div class="mb-4">
-          <label class="form-label" for="userScore">Tu puntuación:</label>
-          <select id="userScore" class="form-select shadow p-3 mb-2 bg-body rounded border-0" style="width:150px" required>
-            <option value hidden selected disabled>Del 1 al 5</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-          <div class="invalid-feedback">
-            Califica este producto
-          </div>
-          <div class="valid-feedback">
-            ¡Gracias por tu puntuación!
-          </div>
-         </div>
-          <button id="sendInfo" type="sumbit" class="btn btn-dark mb-3">Enviar</button>
+      <div class="row">
+        <div class="col">
+          <form id="submitComment" class="needs-validation" novalidate>
+            <div class="pt-4">
+              <div class="mb-3">
+                <h3>Comentar</h3>
+                <label class="form-label" for="userComment">Tu opinión:</label>
+                <textarea id="userComment" class="form-control shadow p-3 mb-2 bg-body rounded border-0"
+                  style="width:600px" required></textarea>
+                <div class="invalid-feedback">
+                  Escribe tu opinión
+                </div>
+                <div class="valid-feedback">
+                  ¡Gracias por tu opinión!
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="form-label" for="userScore">Tu puntuación:</label>
+                <select id="userScore" class="form-select shadow p-3 mb-2 bg-body rounded border-0" style="width:150px"
+                  required>
+                  <option value hidden selected disabled>Del 1 al 5</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                <div class="invalid-feedback">
+                  Califica este producto
+                </div>
+                <div class="valid-feedback">
+                  ¡Gracias por tu puntuación!
+                </div>
+              </div>
+            </div>
+            <button id="sendInfo" type="sumbit" class="btn btn-dark mb-3">Enviar</button>
         </div>
-      </form>
+        </form>
+      </div>
       <div id="relatedProducts" class="row">
         <h3 class="mb-4 lead fs-4">Productos relacionados</h3>
       </div>
@@ -85,29 +91,31 @@
   <footer class="text-muted">
     <div class="container">
       <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-        <p class="col-md-4 mb-0 text-muted">&copy; 2022 <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
-    
-        <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <p class="col-md-4 mb-0 text-muted">&copy; 2022 <a href="https://jovenesaprogramar.edu.uy/"
+            target="_blank">Jovenes a Programar</a></p>
+
+        <a href="/"
+          class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
           <img class="bi me-2" width="40" height="32" src="img/jap.PNG">
         </a>
-    
+
         <ul class="nav col-md-4 justify-content-end">
           <li class="nav-item"><a href="Letra.pdf" target="_blank" class="nav-link px-2 text-muted">FAQs</a></li>
           <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Volver arriba</a></li>
         </ul>
       </footer>
     </div>
-  <div id="spinner-wrapper">
-    <div class="lds-ring">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+    <div id="spinner-wrapper">
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
-  </div>
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script src="js/init.js"></script>
-  <script src="js/product-info.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/init.js"></script>
+    <script src="js/product-info.js"></script>
 </body>
 
 </html>
