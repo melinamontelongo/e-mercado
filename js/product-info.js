@@ -23,24 +23,41 @@ function showProductInfo() {
                     <p>${productInfo.soldCount}</p>
                 </div>
                 <div>
-                    <strong class="mb-4">Imagenes ilustrativas</strong>
-                      <div id="productImages" class"">
-                      </div>
-                </div>
-            </div>
+                    <strong>Imagenes ilustrativas</strong>
+
+                    <div id="productsCarousel" class="carousel slide carousel-dark mt-4" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="carouselInner">
+                    
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productsCarousel" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#productsCarousel" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
         `
     //Para mostrar las imágenes:
     let images = productInfo.images;  //las obtiene
+    let carousel = document.getElementById("carouselInner");
     for (let i = 0; i < images.length; i++) {   //e itera según su cantidad para mostrarlas
         let img = images[i];
-        document.getElementById("productImages").innerHTML += `<img src="${img}"  class="img-thumbnail me-2 mb-3 mt-2 shadow mb-3 bg-body rounded border-0" width="255px">`
+        carousel.innerHTML += `
+        <div class="carousel-item shadow mb-3 bg-body rounded">
+            <img src="${img}" class="d-block w-100" alt="image">
+        </div>
+        `
     }
+    carousel.firstElementChild.classList.add("active"); //le agrega la clase active al primer elemento para que funcione el carousel
+    
     //Para mostrar productos relacionados:
     let relProdArray = productInfo.relatedProducts;
     for (let i = 0; i < relProdArray.length; i++) {
         let relatedProduct = relProdArray[i];
-        document.getElementById("relatedProducts").innerHTML += 
-        `
+        document.getElementById("relatedProducts").innerHTML +=
+            `
     <div onclick="setProductID(${relatedProduct.id})" class="col-lg-3 col-md-12 mx-2 border-0">
         <div class="card shadow mb-3 bg-body rounded border-0" style="width: 18rem;">
                 <img src="${relatedProduct.image}" class="card-img-top" alt="...">

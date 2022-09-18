@@ -210,6 +210,11 @@ a.custom-card:hover {
   right: -5%;
 }
 
+#productsCarousel{
+  width: 50%;
+
+}
+
 /*PARA PANTALLAS XS*/
 @media (max-width: 576px){
   .card:not(:first-child){
