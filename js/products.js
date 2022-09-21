@@ -48,12 +48,12 @@ function showProductsList() {
 
             htmlContentToAppend += `            
 
-                    <div onclick="setProductID(${product.id})" class="list-group-item list-group-item-action cursor-active shadow p-3 mb-3 bg-body rounded border-0">
+                    <div onclick="setProductID(${product.id})" class="list-group-item list-group-item-action list-group-item-product cursor-active shadow p-3 mb-3 bg-body rounded border-0">
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-6 col-md-3">
                                 <img src="${product.image}" alt="${product.description}" class="img-thumbnail border-0">
                             </div>
-                            <div class="col">
+                            <div class="col-12 col-md-9">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h4 class="mb-1">${product.name} - ${product.currency} ${product.cost}</h4>
                                     <small class="text-muted">${product.soldCount} vendidos</small>
