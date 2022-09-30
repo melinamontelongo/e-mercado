@@ -227,66 +227,7 @@ a.custom-card:hover {
   z-index: 2;
 }
 
-/*PARA PANTALLAS XS*/
-@media (max-width: 576px){
-  .card:not(:first-child){
-    display:none;
-  }
-  .card {
-    min-width: 200px;
-  }
-  .card-index h3{
-    font-size: 15px;
-  }
-  .card-index > .card-body{
-    display:none;
-  }
-  #categoriesNextBtn-sm{
-    display: none
-  }
-  #categoriesNextBtn-xs{
-    min-width: max-content;
-    width: min-content;
-  }
-  #coverImg-lg{
-    display: none;
-  }
-}
-/*PARA PANTALLAS SMALL Y LARGE*/
-@media (min-width: 576px) and (max-width: 1200px){
-  #categoriesNextBtn-sm{
-    display: none
-  }
-   #categoriesNextBtn-xs{
-    min-width: max-content;
-    width: min-content;
-  }
-  #coverImg-sm{
-    display:none;
-  }
-  .card-index > .card-body{
-    display:none;
-  }
-  .card-index h3{
-    font-size: 10px;
-  }
-  .card{
-    padding: 10px !important;
-    margin: 5px !important ;
-  }
-}
-/*PARA PANTALLAS LARGE*/
-@media (min-width: 992px) and (max-width: 1200px){
-  .card-index h3{
-    font-size: 20px;
-  }
-}
-/*PARA PANTALLAS X-LARGE*/
-@media (min-width: 1200px){
-  #categoriesNextBtn-xs{
-    display: none;
-   }
-   #coverImg-sm{
-    display:none;
-  }
+#categoriesNextBtn-md{
+  min-width: max-content;
+  width: min-content;
 }
