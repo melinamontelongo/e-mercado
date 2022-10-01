@@ -36,11 +36,79 @@
     </div>
   </nav>
   <main>
-    <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+    <div class="container p-4">
+      <div class="row">
+        <div class="col">
+          <h2 class="fw-light text-center">Carrito de compras</h2>
+        </div>
       </div>
+      <div class="row">
+        <div class="col">
+            <h4 class="text-start mb-3">Artículos a comprar</h4>
+        </div>
+      </div>
+      <div class="row  justify-content-between d-flex align-items-center" id="cartProducts">
+        <div class="col">
+        </div>
+        <div class="col fw-bold">
+          <p>Nombre</p>
+        </div>
+      <div class="col fw-bold">
+        <p>Costo</p>
+      </div>
+      <div class="col fw-bold">
+        <p>Cantidad</p>
+      </div>
+      <div class="col fw-bold">
+        <p>Subtotal</p>
+      </div>
+      <hr class="fw-bolder">
     </div>
+
+    <div class="row justify-content-md-center">
+      <form class="needs-validation">
+        <div class="row mb-3">
+          <div class="col-12 mb-4">
+            <h4>Tipo de envío</h4>
+          </div>
+          <div class="col">
+            <div class="custom-control custom-radio mb-2">
+              <input id="shippingPremium" name="shippingMethod" type="radio" checked>
+              <label class="custom-control-label" for="shippingPremium">Premium 2 a 5 días (15%)</label>
+            </div>
+
+            <div class="custom-control custom-radio mb-2">
+              <input id="shippingExpress" name="shippingMethod" type="radio">
+              <label class="custom-control-label" for="shippingExpress">Express 5 a 6 días (7%)</label>
+            </div>
+
+            <div class="custom-control custom-radio mb-2">
+              <input id="shippingStandard" name="shippingMethod" type="radio">
+              <label class="custom-control-label" for="shippingStandard">Standard 12 a 15 días (5%)</label>
+            </div>
+          </div>
+        </div>
+
+          <div class="row mb-3">
+            <div class="col-12 mb-4">
+              <h4>Dirección de envío</h4>
+            </div>
+            <div class="col-6 mb-3">
+              <label for="addressStreet" class="form-label">Calle</label>
+              <input class="form-control" type="text" name="address" id="addressStreet">
+            </div>
+            <div class="col-4 mb-3">
+              <label for="addressNumber" class="form-label">Numero</label>
+              <input class="form-control" type="text" name="address" id="addressNumber">
+            </div>
+            <div class="col-6 mb-3">
+              <label for="addressCorner" class="form-label">Esquina</label>
+              <input class="form-control" type="text" name="address" id="addressCorner">
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
   </main>
   <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
