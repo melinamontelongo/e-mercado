@@ -231,3 +231,11 @@ a.custom-card:hover {
   min-width: max-content;
   width: min-content;
 }
+
+.cart-prod-img, .relproducts-card{
+  cursor: pointer;
+}
+
+.cart-prod-img:hover{
+  transform: scale(1.1);
+}

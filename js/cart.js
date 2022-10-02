@@ -1,9 +1,11 @@
 let userCart = [];
+let addedProduct = [];
 let cartProductsContainer = document.getElementById("cartProducts");
 let cartProdName = document.getElementById("cartName");
 let cartProdCost = document.getElementById("cartCost");
 let cartProdSubtotal = document.getElementById("cartSubtotal");
 let cartProdImg = document.getElementById("cartImg");
+
 
 function showCartProducts(){
     if (userCart != ""){ //si el carrito no está vacío
@@ -11,8 +13,8 @@ function showCartProducts(){
             let cartProd = userCart[i];
 
             cartProductsContainer.innerHTML += `
-            <div class="col">
-                <img src="${cartProd.image}" class="img-fluid w-75">
+            <div class="col   cart-prod-img" onclick="setProductID(${cartProd.id})">
+                <img src="${cartProd.image}" class="img-fluid w-75 shadow bg-body rounded">
             </div>
             <div class="col">
               <p>${cartProd.name}</p>
@@ -21,33 +23,42 @@ function showCartProducts(){
             <p>${cartProd.currency} ${cartProd.unitCost}</p>
             </div>
             <div class="col">
-            <input type="number" class="form-control w-50" min="1" value="1" onchange="getProdCount('${cartProd.currency}', ${cartProd.unitCost})">
+            <input type="number" class="form-control w-50 ID${cartProd.id}" min="1" value="1" onchange="setSubtotal(${cartProd.id}, '${cartProd.currency}', ${cartProd.unitCost})">
             </div>
           <div class="col">
-            <p class="cart-prod-subtotal">${cartProd.currency} ${cartProd.unitCost}</p>
+            <p class="cart-prod-subtotal fw-bold" id="${cartProd.id}">${cartProd.currency} ${cartProd.unitCost}</p>
           </div>
           <hr class="mt-3">
         `
         }
-    }
+    } 
 }
-//Función que se le pasa onchange a cada uno de los input que define la cantidad del producto a comprar
-  //recibe la moneda y el costo
-  //obtiene los inputs e itera 
-  //llama a getProdSubtotal y le pasa el índice del input seleccionado, el valor del mismo, la moneda y el costo
-function getProdCount(currency, cost){
-  let inputCount = document.querySelectorAll(".form-control");
-  for (let i = 0; i < inputCount.length; i++) {
-    let input = inputCount[i];
-    getProdSubtotal(i, parseInt(input.value), currency, cost);
-}};
 
-//Función que muestra el valor * cantidad en la sección subtotal correspondiente 
-  //selecciona todos los elementos con el subtotal
-  //selecciona el que le es pasado por parámetro (se corresponde con el input) y le agrega el nuevo valor
-function getProdSubtotal(index, value, currency, cost){
-  let cartProdSubtotal = document.querySelectorAll(".cart-prod-subtotal");  
-  cartProdSubtotal[index].innerHTML = `${currency} ${cost * value}`
+function showAddedProduct(){
+  cartProductsContainer.innerHTML += `
+<div class="col  cart-prod-img" onclick="setProductID(${addedProduct.id})">
+<img src="${addedProduct.images[0]}" class="img-fluid w-75 shadow bg-body rounded">
+</div>
+<div class="col">
+<p>${addedProduct.name}</p>
+</div>
+<div class="col">
+<p>${addedProduct.currency} ${addedProduct.cost}</p>
+</div>
+<div class="col">
+<input type="number" class="form-control w-50 ID${addedProduct.id}" min="1" value="1" onchange="setSubtotal(${addedProduct.id}, '${addedProduct.currency}', ${addedProduct.cost})">
+</div>
+<div class="col">
+<p class="cart-prod-subtotal fw-bold" id="${addedProduct.id}">${addedProduct.currency} ${addedProduct.cost}</p>
+</div>
+<hr class="mt-3">
+  `
+}
+
+//Define el subtotal correspondiente al input
+function setSubtotal(id, currency, cost){
+  let input = document.querySelector(`.ID${id}`);
+  document.getElementById(`${id}`).innerHTML = `${currency} ${cost * parseInt(input.value)}`
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -59,6 +70,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (result.status === "ok") {
             userCart = result.data.articles; //se almacenan solo los artículos
             showCartProducts();
+        }
+        if (localStorage.getItem("newCart") !== undefined){
+          let clickedProductID = localStorage.getItem("productID");
+          console.log(clickedProductID)
+          addedProduct = JSON.parse(localStorage.getItem(`newCart`));
+          console.log(addedProduct)
+          showAddedProduct();
         }
 
     })

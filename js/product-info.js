@@ -1,52 +1,57 @@
 //Variables donde se guardará la información obtenida con getJSONData
 let productInfo = [];
 let productComments = [];
+let newCart = [];
 let currentProduct = localStorage.getItem("productID"); //Obtiene el ID de producto
 let commentsContainer = document.getElementById("productComments") //Donde se cargarán los comentarios
 
 //Función para mostrar la información del producto a partir de lo almacenado en productInfo
 function showProductInfo() {
     document.getElementById("product-info-container").innerHTML = `
-            <div class="col-12 col-sm-12 col-md-12 col-lg-8 p-4">
-                    <div id="productsCarousel" class="carousel slide carousel-dark mt-4" data-bs-ride="carousel">
-                        <div class="carousel-inner" id="carouselInner">
-
-                        
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#productsCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#productsCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-8 p-4">
+            <div id="productsCarousel" class="carousel slide carousel-dark mt-4" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="carouselInner">
+     
                     </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="modal-img">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#productsCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#productsCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+
+            </div>
+
+            <div class="modal fade" id="prodImgModal" tabindex="-1" aria-labelledby="prodImgModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            <div class="modal-body" id="modal-img">
  
-      </div>
+            </div>
+         </div>
+        </div>
     </div>
-  </div>
 </div>
-            </div>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-4 p-4">
-                 <h2 class="border-bottom pb-2">${productInfo.name}</h2>
-                 <strong>Precio</strong>
-                 <p>${productInfo.currency} ${productInfo.cost}</p>
-                 <strong>Descripción</strong>
-                 <p>${productInfo.description}</p>
-                 <strong>Categoría</strong>
-                 <p>${productInfo.category}</p>
-                 <strong>Cantidad de vendidos</strong>
-                 <p>${productInfo.soldCount}</p>
-            </div>
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-4 p-4">
+            <h2 class="border-bottom pb-2">${productInfo.name}</h2>
+            <strong>Precio</strong>
+            <p>${productInfo.currency} ${productInfo.cost}</p>
+            <strong>Descripción</strong>
+            <p>${productInfo.description}</p>
+            <strong>Categoría</strong>
+            <p>${productInfo.category}</p>
+            <strong>Cantidad de vendidos</strong>
+            <p>${productInfo.soldCount}</p>
+            <button class="btn btn-dark" onclick="addToCart()">Agregar al carrito</button>
+    </div>
         `
     //Para mostrar las imágenes:
     let images = productInfo.images;  //las obtiene
@@ -65,7 +70,7 @@ function showProductInfo() {
     if (largeScreen.matches){
     //Escucha de eventos para cuando el usuario haga click en la imagen, se muestre en un modal
     carousel.addEventListener("mouseup", function(){
-            carousel.setAttribute("data-bs-target", "#exampleModal")
+            carousel.setAttribute("data-bs-target", "#prodImgModal")
             carousel.setAttribute("data-bs-toggle", "modal")
             let modalImg = document.getElementById("modal-img");
             modalImg.innerHTML = carousel.innerHTML;
@@ -91,6 +96,12 @@ function showProductInfo() {
     </div>
         `
     }
+}
+//Función para ir agregar el producto al carrito
+function addToCart(){
+        newCart = productInfo
+        localStorage.setItem("newCart", JSON.stringify(newCart));
+        window.location = "/cart.html";
 }
 
 //Función para mostrar los comentarios obtenidos a partir de la solicitud:
