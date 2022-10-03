@@ -213,8 +213,11 @@ a.custom-card:hover {
 #productsCarousel{
   width: 100%;
 }
-#productsCarousel:hover{
+#productsCarousel img:hover{
   cursor: zoom-in;
+/*   transform: scale(1.5);
+  transform-origin: bottom; 
+  z-index:1; */
 }
 
 .relproducts-card:hover{
@@ -238,4 +241,8 @@ a.custom-card:hover {
 
 .cart-prod-img:hover{
   transform: scale(1.1);
+}
+
+.fa-trash{
+  cursor: pointer;
 }

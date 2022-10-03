@@ -7,13 +7,14 @@ let cartProdSubtotal = document.getElementById("cartSubtotal");
 let cartProdImg = document.getElementById("cartImg");
 
 
-function showCartProducts(){
-    if (userCart != ""){ //si el carrito no está vacío
-        for (let i = 0; i < userCart.length; i++) {
-            let cartProd = userCart[i];
+function showCartProducts(cartArray){
+    if (cartArray != ""){ //si el carrito no está vacío
+        for (let i = 0; i < cartArray.length; i++) {
+            let cartProd = cartArray[i];
 
             cartProductsContainer.innerHTML += `
-            <div class="col   cart-prod-img" onclick="setProductID(${cartProd.id})">
+        <div id="cartProduct${cartProd.id}" class="row d-flex align-items-center">
+            <div class="col cart-prod-img" onclick="setProductID(${cartProd.id})">
                 <img src="${cartProd.image}" class="img-fluid w-75 shadow bg-body rounded">
             </div>
             <div class="col">
@@ -28,31 +29,14 @@ function showCartProducts(){
           <div class="col">
             <p class="cart-prod-subtotal fw-bold" id="${cartProd.id}">${cartProd.currency} ${cartProd.unitCost}</p>
           </div>
+          <div class="col">
+          <span class="fa fa-trash" onclick="removeCartItem(${cartProd.id})"></span>
+          </div>
           <hr class="mt-3">
+      </div>
         `
         }
     } 
-}
-
-function showAddedProduct(){
-  cartProductsContainer.innerHTML += `
-<div class="col  cart-prod-img" onclick="setProductID(${addedProduct.id})">
-<img src="${addedProduct.images[0]}" class="img-fluid w-75 shadow bg-body rounded">
-</div>
-<div class="col">
-<p>${addedProduct.name}</p>
-</div>
-<div class="col">
-<p>${addedProduct.currency} ${addedProduct.cost}</p>
-</div>
-<div class="col">
-<input type="number" class="form-control w-50 ID${addedProduct.id}" min="1" value="1" onchange="setSubtotal(${addedProduct.id}, '${addedProduct.currency}', ${addedProduct.cost})">
-</div>
-<div class="col">
-<p class="cart-prod-subtotal fw-bold" id="${addedProduct.id}">${addedProduct.currency} ${addedProduct.cost}</p>
-</div>
-<hr class="mt-3">
-  `
 }
 
 //Define el subtotal correspondiente al input
@@ -60,6 +44,22 @@ function setSubtotal(id, currency, cost){
   let input = document.querySelector(`.ID${id}`);
   document.getElementById(`${id}`).innerHTML = `${currency} ${cost * parseInt(input.value)}`
 }
+
+//Chequea si fueron agregados items al carrito y los muestra
+function checkLocalStorage(){
+  for (let i = 0; i < localStorage.length; i++) {
+           if (localStorage.key(i).startsWith("newCart")){
+           addedProduct = JSON.parse(localStorage.getItem(localStorage.key(i)));
+           showCartProducts(addedProduct)
+           }    
+         }
+ } 
+//Llamada en el ícono de eliminar
+ //Elimina el item
+ function removeCartItem(id){
+  document.getElementById(`cartProduct${id}`).innerHTML = "";
+  localStorage.removeItem(`newCart${id}`);
+ }
 
 document.addEventListener("DOMContentLoaded", () => {
     showUser()
@@ -69,15 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
     getJSONData(CART_INFO_URL + user + EXT_TYPE).then(result =>{ //petición al carrito del user
         if (result.status === "ok") {
             userCart = result.data.articles; //se almacenan solo los artículos
-            showCartProducts();
+            showCartProducts(userCart);
+            checkLocalStorage();
         }
-        if (localStorage.getItem("newCart") !== undefined){
-          let clickedProductID = localStorage.getItem("productID");
-          console.log(clickedProductID)
-          addedProduct = JSON.parse(localStorage.getItem(`newCart`));
-          console.log(addedProduct)
-          showAddedProduct();
-        }
-
     })
 })

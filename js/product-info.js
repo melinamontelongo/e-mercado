@@ -40,7 +40,7 @@ function showProductInfo() {
     </div>
 </div>
 
-    <div class="col-12 col-sm-12 col-md-12 col-lg-4 p-4">
+    <div class="col-12 col-lg-4 p-4">
             <h2 class="border-bottom pb-2">${productInfo.name}</h2>
             <strong>Precio</strong>
             <p>${productInfo.currency} ${productInfo.cost}</p>
@@ -50,7 +50,8 @@ function showProductInfo() {
             <p>${productInfo.category}</p>
             <strong>Cantidad de vendidos</strong>
             <p>${productInfo.soldCount}</p>
-            <button class="btn btn-dark" onclick="addToCart()">Agregar al carrito</button>
+            <button class="m-2 btn btn-dark d-block" onclick="addToCart()">Agregar al carrito<span class="fa fa-shopping-cart ms-2"></span></button>
+            <a href="products.html" class="m-2 btn btn-light"><span class="fa fa-arrow-left me-2"></span>Volver al listado</a>
     </div>
         `
     //Para mostrar las imágenes:
@@ -99,9 +100,16 @@ function showProductInfo() {
 }
 //Función para ir agregar el producto al carrito
 function addToCart(){
-        newCart = productInfo
-        localStorage.setItem("newCart", JSON.stringify(newCart));
-        window.location = "/cart.html";
+    newCart = [{
+        "id": productInfo.id,
+        "name": productInfo.name,
+        "count": productInfo.soldCount,
+        "unitCost": productInfo.cost,
+        "currency": productInfo.currency,
+        "image": productInfo.images[0]
+    }]
+    localStorage.setItem(`newCart${productInfo.id}`, JSON.stringify(newCart))
+    window.location.href = "/cart.html"
 }
 
 //Función para mostrar los comentarios obtenidos a partir de la solicitud:
