@@ -1,40 +1,23 @@
 let userCart = [];
 let addedProduct = [];
 let cartProductsContainer = document.getElementById("cartProducts");
-let cartProdName = document.getElementById("cartName");
-let cartProdCost = document.getElementById("cartCost");
-let cartProdSubtotal = document.getElementById("cartSubtotal");
-let cartProdImg = document.getElementById("cartImg");
-
 
 function showCartProducts(cartArray){
     if (cartArray != ""){ //si el carrito no está vacío
         for (let i = 0; i < cartArray.length; i++) {
             let cartProd = cartArray[i];
 
-            cartProductsContainer.innerHTML += `
-        <div id="cartProduct${cartProd.id}" class="row d-flex align-items-center">
-            <div class="col cart-prod-img" onclick="setProductID(${cartProd.id})">
-                <img src="${cartProd.image}" class="img-fluid w-75 shadow bg-body rounded">
-            </div>
-            <div class="col">
-              <p>${cartProd.name}</p>
-            </div>
-           <div class="col">
-            <p>${cartProd.currency} ${cartProd.unitCost}</p>
-            </div>
-            <div class="col">
-            <input type="number" class="form-control w-50 ID${cartProd.id}" min="1" value="1" onchange="setSubtotal(${cartProd.id}, '${cartProd.currency}', ${cartProd.unitCost})">
-            </div>
-          <div class="col">
-            <p class="cart-prod-subtotal fw-bold" id="${cartProd.id}">${cartProd.currency} ${cartProd.unitCost}</p>
-          </div>
-          <div class="col">
-          <span class="fa fa-trash" onclick="removeCartItem(${cartProd.id})"></span>
-          </div>
-          <hr class="mt-3">
-      </div>
-        `
+            cartProductsContainer.innerHTML += 
+            `
+          <tr id="cartProduct${cartProd.id}" class="align-middle">
+            <td class="col-2 text-center"><img src="${cartProd.image}" class="img-fluid w-75 shadow bg-body rounded cart-prod-img" onclick="setProductID(${cartProd.id})"></td>
+            <td class="col-2"><p>${cartProd.name}</p></td>
+            <td class="col-2"><p>${cartProd.currency} ${cartProd.unitCost}</p></td>
+            <td class="col-2"><input type="number" class="form-control w-50 ID${cartProd.id}" min="1" value="1" onchange="setSubtotal(${cartProd.id}, '${cartProd.currency}', ${cartProd.unitCost})"></td>
+            <td class="col-2"><p class="cart-prod-subtotal fw-bold" id="${cartProd.id}">${cartProd.currency} ${cartProd.unitCost}</p></td>
+            <td class="col-1"><span class="fa fa-trash" onclick="removeCartItem(${cartProd.id})"></span></td>
+          </tr>
+            `
         }
     } 
 }

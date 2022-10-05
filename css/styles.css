@@ -235,14 +235,11 @@ a.custom-card:hover {
   width: min-content;
 }
 
-.cart-prod-img, .relproducts-card{
+.cart-prod-img, .relproducts-card, .fa-trash{
   cursor: pointer;
 }
 
 .cart-prod-img:hover{
   transform: scale(1.1);
-}
-
-.fa-trash{
-  cursor: pointer;
+  opacity: 0.8;
 }
