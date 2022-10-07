@@ -9,7 +9,7 @@ function showCartProducts(cartArray){
 
             cartProductsContainer.innerHTML += 
             `
-          <tr id="cartProduct${cartProd.id}" class="align-middle">
+          <tr id="cartProduct${cartProd.id}" class="align-middle cart-row">
             <td class="col-2 text-center"><img src="${cartProd.image}" class="img-fluid w-75 shadow bg-body rounded cart-prod-img" onclick="setProductID(${cartProd.id})"></td>
             <td class="col-2"><p>${cartProd.name}</p></td>
             <td class="col-2"><p>${cartProd.currency} ${cartProd.unitCost}</p></td>
@@ -20,6 +20,22 @@ function showCartProducts(cartArray){
             `
         }
     } 
+}
+//Función (provisional) que elimina si existen items duplicados en el documento
+  //sirve para controlar que el item que viene desde el "servidor" no se agregue 
+function checkDuplicates(){
+  let cartRows = document.querySelectorAll(".cart-row");
+  let IDs = [];
+  cartRows.forEach(row => {
+    IDs.push(row.id);
+  });
+  let duplicates = IDs.filter((item, index) => {
+    return IDs.indexOf(item) != index;
+  })
+  duplicates.forEach(duplicate => {
+    document.querySelector(`#${duplicate}`).remove();
+  });
+ 
 }
 
 //Define el subtotal correspondiente al input
@@ -62,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
             userCart = result.data.articles; //se almacenan solo los artículos
             showCartProducts(userCart);
             checkLocalStorage();
+            checkDuplicates()
         }
     })
 })
