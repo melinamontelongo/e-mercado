@@ -1,7 +1,7 @@
 //Variables donde se guardará la información obtenida con getJSONData
 let productInfo = [];
 let productComments = [];
-let newCart = [];
+let userCart = [];
 let currentProduct = localStorage.getItem("productID"); //Obtiene el ID de producto
 let commentsContainer = document.getElementById("productComments") //Donde se cargarán los comentarios
 
@@ -100,15 +100,20 @@ function showProductInfo() {
 }
 //Función para ir agregar el producto al carrito
 function addToCart(){
-    newCart = [{
+    newItem = {
         "id": productInfo.id,
         "name": productInfo.name,
-        "count": productInfo.soldCount,
+        "count": 1,
         "unitCost": productInfo.cost,
         "currency": productInfo.currency,
         "image": productInfo.images[0]
-    }]
-    localStorage.setItem(`newCart${productInfo.id}`, JSON.stringify(newCart))
+    }
+    if (localStorage.getItem("userCart")){
+     userCart = JSON.parse(localStorage.getItem("userCart"))
+     userCart = userCart.filter(item => item.id != newItem.id);
+    }
+    userCart.push(newItem)
+    localStorage.setItem(`userCart`, JSON.stringify(userCart))
     window.location.href = "/cart.html"
 }
 

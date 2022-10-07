@@ -1,5 +1,5 @@
 let userCart = [];
-let addedProduct = [];
+let addedProducts = [];
 let cartProductsContainer = document.getElementById("cartProducts");
 
 function showCartProducts(cartArray){
@@ -13,8 +13,8 @@ function showCartProducts(cartArray){
             <td class="col-2 text-center"><img src="${cartProd.image}" class="img-fluid w-75 shadow bg-body rounded cart-prod-img" onclick="setProductID(${cartProd.id})"></td>
             <td class="col-2"><p>${cartProd.name}</p></td>
             <td class="col-2"><p>${cartProd.currency} ${cartProd.unitCost}</p></td>
-            <td class="col-2"><input type="number" class="form-control w-50 ID${cartProd.id}" min="1" value="1" onchange="setSubtotal(${cartProd.id}, '${cartProd.currency}', ${cartProd.unitCost})"></td>
-            <td class="col-2"><p class="cart-prod-subtotal fw-bold" id="${cartProd.id}">${cartProd.currency} ${cartProd.unitCost}</p></td>
+            <td class="col-2"><input type="number" class="form-control w-50" id="quantity${cartProd.id}" min="1" value="1" onchange="setSubtotal(${cartProd.id}, '${cartProd.currency}', ${cartProd.unitCost})"></td>
+            <td class="col-2"><p class="cart-prod-subtotal fw-bold" id="subtotal${cartProd.id}">${cartProd.currency} ${cartProd.unitCost}</p></td>
             <td class="col-1"><span class="fa fa-trash" onclick="removeCartItem(${cartProd.id})"></span></td>
           </tr>
             `
@@ -24,25 +24,33 @@ function showCartProducts(cartArray){
 
 //Define el subtotal correspondiente al input
 function setSubtotal(id, currency, cost){
-  let input = document.querySelector(`.ID${id}`);
-  document.getElementById(`${id}`).innerHTML = `${currency} ${cost * parseInt(input.value)}`
+  let input = document.getElementById(`quantity${id}`);
+  document.getElementById(`subtotal${id}`).innerHTML = `${currency} ${cost * parseInt(input.value)}`
 }
 
 //Chequea si fueron agregados items al carrito y los muestra
 function checkLocalStorage(){
-  for (let i = 0; i < localStorage.length; i++) {
-           if (localStorage.key(i).startsWith("newCart")){
-           addedProduct = JSON.parse(localStorage.getItem(localStorage.key(i)));
-           showCartProducts(addedProduct)
-           }    
+         if(localStorage.getItem("userCart")){
+          let addedProducts = JSON.parse(localStorage.getItem("userCart"));
+          showCartProducts(addedProducts)
          }
  } 
 //Llamada en el ícono de eliminar
  //Elimina el item
  function removeCartItem(id){
-  document.getElementById(`cartProduct${id}`).innerHTML = "";
-  localStorage.removeItem(`newCart${id}`);
- }
+  let storedCart = JSON.parse(localStorage.getItem("userCart"));
+  for (let i = 0; i < storedCart.length; i++) {
+    let item = storedCart[i];
+    //si el id del producto almacenado coincide con el que quiere remover el usuario
+    if (item.id == id){
+      //lo remueve del array
+      storedCart.splice(i, 1)
+      //sobre-escribe el array en localStorage pero sin el producto eliminado
+      localStorage.setItem("userCart", JSON.stringify(storedCart)) 
+    }
+  }
+    document.getElementById(`cartProduct${id}`).innerHTML = "";
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     showUser()

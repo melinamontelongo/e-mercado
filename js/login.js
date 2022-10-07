@@ -22,12 +22,15 @@ function handleCredentialResponse(response) {   //Recibe las credenciales de usu
     loginSession(data.email);                   //guarda el dato en almacenamiento
   }
 }
-window.onload = function () {            //Cuando carga
-  google.accounts.id.initialize({       //inicializa el cliente de acceder con Google
+ //Cuando carga
+window.onload = function () {       
+  //Inicialización del cliente de Google    
+  google.accounts.id.initialize({  
     client_id: "381953423886-47c5ne9hmniom37j9qduls0fgt35sa8b.apps.googleusercontent.com", //client id creado con la consola de google developers
     callback: handleCredentialResponse  //llama a la función que maneja las credenciales de usuario
   });
-  google.accounts.id.renderButton(       //Configura el botón de Google
+//Configura el botón de Google
+  google.accounts.id.renderButton(       
     document.getElementById("googleBtn"),
     {
       theme: "filled_black",
@@ -39,13 +42,12 @@ window.onload = function () {            //Cuando carga
       width: 10,     
     }
   );
-
-}
-document.addEventListener("DOMContentLoaded", function(){
-  form.addEventListener('submit', event => {  //cuando se "envíe" el formulario
+  //Cuando se "envíe" el formulario
+  form.addEventListener('submit', event => {  
     event.preventDefault();     
     form.classList.add('was-validated')  //agrega las clases de validación de bootstrap
     if (form.checkValidity()) {         //valida lo ingresado por el usuario (que no sean campos vacíos)
       loginSession(email.value);        //Llama a la función que almacena el usuario en almacenamiento local
     }})  
-})
+
+}
