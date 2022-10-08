@@ -6,7 +6,9 @@
   <title>eMercado - Todo lo que busques está aquí</title>
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/fontawesome.min.css" rel="stylesheet">
+  <link href="css/solid.min.css" rel="stylesheet">
+  <link href="css/brands.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
 </head>
 
@@ -20,13 +22,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav w-100 justify-content-between">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">Inicio</a>
+            <a class="nav-link" href="index.html"><span class="me-2 fa-solid fa-house"></span>Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="categories.html">Categorías</a>
+            <a class="nav-link" href="categories.html"><span class="me-2 fa-solid fa-list-ul"></span>Categorías</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="sell.html">Vender</a>
+            <a class="nav-link" href="sell.html"><span class="me-2 fa-solid fa-money-check-dollar"></span>Vender</a>
           </li>
           <li class="nav-item">
           </li>
@@ -62,57 +64,37 @@
            
           </tbody>
         </table>
-       <!--  <div class="row">
-          <div class="col">
-          </div>
-          <div class="col fw-bold">
-            <p>Nombre</p>
-          </div>
-          <div class="col fw-bold">
-            <p>Costo</p>
-          </div>
-          <div class="col fw-bold">
-            <p>Cantidad</p>
-          </div>
-          <div class="col fw-bold">
-            <p>Subtotal</p>
-          </div>
-          <div class="col">
-          </div>
-          <hr class="mt-3">
-        </div> -->
-
       </div>
 
       <div class="row justify-content-md-center">
         <form class="needs-validation">
-          <div class="row mb-3">
-            <div class="col-12 mb-4">
+          <div class="row mb-4">
+            <div class="col-12 mb-2 mt-2">
               <h4>Tipo de envío</h4>
             </div>
             <div class="col">
               <div class="custom-control custom-radio mb-2">
-                <input id="shippingPremium" name="shippingMethod" type="radio" checked>
+                <span class="fa-solid fa-plane me-2"></span><input id="shippingPremium" name="shippingMethod" type="radio" checked>
                 <label class="custom-control-label" for="shippingPremium">Premium 2 a 5 días (15%)</label>
               </div>
 
               <div class="custom-control custom-radio mb-2">
-                <input id="shippingExpress" name="shippingMethod" type="radio">
+                <span class="fa-solid fa-truck-fast me-2"></span><input id="shippingExpress" name="shippingMethod" type="radio">
                 <label class="custom-control-label" for="shippingExpress">Express 5 a 6 días (7%)</label>
               </div>
 
               <div class="custom-control custom-radio mb-2">
-                <input id="shippingStandard" name="shippingMethod" type="radio">
+                <span class="fa-solid fa-truck me-2"></span><input id="shippingStandard" name="shippingMethod" type="radio">
                 <label class="custom-control-label" for="shippingStandard">Standard 12 a 15 días (5%)</label>
               </div>
             </div>
           </div>
 
           <div class="row mb-3">
-            <div class="col-12 mb-4">
-              <h4>Dirección de envío</h4>
+            <div class="col-12 mb-2">
+              <h4><span class="me-2 fa-sharp fa-solid fa-location-dot"></span>Dirección de envío</h4>
             </div>
-            <div class="col-6 mb-3">
+            <div class="col-6 mb-4">
               <label for="addressStreet" class="form-label">Calle</label>
               <input class="form-control" type="text" name="address" id="addressStreet">
             </div>
@@ -131,17 +113,17 @@
   </main>
   <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-      <p class="col-md-4 mb-0 text-muted">&copy; 2022 <a href="https://jovenesaprogramar.edu.uy/"
-          target="_blank">Jovenes a Programar</a></p>
-
-      <a href="/"
-        class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <img class="bi me-2" width="40" height="32" src="img/jap.PNG">
+      <p class="order-2 order-md-0 d-flex col-12 col-md-4 mb-0 text-muted justify-content-center justify-content-md-start">&copy; 2022 <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
+  
+      <a href="/" class="col-12 col-md-4 d-flex justify-content-center mb-2 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <img class="me-2" width="40" height="32" src="img/jap.PNG">
       </a>
-
-      <ul class="nav col-md-4 justify-content-end">
-        <li class="nav-item"><a href="Letra.pdf" target="_blank" class="nav-link px-2 text-muted">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Volver arriba</a></li>
+  
+      <ul class="order-3 order-md-0 nav col-12 col-md-4 justify-content-center justify-content-md-end">
+        <li class="nav-item"><a href="Letra.pdf" target="_blank" class="nav-link px-2 text-muted"><span class="me-1 fa-solid fa-circle-question"></span>FAQs</a></li>
+        <li class="nav-item"><a href="https://www.linkedin.com/in/melina-montelongo/" target="_blank" class="nav-link px-2 text-muted"><span class="me-1 fa-brands fa-linkedin"></span>Linkedin</a></li>
+        <li class="nav-item"><a href="https://github.com/melinamontelongo" target="_blank" class="nav-link px-2 text-muted"><span class="me-1 fa-brands fa-github"></span>Github</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><span class="me-1 fa-solid fa-up-long"></span>Volver arriba</a></li> 
       </ul>
     </footer>
   </div>

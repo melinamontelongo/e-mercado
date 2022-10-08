@@ -4,12 +4,13 @@ let productComments = [];
 let userCart = [];
 let currentProduct = localStorage.getItem("productID"); //Obtiene el ID de producto
 let commentsContainer = document.getElementById("productComments") //Donde se cargarán los comentarios
+let carousel //Será el carousel (todavía no existe).
 
 //Función para mostrar la información del producto a partir de lo almacenado en productInfo
 function showProductInfo() {
     document.getElementById("product-info-container").innerHTML = `
     <div class="col-12 col-sm-12 col-md-12 col-lg-8 p-4">
-            <div id="productsCarousel" class="carousel slide carousel-dark mt-4" data-bs-ride="carousel">
+            <div id="productsCarousel" class="carousel slide carousel-dark mt-4" data-bs-ride="carousel" data-bs-interval="2000">
                     <div class="carousel-inner" id="carouselInner">
      
                     </div>
@@ -25,13 +26,8 @@ function showProductInfo() {
                     </button>
 
             </div>
-
             <div class="modal fade" id="prodImgModal" tabindex="-1" aria-labelledby="prodImgModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+            <div class="modal-dialog modal-xl">
             <div class="modal-body" id="modal-img">
  
             </div>
@@ -50,13 +46,21 @@ function showProductInfo() {
             <p>${productInfo.category}</p>
             <strong>Cantidad de vendidos</strong>
             <p>${productInfo.soldCount}</p>
-            <button class="m-2 btn btn-dark d-block" onclick="addToCart()">Agregar al carrito<span class="fa fa-shopping-cart ms-2"></span></button>
-            <a href="products.html" class="m-2 btn btn-light"><span class="fa fa-arrow-left me-2"></span>Volver al listado</a>
+            <button class="m-2 btn btn-dark d-block" onclick="addToCart()"><span class="me-2 fa-solid fa-cart-plus"></span>Agregar al carrito</button>
+            <a class="m-2 btn btn-light"><span class="fa-solid fa-left-long me-2"></span>Volver al listado</a>
     </div>
         `
-    //Para mostrar las imágenes:
+   //check set catID
+   
+    showProductImages();
+    responsiveCarousel();
+    showRelatedProducts();
+}
+
+ //Para mostrar las imágenes:
+function showProductImages(){
     let images = productInfo.images;  //las obtiene
-    let carousel = document.getElementById("carouselInner");
+    carousel = document.getElementById("carouselInner");
     for (let i = 0; i < images.length; i++) {   //e itera según su cantidad para mostrarlas
         let img = images[i];
         carousel.innerHTML += `
@@ -65,7 +69,10 @@ function showProductInfo() {
         </div>
         `
     }
+    carousel.firstElementChild.classList.add("active"); //le agrega la clase active al primer elemento para que funcione el carrusel
+}
 
+function responsiveCarousel(){
     //Validación para mostrar el modal solo en pantallas grandes
     let largeScreen = window.matchMedia("(min-width: 992px)");
     if (largeScreen.matches){
@@ -77,11 +84,10 @@ function showProductInfo() {
             modalImg.innerHTML = carousel.innerHTML;
         })
     }
-    
-    //le agrega la clase active al primer elemento para que funcione el carrusel
-    carousel.firstElementChild.classList.add("active"); 
-    
-    //Para mostrar productos relacionados:
+}
+
+//Para mostrar productos relacionados:
+function showRelatedProducts(){
     let relProdArray = productInfo.relatedProducts;
     for (let i = 0; i < relProdArray.length; i++) {
         let relatedProduct = relProdArray[i];
@@ -96,8 +102,9 @@ function showProductInfo() {
         </div>
     </div>
         `
-    }
+    }  
 }
+
 //Función para ir agregar el producto al carrito
 function addToCart(){
     newItem = {
@@ -117,14 +124,15 @@ function addToCart(){
     window.location.href = "/cart.html"
 }
 
+
 //Función para mostrar los comentarios obtenidos a partir de la solicitud:
 //Si no hay comentarios (en la lista o en localStorage), muestra un div alertando al usuario
 //Si hay, itera sobre ellos y los muestra
 function showComments() {
 
     if (productComments == "" && !localStorage.getItem(`${currentProduct}`)) {
-        commentsContainer.innerHTML += `<div id="no-comments-alert"class="list-group list-group-item shadow p-3 mb-2 bg-body rounded border-0">
-        <p class="lead text-center">Aún no hay comentarios ¡Sé el primero!</p>
+        commentsContainer.innerHTML += `<div id="no-comments-alert"class="list-group list-group-item shadow p-3 mb-2 bg-body rounded border-0 text-muted">
+        <p class="lead text-center"><span class="fa-solid fa-comment-slash"></span>Aún no hay comentarios ¡Sé el primero!</p>
         </div>`
 
     } else {

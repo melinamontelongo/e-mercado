@@ -40,6 +40,11 @@ let getJSONData = function (url) {
     });
 }
 
+function setCatID(id){
+  localStorage.setItem("catID", id);
+  window.location = "products.html";
+}
+
 //Función que guarda el id del producto en localStorage y redirecciona
 function setProductID(id) {
   localStorage.setItem("productID", id);
@@ -55,6 +60,8 @@ function getUser(){
   } else if (sessionStorage.getItem("user")){
     user = sessionStorage.getItem("user");
     return user
+  } else {
+    window.location = "login.html" 
   }
 }
 
@@ -66,12 +73,13 @@ function showUser() {
   userField.classList.add("dropdown");
   userField.innerHTML =
     `<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-      ${user}
+    <span class="me-2 fa fa-user"></span> 
+    ${user}
     </a>
-<ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-end">
-  <li><a class="dropdown-item" href="cart.html">Mi carrito</a></li>
-  <li><a class="dropdown-item" href="my-profile.html">Mi perfil</a></li>
-  <li><a class="dropdown-item" href="#" id="log-out">Cerrar sesión</a></li>
+<ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-start">
+  <li><a class="dropdown-item" href="cart.html"><span class="me-2 fa-solid fa-cart-shopping"></span>Mi carrito</a></li>
+  <li><a class="dropdown-item" href="my-profile.html"><span class="me-2 fa-solid fa-address-card"></span>Mi perfil</a></li>
+  <li><a class="dropdown-item" href="#" id="log-out"><span class="me-2 fa-solid fa-person-walking-arrow-right"></span>Cerrar sesión</a></li>
 </ul>
 </li>`
   document.getElementById("log-out").addEventListener("click", function () {

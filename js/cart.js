@@ -15,7 +15,7 @@ function showCartProducts(cartArray){
             <td class="col-2"><p>${cartProd.currency} ${cartProd.unitCost}</p></td>
             <td class="col-2"><input type="number" class="form-control w-50" id="quantity${cartProd.id}" min="1" value="1" onchange="setSubtotal(${cartProd.id}, '${cartProd.currency}', ${cartProd.unitCost})"></td>
             <td class="col-2"><p class="cart-prod-subtotal fw-bold" id="subtotal${cartProd.id}">${cartProd.currency} ${cartProd.unitCost}</p></td>
-            <td class="col-1"><span class="fa fa-trash" onclick="removeCartItem(${cartProd.id})"></span></td>
+            <td class="col-1"><span class="fa-solid fa-trash-can" onclick="removeCartItem(${cartProd.id})"></span></td>
           </tr>
             `
         }

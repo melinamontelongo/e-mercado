@@ -202,6 +202,9 @@ a.custom-card:hover {
   transform: translateY(-50%);
 }
 
+.carousel-item{
+  transition: transform 2s ease, opacity .5s ease-out;
+}
 .carousel-control-prev{
   left: -5%;
 }
@@ -228,6 +231,7 @@ a.custom-card:hover {
 .list-group-item-product:hover, .list-group-item-category:hover{
   transform: scale(1.1);
   z-index: 2;
+  opacity: 0.8;
 }
 
 #categoriesNextBtn-md{

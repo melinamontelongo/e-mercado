@@ -1,10 +1,3 @@
-//Chequea si ya fue realizado el login
-function checkLogin(){                 
-    if ((!localStorage.getItem("user")) && (!sessionStorage.getItem("user"))){ //Si no se encuentra un valor asociado al item, redirecciona al login
-        window.location = "login.html"                                       
-    }
-}
-
 //Función que agrega una escucha de evento de tipo click a un elemento con cierto Id y 
 //almacena un valor dado en localStorage y redirecciona al html de productos
 function getCategory(id, catID){
@@ -15,7 +8,7 @@ function getCategory(id, catID){
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-    checkLogin(); //Llama a la función 
+
     showUser();   //Muestra al usuario en la barra de navegación
 
    let cards = document.querySelectorAll(".card");        //Obtiene todos los elementos que necesitan la escucha de evento
