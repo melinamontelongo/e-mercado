@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 shadow-lg">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,11 +48,11 @@
         <div class="col text-end">
           <div class="btn-group btn-group-toggle mb-4" data-bs-toggle="buttons">
             <input type="radio" class="btn-check" name="options" id="sortAsc">
-            <label class="btn btn-secondary" for="sortAsc" title="De la A a la Z"><i class="fa-solid fa-arrow-down-a-z"></i></label>
+            <label class="btn btn-outline-dark" for="sortAsc" title="De la A a la Z"><i class="fa-solid fa-arrow-down-a-z"></i></label>
             <input type="radio" class="btn-check" name="options" id="sortDesc">
-            <label class="btn btn-secondary" for="sortDesc" title="De la Z a la A"><i class="fa-solid fa-arrow-up-z-a"></i></label>
-            <input type="radio" class="btn-check" name="options" id="sortByCount" checked>
-            <label class="btn btn-secondary" for="sortByCount" title="Categorías con más productos"><i class="fas fa-sort-amount-down mr-1"></i></label>
+            <label class="btn btn-outline-dark" for="sortDesc" title="De la Z a la A"><i class="fa-solid fa-arrow-up-z-a"></i></label>
+            <input type="radio" class="btn-check" name="options" id="sortByCount">
+            <label class="btn btn-outline-dark" for="sortByCount" title="Categorías con más productos"><i class="fas fa-sort-amount-down mr-1"></i></label>
           </div>
         </div>
       </div>
@@ -70,8 +70,8 @@
             </div>
             <div class="col p-0">
               <div class="btn-group" role="group">
-                <button class="btn btn-secondary btn-block" id="rangeFilterCount">Filtrar</button>
-                <button class="btn btn-secondary btn-sm" id="clearRangeFilter">Limpiar</button>
+                <button class="btn btn-outline-dark btn-block" id="rangeFilterCount">Filtrar</button>
+                <button class="btn btn-outline-dark btn-sm" id="clearRangeFilter">Limpiar</button>
               </div>
             </div>
           </div>

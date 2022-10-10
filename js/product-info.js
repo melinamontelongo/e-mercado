@@ -46,12 +46,10 @@ function showProductInfo() {
             <p>${productInfo.category}</p>
             <strong>Cantidad de vendidos</strong>
             <p>${productInfo.soldCount}</p>
-            <button class="m-2 btn btn-dark d-block" onclick="addToCart()"><span class="me-2 fa-solid fa-cart-plus"></span>Agregar al carrito</button>
-            <a class="m-2 btn btn-light"><span class="fa-solid fa-left-long me-2"></span>Volver al listado</a>
+            <button class="m-2 btn btn-dark d-block rounded-pill" onclick="addToCart()"><span class="me-2 fa-solid fa-cart-plus"></span>Agregar al carrito</button>
+            <a href="products.html" class="m-2 btn btn-outline-dark rounded-pill"><span class="fa-solid fa-left-long me-2"></span>Volver al listado</a>
     </div>
         `
-   //check set catID
-   
     showProductImages();
     responsiveCarousel();
     showRelatedProducts();
@@ -65,7 +63,7 @@ function showProductImages(){
         let img = images[i];
         carousel.innerHTML += `
         <div class="carousel-item shadow mb-3 bg-body rounded">
-            <img src="${img}" class="d-block w-100" alt="image">
+            <img src="${img}" class="d-block w-100 rounded" alt="image">
         </div>
         `
     }

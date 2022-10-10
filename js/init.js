@@ -40,11 +40,6 @@ let getJSONData = function (url) {
     });
 }
 
-function setCatID(id){
-  localStorage.setItem("catID", id);
-  window.location = "products.html";
-}
-
 //Función que guarda el id del producto en localStorage y redirecciona
 function setProductID(id) {
   localStorage.setItem("productID", id);

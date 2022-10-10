@@ -33,8 +33,6 @@ function sortProducts(criteria, array) {
 
 //Función para mostrar los productos en products.html
 function showProductsList() {
-
-
     let htmlContentToAppend = "";   //Se inicializa la variable a la que luego se le "cargará" la información
 
     for (let i = 0; i < currentProductsArray.length; i++) {  //Iteración que recorre el arreglo de productos tantas veces como su largo (5)
@@ -69,7 +67,7 @@ function showProductsList() {
       
     }
     if (document.getElementById("product-list-container").innerHTML == "") {
-        document.getElementById("product-list-container").innerHTML = `<h3 class="lead text-center p-5">No se han encontrado productos que coincidan</h3>`
+        document.getElementById("product-list-container").innerHTML = `<h3 class="lead text-center p-5"><span class="me-2 fa-solid fa-ban"></span>No se han encontrado productos que coincidan</h3>`
     }
     document.getElementById("product-list-heading").innerHTML =
 

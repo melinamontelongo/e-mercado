@@ -193,6 +193,10 @@ a.custom-card:hover {
   min-width: min-content;
 }
 
+#carouselIndex img:hover{
+  opacity: 0.8;
+  transition: transform 2s ease, opacity .5s ease-out;
+}
 .carousel-control-prev, .carousel-control-next{
   width: min-content;
   height: min-content;
@@ -218,17 +222,17 @@ a.custom-card:hover {
 }
 #productsCarousel img:hover{
   cursor: zoom-in;
-/*   transform: scale(1.5);
-  transform-origin: bottom; 
-  z-index:1; */
 }
 
 .relproducts-card:hover{
   transform: scale(1.1);
   z-index: 2;
+  transition: transform .8s ease, opacity .5s ease-out;
+  opacity: 0.8;
 }
 
 .list-group-item-product:hover, .list-group-item-category:hover{
+  transition: transform .8s ease, opacity .5s ease-out;
   transform: scale(1.1);
   z-index: 2;
   opacity: 0.8;
@@ -245,5 +249,42 @@ a.custom-card:hover {
 
 .cart-prod-img:hover{
   transform: scale(1.1);
+  transition: transform .8s ease, opacity .5s ease-out;
   opacity: 0.8;
+}
+
+#cartProducts > tr:hover {
+  opacity: 0.8;
+  
+}
+
+/* Icons colouring */
+.fa-star.checked{
+color: #ffd753;
+}
+.fa-star{
+text-shadow: 1px 1px 1px #0c0c0cd3; 
+}
+
+.fa-house{
+  color: #7be5f8;
+}
+.fa-list-ul{
+color: #fc82bd;
+}
+.fa-money-check-dollar{
+  color: #8aeca7;
+
+}
+.fa-user, .fa-cart-shopping, .fa-address-card, .fa-person-walking-arrow-right{
+  color: #fff690;
+}
+
+.fa-location-dot, .fa-trash-can{
+  color: rgb(255, 78, 78);
+
+}
+
+.btn-outline-dark{
+  transition: .3s ease-out;
 }

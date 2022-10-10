@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 shadow-lg">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,11 +52,11 @@
         <div class="col text-end">
           <div class="btn-group btn-group-toggle mb-4 " data-bs-toggle="buttons">
             <input type="radio" class="btn-check" name="options" id="sortDesc">
-            <label class="btn btn-secondary" for="sortDesc" title="Precio de mayor a menor"><i class="fas fa-sort-amount-down mr-1"></i>$</label>
+            <label class="btn btn-outline-dark" for="sortDesc" title="Precio de mayor a menor"><i class="fas fa-sort-amount-down mr-1"></i>$</label>
             <input type="radio" class="btn-check" name="options" id="sortAsc" >
-            <label class="btn btn-secondary" for="sortAsc" title="Precio de menor a mayor"><i class="fas fa-sort-amount-up mr-1"></i>$</label>
-            <input type="radio" class="btn-check" name="options" id="sortByRel" checked>
-            <label class="btn btn-secondary" for="sortByRel" title="Relevancia: ¡Lo más vendido!"><i class="fas fa-sort-amount-down mr-1"></i>Rel.</label>
+            <label class="btn btn-outline-dark" for="sortAsc" title="Precio de menor a mayor"><i class="fas fa-sort-amount-up mr-1"></i>$</label>
+            <input type="radio" class="btn-check" name="options" id="sortByRel">
+            <label class="btn btn-outline-dark" for="sortByRel" title="Relevancia: ¡Lo más vendido!"><i class="fas fa-sort-amount-down mr-1"></i>Rel.</label>
           </div>
         </div>
       </div>
@@ -74,8 +74,8 @@
             </div>
             <div class="col p-0">
               <div class="btn-group" role="group">
-                <button class="btn btn-secondary btn-block" id="rangeFilterCost">Filtrar</button>
-                <button class="btn btn-secondary btn-sm" id="clearRangeFilter">Limpiar</button>
+                <button class="btn btn-outline-dark btn-block" id="rangeFilterCost">Filtrar</button>
+                <button class="btn btn-outline-dark btn-sm" id="clearRangeFilter">Limpiar</button>
               </div>
             </div>
           </div>
