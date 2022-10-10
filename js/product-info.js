@@ -105,6 +105,7 @@ function showRelatedProducts(){
 
 //Función para ir agregar el producto al carrito
 function addToCart(){
+let canBeAdded = true;
     newItem = {
         "id": productInfo.id,
         "name": productInfo.name,
@@ -113,12 +114,23 @@ function addToCart(){
         "currency": productInfo.currency,
         "image": productInfo.images[0]
     }
-    if (localStorage.getItem("userCart")){
+    if (localStorage.getItem("userCart")){ //si hay carrito local del usuario
      userCart = JSON.parse(localStorage.getItem("userCart"))
      userCart = userCart.filter(item => item.id != newItem.id);
+     canBeAdded = true
     }
+    if (localStorage.getItem("fetchedItems")){ //si hay elementos que vienen del servidor
+        let fetchedItems = JSON.parse(localStorage.getItem("fetchedItems"))
+        fetchedItems.forEach(item => {
+            if (item.id == newItem.id){
+                canBeAdded = false
+            }
+        });
+    }
+    if (canBeAdded){
     userCart.push(newItem)
-    localStorage.setItem(`userCart`, JSON.stringify(userCart))
+    localStorage.setItem(`userCart`, JSON.stringify(userCart))  
+    }
     window.location.href = "/cart.html"
 }
 

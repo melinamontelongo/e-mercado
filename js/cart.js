@@ -1,6 +1,7 @@
-let userCart = [];
-let addedProducts = [];
+let fetchedCart = [];
+let localCart = [];
 let cartProductsContainer = document.getElementById("cartProducts");
+let storedLocalCart = JSON.parse(localStorage.getItem("userCart"));
 
 function showCartProducts(cartArray){
     if (cartArray != ""){ //si el carrito no está vacío
@@ -21,22 +22,6 @@ function showCartProducts(cartArray){
         }
     } 
 }
-//Función (provisional) que elimina si existen items duplicados en el documento
-  //sirve para controlar que el item que viene desde el "servidor" no se agregue 
-function checkDuplicates(){
-  let cartRows = document.querySelectorAll(".cart-row");
-  let IDs = [];
-  cartRows.forEach(row => {
-    IDs.push(row.id);
-  });
-  let duplicates = IDs.filter((item, index) => {
-    return IDs.indexOf(item) != index;
-  })
-  duplicates.forEach(duplicate => {
-    document.querySelector(`#${duplicate}`).remove();
-  });
- 
-}
 
 //Define el subtotal correspondiente al input
 function setSubtotal(id, currency, cost){
@@ -44,41 +29,40 @@ function setSubtotal(id, currency, cost){
   document.getElementById(`subtotal${id}`).innerHTML = `${currency} ${cost * parseInt(input.value)}`
 }
 
-//Chequea si fueron agregados items al carrito y los muestra
+//Chequea si hay items en el carrito local y los muestra
 function checkLocalStorage(){
-         if(localStorage.getItem("userCart")){
-          let addedProducts = JSON.parse(localStorage.getItem("userCart"));
-          showCartProducts(addedProducts)
+         if(storedLocalCart){
+          localCart = storedLocalCart;
+          showCartProducts(localCart)
          }
  } 
 //Llamada en el ícono de eliminar
  //Elimina el item
  function removeCartItem(id){
-  let storedCart = JSON.parse(localStorage.getItem("userCart"));
-  for (let i = 0; i < storedCart.length; i++) {
-    let item = storedCart[i];
+  for (let i = 0; i < storedLocalCart.length; i++) {
+    let item = storedLocalCart[i];
     //si el id del producto almacenado coincide con el que quiere remover el usuario
     if (item.id == id){
       //lo remueve del array
-      storedCart.splice(i, 1)
+      storedLocalCart.splice(i, 1)
       //sobre-escribe el array en localStorage pero sin el producto eliminado
-      localStorage.setItem("userCart", JSON.stringify(storedCart)) 
+      localStorage.setItem("userCart", JSON.stringify(storedLocalCart)) 
     }
   }
     document.getElementById(`cartProduct${id}`).innerHTML = "";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    showUser()
+    showUser();
     //por esta vez el usuario es estático
     let user = 25801;
     //se concatena para obtener la información 
     getJSONData(CART_INFO_URL + user + EXT_TYPE).then(result =>{ //petición al carrito del user
         if (result.status === "ok") {
-            userCart = result.data.articles; //se almacenan solo los artículos
-            showCartProducts(userCart);
+            fetchedCart = result.data.articles; //se almacenan solo los artículos
+            showCartProducts(fetchedCart);
             checkLocalStorage();
-            checkDuplicates()
+            localStorage.setItem("fetchedItems", JSON.stringify(fetchedCart));
         }
     })
 })
