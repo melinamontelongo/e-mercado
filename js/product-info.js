@@ -103,9 +103,10 @@ function showRelatedProducts(){
     }  
 }
 
-//Función para ir agregar el producto al carrito
+//Función para agregar el producto al carrito
 function addToCart(){
-let canBeAdded = true;
+let canBeAdded = true; //variable bandera
+//se define un nuevo objeto con la estructura que viene del servidor
     newItem = {
         "id": productInfo.id,
         "name": productInfo.name,
@@ -115,23 +116,26 @@ let canBeAdded = true;
         "image": productInfo.images[0]
     }
     if (localStorage.getItem("userCart")){ //si hay carrito local del usuario
-     userCart = JSON.parse(localStorage.getItem("userCart"))
-     userCart = userCart.filter(item => item.id != newItem.id);
-     canBeAdded = true
+     userCart = JSON.parse(localStorage.getItem("userCart")); //lo obtiene
+     userCart.forEach(item => { //lo recorre y verifica si coincide el id del nuevo producto con uno ya existente
+        if (item.id == newItem.id){
+            canBeAdded = false; //no se puede agregar
+        }
+     })
     }
     if (localStorage.getItem("fetchedItems")){ //si hay elementos que vienen del servidor
-        let fetchedItems = JSON.parse(localStorage.getItem("fetchedItems"))
-        fetchedItems.forEach(item => {
+        let fetchedItems = JSON.parse(localStorage.getItem("fetchedItems")) //los obtiene
+        fetchedItems.forEach(item => { //los recorre 
             if (item.id == newItem.id){
-                canBeAdded = false
+                canBeAdded = false //no se puede agregar porque ya existe un item igual que viene desde el servidor
             }
         });
     }
-    if (canBeAdded){
-    userCart.push(newItem)
-    localStorage.setItem(`userCart`, JSON.stringify(userCart))  
+    if (canBeAdded){ //si puede ser agregado
+    userCart.push(newItem) //lo agrega al array (vacío o conteniendo los items locales)
+    localStorage.setItem(`userCart`, JSON.stringify(userCart))  //y lo guarda en localStorage
     }
-    window.location.href = "/cart.html"
+    window.location.href = "cart.html" //redirecciona al carrito
 }
 
 
@@ -234,9 +238,9 @@ function retrieveUserComment() {
 
 //Cuando se carga el documento
 //Solicita la información del producto actual y si se resuelve:
-//Muestra la info
+    //Muestra la info
 //Solicita los comentarios del producto actual y si se resuelve:
-//Muestra los comentarios
+    //Muestra los comentarios
 //Llama a la función que muestra al usuario
 //y a las que gestionan los comentarios realizados por el usuario
 document.addEventListener("DOMContentLoaded", function () {
