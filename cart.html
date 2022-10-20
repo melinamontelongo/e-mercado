@@ -73,19 +73,22 @@
             </div>
             <div class="col">
               <div class="custom-control custom-radio mb-2">
-                <span class="fa-solid fa-plane me-2"></span><input id="shippingPremium" name="shippingMethod" type="radio" checked>
+                <span class="fa-solid fa-plane me-2"></span><input id="shippingPremium" name="shippingMethod" type="radio" checked required>
                 <label class="custom-control-label" for="shippingPremium">Premium 2 a 5 días (15%)</label>
               </div>
 
               <div class="custom-control custom-radio mb-2">
-                <span class="fa-solid fa-truck-fast me-2"></span><input id="shippingExpress" name="shippingMethod" type="radio">
+                <span class="fa-solid fa-truck-fast me-2"></span><input id="shippingExpress" name="shippingMethod" type="radio" required>
                 <label class="custom-control-label" for="shippingExpress">Express 5 a 6 días (7%)</label>
               </div>
 
               <div class="custom-control custom-radio mb-2">
-                <span class="fa-solid fa-truck me-2"></span><input id="shippingStandard" name="shippingMethod" type="radio">
+                <span class="fa-solid fa-truck me-2"></span><input id="shippingStandard" name="shippingMethod" type="radio" required>
                 <label class="custom-control-label" for="shippingStandard">Standard 12 a 15 días (5%)</label>
               </div>
+            </div>
+            <div class="invalid-feedback">
+              Selecciona un tipo de envío
             </div>
           </div>
 
