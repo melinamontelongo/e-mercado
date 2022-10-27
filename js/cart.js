@@ -6,11 +6,6 @@ const shippingStandardFee = 0.05;
 //Subtotal de todos los productos y el costo de envío
 let subtotalCost = 0;
 let shippingFee = 0;
-//Símbolos de monedas que utiliza la página
-let DOLLAR_SYMBOL = "USD";
-let PESO_SYMBOL = "UYU";
-//Valor de cambio de UYU a USD
-let exchangeRate = undefined;
 
 //Arrays para los productos del servidor y locales
 let fetchedCart = [];
@@ -27,30 +22,34 @@ function showCartProducts(cartArray) {
   if (cartArray.length > 0) { //si el carrito no está vacío
     for (let i = 0; i < cartArray.length; i++) {
       let cartProd = cartArray[i];
-
-      cartProductsContainer.innerHTML +=
-        `
-          <tr id="cartProduct${cartProd.id}" data-id="${cartProd.id}" class="align-middle cart-row">
-            <td class="col-2 text-center"><img src="${cartProd.image}" class="img-fluid w-75 shadow bg-body rounded cart-prod-img" onclick="setProductID(${cartProd.id})"></td>
-            <td class="col-2"><p>${cartProd.name}</p></td>
-            <td class="col-2"><p>${cartProd.currency} ${cartProd.unitCost}</p></td>
-            <td class="col-2"><div class="col-12 col-lg-6"><input type="number" min="1" class="form-control" id="quantity${cartProd.id}" name="itemQuantity" value="1" required oninput="setSubtotal(${cartProd.id}, '${cartProd.currency}', ${cartProd.unitCost})"></div>
-            <div class="invalid-feedback">
-            La cantidad debe ser mayor a 0
-            </div></td>
-            <td class="col-2"><p class="cart-prod-subtotal fw-bold" id="subtotal${cartProd.id}">${cartProd.currency} ${cartProd.unitCost}</p></td>
-            <td class="col-1"><span class="fa-solid fa-trash-can" onclick="removeCartItem(${cartProd.id})"></span></td>
-          </tr>
-            `
+        if (cartProd.currency == PESO_SYMBOL){
+          cartProd.unitCost = USDConversion(cartProd.unitCost);
+          cartProd.currency = DOLLAR_SYMBOL;
+        }
+        cartProductsContainer.innerHTML +=
+          `
+            <tr id="cartProduct${cartProd.id}" data-id="${cartProd.id}" class="align-middle cart-row">
+              <td class="col-2 text-center"><img src="${cartProd.image}" class="img-fluid w-75 shadow bg-body rounded cart-prod-img" onclick="setProductID(${cartProd.id})"></td>
+              <td class="col-2"><p>${cartProd.name}</p></td>
+              <td class="col-2 cart-prod-cost" data-cost="${cartProd.unitCost}" data-currency="${cartProd.currency}"><p>${cartProd.currency} ${cartProd.unitCost}</p></td>
+              <td class="col-2"><div class="col-12 col-lg-6"><input type="number" min="1" class="form-control" id="quantity${cartProd.id}" name="itemQuantity" value="1" required oninput="setSubtotalByQuantity(${cartProd.id}, '${cartProd.currency}', ${cartProd.unitCost})"></div>
+              <div class="invalid-feedback">
+              La cantidad debe ser mayor a 0
+              </div></td>
+              <td class="col-2 cart-prod-subtotal" data-cost="${cartProd.unitCost}" data-currency="${cartProd.currency}" ><p class=" fw-bold" id="subtotal${cartProd.id}">${cartProd.currency} ${cartProd.unitCost}</p></td>
+              <td class="col-1"><span class="fa-solid fa-trash-can" onclick="removeCartItem(${cartProd.id})"></span></td>
+            </tr>
+              `
     }
   }
   setTotalCost();
 }
 //Define el subtotal correspondiente al input
-function setSubtotal(id, currency, cost) {
+function setSubtotalByQuantity(id, currency, cost) {
   let input = document.getElementById(`quantity${id}`);
+  let subtotalContainer = document.getElementById(`subtotal${id}`);
   if (input.value != "") {
-    document.getElementById(`subtotal${id}`).innerHTML = `${currency} ${cost * parseInt(input.value)}`
+    subtotalContainer.innerHTML = `${currency} ${cost * parseInt(input.value)}`
   }
   setTotalCost();
   /*   let itemToUpdate = storedLocalCart.find(item => item.id == id);
@@ -100,13 +99,8 @@ function setTotalCost() {
   let itemsSubtotal = document.querySelectorAll('[id^="subtotal"]');//obtiene todos los subtotales
   if (itemsSubtotal.length > 0){
     let subtotalArr = Array.from(itemsSubtotal).map((item) => { //los convierte a array y mapea para extraer solo los valores
-      if (item.innerHTML.includes(PESO_SYMBOL)) {
-        return parseInt(item.innerHTML.split(" ")[1]) / exchangeRate;
-      } else {
         return parseInt(item.innerHTML.split(" ")[1]);
-      }
     })
-  
   
     subtotalCost = Math.round(subtotalArr.reduce((prev, curr) => prev + curr)) //los suma para obtener el subtotal
     let totalShippingCost = Math.round(subtotalCost * shippingFee);
@@ -265,44 +259,6 @@ function setShippingFee(option) {
       e.stopPropagation();
     }
   })
-}
-//Almacena una cookie 
-  //Se utiliza para setear el cambio del día
-function setCookie(cName, cValue, exDays){
-  let date = new Date();
-  date.setTime(date.getTime() + (exDays*24*60*60*1000))
-  let expires = `expires=${date.toUTCString()}`;
-  document.cookie = `${cName}=${cValue};${expires};path=/`;
-}
-//Obtiene una cookie
-  //Se utiliza para obtener el cambio del día
-function getCookie(cName) {
-  let cookie = {};
-  document.cookie.split(';').forEach( (c)=> {
-  let [key,value] = c.split('=');
-  cookie[key.trim()] = value;
-})
-  return cookie[cName]; 
-}
-//Función que obtiene el valor de cambio de UYU a USD 
-    //Si no existen cookies para el valor, lo obtiene mediante un fetch
-async function getCurrencyRate() {
-  if (getCookie("currencyRate")) {//Chequea si existe la cookie
-    exchangeRate = await getCookie("currencyRate"); 
-  } else {
-    let reqURL = `https://api.apilayer.com/exchangerates_data/latest?symbols=${PESO_SYMBOL}&base=${DOLLAR_SYMBOL}`
-    let reqHeader = new Headers();
-    reqHeader.append("apikey", "6K8EIKfAxplcDrl3Ee39iZXAFUnmW1KZ");
-    let reqOptions = {
-      method: 'GET',
-      redirect: 'follow',
-      headers: reqHeader
-    };
-    let dataRequest = await fetch(reqURL, reqOptions)
-    let data = await dataRequest.json()
-    exchangeRate = data.rates.UYU;
-    setCookie("currencyRate", exchangeRate, 1) //Para que el valor se actualice cada día
-  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

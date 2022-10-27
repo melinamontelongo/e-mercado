@@ -39,7 +39,7 @@ function showProductInfo() {
     <div class="col-12 col-lg-4 p-4">
             <h2 class="border-bottom pb-2">${productInfo.name}</h2>
             <strong>Precio</strong>
-            <p>${productInfo.currency} ${productInfo.cost}</p>
+            <p id="product-currency-cost">${productInfo.currency} ${productInfo.cost}</p>
             <strong>Descripción</strong>
             <p>${productInfo.description}</p>
             <strong>Categoría</strong>
@@ -50,9 +50,17 @@ function showProductInfo() {
             <a href="products.html" class="m-2 btn btn-outline-dark rounded-pill"><span class="fa-solid fa-left-long me-2"></span>Volver al listado</a>
     </div>
         `
+    checkCurrency(productInfo)
     showProductImages();
     responsiveCarousel();
     showRelatedProducts();
+}
+function checkCurrency(product){
+    if (product.currency == PESO_SYMBOL){
+        let itemToModify = document.getElementById("product-currency-cost")
+        let convertedCost = USDConversion(product.cost);
+        itemToModify.innerHTML += ` - <span class="fw-bolder">${DOLLAR_SYMBOL} ${convertedCost}</span>`
+    }
 }
 
  //Para mostrar las imágenes:
@@ -246,9 +254,10 @@ function retrieveUserComment() {
 document.addEventListener("DOMContentLoaded", function () {
     getJSONData(PRODUCT_INFO_URL + currentProduct + EXT_TYPE).then(function (resultObj) {
         if (resultObj.status === "ok") {
+            getCurrencyRate().then(() => {
             productInfo = resultObj.data;
             showProductInfo();  //Muestra la info
-
+            })
             getJSONData(PRODUCT_INFO_COMMENTS_URL + currentProduct + EXT_TYPE).then(function (resultObj) {
                 if (resultObj.status === "ok") {
                     productComments = resultObj.data;

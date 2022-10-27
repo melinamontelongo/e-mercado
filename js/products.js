@@ -43,6 +43,9 @@ function showProductsList() {
             ((search == undefined) ||
                 (product.name.toLowerCase().includes(search) ||
                     product.description.toLowerCase().includes(search)))) { //Filtros para mostrar los productos según lo que ingrese el usuario en el buscador
+                        if (product.currency == PESO_SYMBOL){
+                            product.cost = `${product.cost} - ${DOLLAR_SYMBOL} ${USDConversion(product.cost)} `
+                        }
 
             htmlContentToAppend += `            
 
@@ -53,7 +56,7 @@ function showProductsList() {
                             </div>
                             <div class="col-12 col-md-9">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h4 class="mb-1">${product.name} - ${product.currency} ${product.cost}</h4>
+                                    <h4 class="mb-1 product-header">${product.name} - ${product.currency} ${product.cost}</h4>
                                     <small class="text-muted">${product.soldCount} vendidos</small>
                                 </div>
                                 <p class="mb-1">${product.description}</p>
@@ -63,7 +66,6 @@ function showProductsList() {
                     `
         }
         document.getElementById("product-list-container").innerHTML = htmlContentToAppend
-
       
     }
     if (document.getElementById("product-list-container").innerHTML == "") {
@@ -92,9 +94,11 @@ document.addEventListener("DOMContentLoaded", function (e) {    //Cuando se carg
     let currentCategory = localStorage.getItem("catID");        //Accede a categoría seleccionada por el usuario
     getJSONData(PRODUCTS_URL + currentCategory + EXT_TYPE).then(function (resultObj) {       //Como parámetro la url del .json concatenada
         if (resultObj.status === "ok") {
-            currentCategoryName = resultObj.data.catName;       //Se obtiene y almacena el nombre de la categoría para mostrarlo
-            currentProductsArray = resultObj.data.products;     //Se obtiene y almacena el array de productos
-            showProductsList();
+            getCurrencyRate().then(() => { //Obtiene el valor del dolar
+                currentCategoryName = resultObj.data.catName;       //Se obtiene y almacena el nombre de la categoría para mostrarlo
+                currentProductsArray = resultObj.data.products;     //Se obtiene y almacena el array de productos
+                showProductsList();
+            })
         }
     });
 

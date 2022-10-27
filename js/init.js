@@ -6,6 +6,11 @@ const PRODUCT_INFO_COMMENTS_URL = "https://japceibal.github.io/emercado-api/prod
 const CART_INFO_URL = "https://japceibal.github.io/emercado-api/user_cart/";
 const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const EXT_TYPE = ".json";
+//Símbolos de monedas que utiliza la página
+const DOLLAR_SYMBOL = "USD";
+const PESO_SYMBOL = "UYU";
+//Valor de cambio de UYU a USD
+let exchangeRate = undefined;
 
 let showSpinner = function () {
   document.getElementById("spinner-wrapper").style.display = "block";
@@ -83,3 +88,48 @@ function showUser() {
     window.location = "login.html";
   })
 }
+
+//Almacena una cookie 
+  //Se utiliza para setear el cambio del día
+  function setCookie(cName, cValue, exDays){
+    let date = new Date();
+    date.setTime(date.getTime() + (exDays*24*60*60*1000))
+    let expires = `expires=${date.toUTCString()}`;
+    document.cookie = `${cName}=${cValue};${expires};path=/`;
+  }
+  //Obtiene una cookie
+    //Se utiliza para obtener el cambio del día
+  function getCookie(cName) {
+    let cookie = {};
+    document.cookie.split(';').forEach( (c)=> {
+    let [key,value] = c.split('=');
+    cookie[key.trim()] = value;
+  })
+    return cookie[cName]; 
+  }
+//Realiza la conversión de UYU a USD
+function USDConversion(cost){
+  let result;
+  result = Math.round(cost / exchangeRate)
+  return result
+}
+  //Función que obtiene el valor de cambio de UYU a USD 
+      //Si no existen cookies para el valor, lo obtiene mediante un fetch
+  async function getCurrencyRate() {
+    if (getCookie("currencyRate")) {//Chequea si existe la cookie
+      exchangeRate = await getCookie("currencyRate"); 
+    } else {
+      let reqURL = `https://api.apilayer.com/exchangerates_data/latest?symbols=${PESO_SYMBOL}&base=${DOLLAR_SYMBOL}`
+      let reqHeader = new Headers();
+      reqHeader.append("apikey", "6K8EIKfAxplcDrl3Ee39iZXAFUnmW1KZ");
+      let reqOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: reqHeader
+      };
+      let dataRequest = await fetch(reqURL, reqOptions)
+      let data = await dataRequest.json()
+      exchangeRate = data.rates.UYU;
+      setCookie("currencyRate", exchangeRate, 1) //Para que el valor se actualice cada día
+    }
+  }
