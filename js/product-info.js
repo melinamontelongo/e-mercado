@@ -55,6 +55,7 @@ function showProductInfo() {
     responsiveCarousel();
     showRelatedProducts();
 }
+//Función que chequea la moneda en la que está el producto para mostrar su valor en dólares si está en pesos
 function checkCurrency(product){
     if (product.currency == PESO_SYMBOL){
         let itemToModify = document.getElementById("product-currency-cost")
@@ -62,7 +63,6 @@ function checkCurrency(product){
         itemToModify.innerHTML += ` - <span class="fw-bolder">${DOLLAR_SYMBOL} ${convertedCost}</span>`
     }
 }
-
  //Para mostrar las imágenes:
 function showProductImages(){
     let images = productInfo.images;  //las obtiene
@@ -77,7 +77,6 @@ function showProductImages(){
     }
     carousel.firstElementChild.classList.add("active"); //le agrega la clase active al primer elemento para que funcione el carrusel
 }
-
 function responsiveCarousel(){
     //Validación para mostrar el modal solo en pantallas grandes
     let largeScreen = window.matchMedia("(min-width: 992px)");
@@ -91,7 +90,6 @@ function responsiveCarousel(){
         })
     }
 }
-
 //Para mostrar productos relacionados:
 function showRelatedProducts(){
     let relProdArray = productInfo.relatedProducts;
@@ -110,10 +108,10 @@ function showRelatedProducts(){
         `
     }  
 }
-
 //Función para agregar el producto al carrito
 function addToCart(){
-let canBeAdded = true; //variable bandera
+let alreadyExists = false; //variable bandera, para saber si ya existe -o no- un item en el carrito
+
 //se define un nuevo objeto con la estructura que viene del servidor
     newItem = {
         "id": productInfo.id,
@@ -123,30 +121,34 @@ let canBeAdded = true; //variable bandera
         "currency": productInfo.currency,
         "image": productInfo.images[0]
     }
-    if (localStorage.getItem("userCart")){ //si hay carrito local del usuario
+//Si hay carrito local del usuario
+    if (localStorage.getItem("userCart")){ 
      userCart = JSON.parse(localStorage.getItem("userCart")); //lo obtiene
      userCart.forEach(item => { //lo recorre y verifica si coincide el id del nuevo producto con uno ya existente
         if (item.id == newItem.id){
-            canBeAdded = false; //no se puede agregar
+            item.count += 1
+            localStorage.setItem("userCart", JSON.stringify(userCart));
+            alreadyExists = true; //Ya existe en local, no se puede agregar.
         }
      })
     }
-    if (localStorage.getItem("fetchedItems")){ //si hay elementos que vienen del servidor
-        let fetchedItems = JSON.parse(localStorage.getItem("fetchedItems")) //los obtiene
+//Si hay elementos que vienen del servidor
+    if (localStorage.getItem("fetchedItems")){ 
+        let fetchedItems = JSON.parse(localStorage.getItem("fetchedItems")) //Los obtiene
         fetchedItems.forEach(item => { //los recorre 
             if (item.id == newItem.id){
-                canBeAdded = false //no se puede agregar porque ya existe un item igual que viene desde el servidor
+            item.count += 1; //Igual no se va a cambiar porque esto viene del "servidor" // Habría que hacer un post
+            localStorage.setItem("fetchedItems", JSON.stringify(fetchedItems));
+            alreadyExists = true; //Ya existe un item igual traído desde el servidor, no se puede agregar.
             }
         });
     }
-    if (canBeAdded){ //si puede ser agregado
+    if (!alreadyExists){ //Si no existe el item en local o desde el servidor
     userCart.push(newItem) //lo agrega al array (vacío o conteniendo los items locales)
     localStorage.setItem(`userCart`, JSON.stringify(userCart))  //y lo guarda en localStorage
     }
     window.location.href = "cart.html" //redirecciona al carrito
 }
-
-
 //Función para mostrar los comentarios obtenidos a partir de la solicitud:
 //Si no hay comentarios (en la lista o en localStorage), muestra un div alertando al usuario
 //Si hay, itera sobre ellos y los muestra

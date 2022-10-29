@@ -43,7 +43,7 @@ function showProductsList() {
             ((search == undefined) ||
                 (product.name.toLowerCase().includes(search) ||
                     product.description.toLowerCase().includes(search)))) { //Filtros para mostrar los productos según lo que ingrese el usuario en el buscador
-                        if (product.currency == PESO_SYMBOL){
+                        if (product.currency == PESO_SYMBOL){ //Para mostrar el valor en dólares si está en pesos
                             product.cost = `${product.cost} - ${DOLLAR_SYMBOL} ${USDConversion(product.cost)} `
                         }
 
