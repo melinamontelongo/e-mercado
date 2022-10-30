@@ -18,8 +18,6 @@ let storedFetchedCart = JSON.parse(localStorage.getItem("fetchedItems"))
 //Donde irán los productos del carrito
 let cartProductsContainer = document.getElementById("cartProducts");
 
-let chosenPaymentMethodInputs = [];
-
 //Función para mostrar los productos que recibe por parámetro
 function showCartProducts(cartArray) {
   if (cartArray.length > 0) { //si el carrito no está vacío
@@ -44,7 +42,8 @@ function showCartProducts(cartArray) {
               </td>
               <td class="col-2">
                 <div class="col-12 col-lg-6">
-                  <input type="number" min="1" class="form-control" id="quantity${cartProd.id}" name="itemQuantity${cartProd.id}" value="${cartProd.count}" oninput="setSubtotalByQuantity('${cartProd.id}', '${cartProd.currency}', '${cartProd.unitCost}')" required>
+                  <input type="number" min="1" class="form-control" id="quantity${cartProd.id}" name="itemQuantity${cartProd.id}" form="cartForm"
+                  value="${cartProd.count}" pattern=".*\S+" oninput="setSubtotalByQuantity('${cartProd.id}', '${cartProd.currency}', '${cartProd.unitCost}')" required>
                 <div class="invalid-feedback">
                   La cantidad debe ser mayor a 0
                 </div>
@@ -58,14 +57,13 @@ function showCartProducts(cartArray) {
               </td>
             </tr>
               `
-      //Para mostrar el subtotal de cada producto dependiendo de la cantidad
+      //Para mostrar el subtotal de cada producto dependiendo de la cantidad sin depender del evento oninput 
       currentValue = parseInt(document.getElementById(`quantity${cartProd.id}`).value);
       document.getElementById(`subtotal${cartProd.id}`).innerHTML = `${cartProd.currency} ${cartProd.unitCost * currentValue}`
     }
   }
   setTotalCost();
 }
-
 //Define el subtotal correspondiente al input
 function setSubtotalByQuantity(id, currency, cost) {
   let input = document.getElementById(`quantity${id}`);
@@ -76,7 +74,6 @@ function setSubtotalByQuantity(id, currency, cost) {
   }
   setTotalCost();
 }
-
 //Función que actualiza la cantidad en localStorage
 function updateStorageQuantity(productID, quantity) {
   let itemToUpdate = undefined;
@@ -119,7 +116,6 @@ function removeCartItem(id) {
 //Función que determina el costo total del carrito(subtotal, tarifa de envío y total)
 function setTotalCost() {
   shippingCost();
-
   const subtotalContainer = document.getElementById("totalCostSubtotal");
   const shippingContainer = document.getElementById("totalCostShipping");
   const totalContainer = document.getElementById("totalCostTotal");
@@ -174,36 +170,37 @@ function paymentMethod() {
   let bankTransferControls = document.querySelectorAll(".bank-transfer-form-control");
   let methodsToChoose = document.querySelectorAll(".paymentMethodsToChoose");
 
-    methodsToChoose.forEach(input => { 
-      input.addEventListener("change", (e) => {
-        switch (e.target.id) {
-          case "creditCard": //Fue elegida tarjeta de crédito
-            creditCardControls.forEach(control => { //Controles de pago con tarjeta
-              control.removeAttribute("disabled"); //Los habilita
-            });
-            bankTransferControls.forEach(control => { //Controles de pago con transferencia
-              control.setAttribute("disabled", "");  //Los deshabilita
-              control.classList.remove("is-invalid") //Para evitar que se siga mostrando el campo con error aunque se haya seleccionado la otra opción
-            });
-            break;
-          case "bankTransfer": //Fue elegida transferencia bancaria
-            chosenPaymentMethodInputs = bankTransferControls
-            bankTransferControls.forEach(control => {//Controles de pago con transferencia
-              control.removeAttribute("disabled"); //Los habilita
-            });
-            creditCardControls.forEach(control => { //Controles de pago con tarjeta
-              control.setAttribute("disabled", ""); //Los deshabilita
-              control.classList.remove("is-invalid") //Para evitar que se siga mostrando el campo con error aunque se haya seleccionado la otra opción
-            });
-            break;
-        }
-        displayMethod.innerHTML = `${e.target.nextElementSibling.innerHTML}`; //Se muestra la opción elegida
-      })
+  methodsToChoose.forEach(input => {
+    input.addEventListener("change", (e) => {
+      switch (e.target.id) {
+        case "creditCard": //Fue elegida tarjeta de crédito
+          creditCardControls.forEach(control => { //Controles de pago con tarjeta
+            control.removeAttribute("disabled"); //Los habilita
+          });
+          bankTransferControls.forEach(control => { //Controles de pago con transferencia
+            control.setAttribute("disabled", "");  //Los deshabilita
+            control.classList.remove("is-invalid") //Para evitar que se siga mostrando el campo con error aunque se haya seleccionado la otra opción
+          });
+          break;
+        case "bankTransfer": //Fue elegida transferencia bancaria
+          chosenPaymentMethodInputs = bankTransferControls
+          bankTransferControls.forEach(control => {//Controles de pago con transferencia
+            control.removeAttribute("disabled"); //Los habilita
+          });
+          creditCardControls.forEach(control => { //Controles de pago con tarjeta
+            control.setAttribute("disabled", ""); //Los deshabilita
+            control.classList.remove("is-invalid") //Para evitar que se siga mostrando el campo con error aunque se haya seleccionado la otra opción
+          });
+          break;
+      }
+      displayMethod.innerHTML = `${e.target.nextElementSibling.innerHTML}`; //Se muestra la opción elegida
     })
+  })
 };
 //Función que mejora visualmente la experiencia de usuario al ser llamada en eventos 
-function validateInput(input){
-  if (!input.checkValidity() || input.value.trim() == ""){
+  //Muestra la validación del elemento en tiempo real
+function validateInput(input) {
+  if (!input.checkValidity()) {
     input.classList.add("is-invalid");
     input.classList.remove("is-valid")
   } else {
@@ -220,80 +217,70 @@ function validateForm() {
   //Radios del modal
   let creditCard = document.getElementById("creditCard");
   let bankTransfer = document.getElementById("bankTransfer");
-  //Inputs del modal
-  let creditCardControls = document.querySelectorAll(".credit-card-form-control");
-  let bankTransferControls = document.querySelectorAll(".bank-transfer-form-control");
   //Check
   let paymentMethodCheck = document.getElementById("paymentMethodCheck");
-  //Variables bandera
-  let isNumValid = true; //Para la cantidad
-  let isPaymentValid = true; //Para los inputs del método pago
-
+ 
   paymentMethod(); //Para que se deshabiliten los campos de la opción no elegida
-
+  
   form.addEventListener("submit", (e) => {
-    e.preventDefault(); //Prevengo que se suba porque en este caso no es necesario
+    e.preventDefault(); //Se previene el submit porque en este caso no es necesario, solo se va a simular la compra
     e.stopPropagation();
     form.classList.add("was-validated");
-    //Para los input de cantidad, chequea que no estén vacíos y que cumplan con minlength
-    for (let i = 0; i < quantityInputs.length; i++) {
-      let input = quantityInputs[i];
-      if (!input.checkValidity()){
-        input.classList.add("is-invalid");
-        isNumValid = false;
-      } else if (input.checkValidity()) {
-        isNumValid = true;
-        input.classList.remove("is-invalid");
-      }
-      input.addEventListener("input", ()=> { //Para que luego del submit se visualice en tiempo real (experiencia de usuario)
-        validateInput(input)
-      }); 
-    }
 
+    //Para los input de cantidad, muestra su estado de validación onsubmit y luego en tiempo real, no es necesario chequear su validez por el atributo form
+    quantityInputs.forEach(input => {
+      validateInput(input)
+      input.addEventListener("input", ()=> {
+        validateInput(input)
+      })
+    })
     //Se chequean los métodos de pago del modal
       //Si fue elegido el método de tarjeta de crédito
-    if (creditCard.checked){ 
-      creditCardControls.forEach(input => { //Recorre los inputs correspondientes
-        if (!input.checkValidity() || input.value.trim() == ""){ //Si no son válidos, no se valida el formulario por la variable y el check 
-          isPaymentValid = false
-          paymentMethodCheck.checked = false;
-        } else { //De lo contrario, sí se valida
-          isPaymentValid = true;
-          paymentMethodCheck.checked = true;
-        }
-        input.addEventListener("input", ()=> { //Para que luego del submit se visualice en tiempo real (experiencia de usuario)
-          validateInput(input)
+    if (creditCard.checked) {
+      //Se obtiene cada input
+      let cardNum = document.getElementById("cardNumber");
+      let secCode = document.getElementById("securityCode");
+      let expDate = document.getElementById("expDate");
+      //Y todos los anteriores
+      let creditCardControls = document.querySelectorAll(".credit-card-form-control"); 
+      if (cardNum.checkValidity() && secCode.checkValidity() && expDate.checkValidity()){ //Si todos son válidos
+        paymentMethodCheck.checked = true; //Se chequea el checkbox
+      } else {
+        paymentMethodCheck.checked = false;
+      }
+      creditCardControls.forEach(control => { //Se muestra el estado de validación para cada control luego del submit
+        validateInput(control)
+        control.addEventListener("input", () => { //Y luego en tiempo real
+          validateInput(control);
         })
       })
-        //Si fue elegido el método de transferencia bancaria, realiza lo mismo que para el método anterior
-    } else if (bankTransfer.checked){
-      bankTransferControls.forEach(input => {
-        if (!input.checkValidity() || input.value.trim() == ""){
-          isPaymentValid = false
-          paymentMethodCheck.checked = false;
-        } else{
-          isPaymentValid = true;
-          paymentMethodCheck.checked = true;
-        }
-        input.addEventListener("input", ()=> {
-          validateInput(input)
-        })
+      //Si fue elegido el método de transferencia bancaria, realiza lo mismo que para el método anterior
+    } else if (bankTransfer.checked) {
+      let bankAccNum = document.getElementById("bankAccNum");
+      validateInput(bankAccNum)
+      if (bankAccNum.checkValidity()){
+        paymentMethodCheck.checked = true;
+      } else {
+        paymentMethodCheck.checked = false;
+      }
+      bankAccNum.addEventListener("input", ()=> {
+        validateInput(bankAccNum)
       })
     }
-
-    //Se sube solo si están todos los campos y cumplen con lo requerido
-    if (form.checkValidity() && isNumValid && isPaymentValid) {
+//Se sube solo si todos los campos cumplen con lo requerido (atributos: required, pattern, min)
+    if (form.checkValidity()) {
       document.getElementById("buy-alert-success").classList.replace("d-none", "d-block"); //Se muestra el mensaje de éxito
-      let allCartItems = document.querySelectorAll(".cart-row"); 
+      let allCartItems = document.querySelectorAll(".cart-row");
       allCartItems.forEach(cartItem => {
-       removeCartItem(cartItem.dataset.id);//Se remueven los items del carrito para simular la compra
+        removeCartItem(cartItem.dataset.id);//Se remueven los items del carrito para simular la compra
       });
       document.getElementById("cart-content").innerHTML = `
       <h4 class="text-center fs-5 text-secondary">
       <span class="fa-solid fa-triangle-exclamation"></span> Ya no tienes productos en tu carrito 
       <span class="fa-solid fa-triangle-exclamation"></span>
       </h4>` //Se avisa al usuario que no hay más productos
-    }
+    
+    } //else {e.preventDefault()} -> no se utiliza porque la idea fue simular la compra, no subirlo
   })
 }
 
@@ -306,10 +293,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (result.status === "ok") {
       fetchedCart = result.data.articles; //se almacenan solo los artículos
       localStorage.setItem("fetchedItems", JSON.stringify(fetchedCart)); //Se guarda en local el carrito traído del servidor
-      getCurrencyRate().then(() => {
-        showCartProducts(fetchedCart);
-        retrieveLocalCart();
-        validateForm();
+      getCurrencyRate().then(() => { //Función asíncrona (definida en init.js) que obtiene el valor de exchangeRate de la petición o de la cookie si está disponible
+        showCartProducts(fetchedCart); //Luego se muestran los productos del carrito obtenido con la petición
+        retrieveLocalCart(); //Se chequea el almacenamiento local para mostrar productos si los hay
+        validateForm(); //Se valida el formulario
       });
     }
   })
