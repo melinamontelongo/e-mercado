@@ -84,6 +84,9 @@ function showUser() {
 </li>`
   document.getElementById("log-out").addEventListener("click", function () {
     localStorage.removeItem("user");
+    localStorage.removeItem("userProfile");
+    localStorage.removeItem("userProfilePic");
+    localStorage.removeItem("userCart");
     sessionStorage.removeItem("user");
     window.location = "login.html";
   })

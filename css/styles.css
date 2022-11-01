@@ -257,7 +257,11 @@ a.custom-card:hover {
   opacity: 0.8;
   
 }
-
+#userProfilePic{
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+}
 /* Icons colouring */
 .fa-star.checked{
 color: #ffd753;
