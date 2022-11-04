@@ -262,6 +262,14 @@ a.custom-card:hover {
   height: 5rem;
   object-fit: cover;
 }
+
+#droppedImages > li > img{
+  width: 5rem;
+  height:5rem;
+  object-fit: cover;
+  float: right;
+}
+ 
 /* Icons colouring */
 .fa-star.checked{
 color: #ffd753;

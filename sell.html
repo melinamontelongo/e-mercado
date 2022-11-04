@@ -47,11 +47,11 @@
     <div class="row justify-content-md-center">
       <div class="col-md-8 order-md-1">
         <h4 class="mb-3">Información del producto</h4>
-        <form class="needs-validation" id="sell-info">
+        <form class="needs-validation" id="sell-info" novalidate>
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="productName">Nombre</label>
-              <input type="text" class="form-control" id="productName" value="" name="productName">
+              <input type="text" class="form-control" id="productName" value="" name="productName" required>
               <div class="invalid-feedback">
                 Ingresa un nombre
               </div>
@@ -61,16 +61,21 @@
             <div class="col-md-8 order-md-1">
               <label>Imágenes</label>
               <div class="needsclick dz-clickable" id="file-upload">
-                <div class="dz-message needsclick">
-                  Arrastra tus fotos aquí<br>
+                <div class="dz-message needsclick" id="drop-area">
+                  Arrastra tus fotos aquí
                 </div>
+              </div>
+              <div>
+                <ul class="list-group" id="droppedImages">
+
+                </ul>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12 mb-3">
               <label for="productDescription">Descripción</label>
-              <textarea name="productDescription" class="form-control" id="productDescription"></textarea>
+              <textarea name="productDescription" class="form-control" id="productDescription" required></textarea>
             </div>
           </div>
           <div class="row">
@@ -97,7 +102,7 @@
           <div class="row">
             <div class="col-md-7 mb-3">
               <label for="productCategory">Categoría</label>
-              <select name="productCategory" class="custom-select form-select d-block w-100" id="productCategory">
+              <select name="productCategory" class="custom-select form-select d-block w-100" id="productCategory" required>
                 <option value="">Elija la categoría...</option>
                 <option>Autos</option>
                 <option>Juguetes</option>
@@ -166,7 +171,7 @@
             </li>
           </ul>
           <hr class="mb-4">
-          <button class="btn btn-primary btn-lg" type="submit">Vender</button>
+          <button class="btn btn-outline-dark btn-lg" type="submit">Vender</button>
         </form>
       </div>
     </div>
@@ -188,8 +193,9 @@
     </footer>
   </div>
 
-  <div class="alert alert-primary-dismissible fade" id="alertResult" role="alert">
+  <div class="alert alert-success alert-dismissible fade text-center" id="alertResult" role="alert">
     <span id="resultSpan"></span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 
   <div class="modal fade" tabindex="-1" role="dialog" id="contidionsModal">
