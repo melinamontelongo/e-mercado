@@ -84,8 +84,8 @@ function showUser() {
 </li>`
   document.getElementById("log-out").addEventListener("click", function () {
     localStorage.removeItem("user");
-    localStorage.removeItem("userProfile");
-    localStorage.removeItem("userProfilePic");
+/*     localStorage.removeItem("userProfile");
+    localStorage.removeItem("userProfilePic"); */
     localStorage.removeItem("userCart");
     sessionStorage.removeItem("user");
     window.location = "login.html";
@@ -119,8 +119,10 @@ function USDConversion(cost){
   //Función que obtiene el valor de cambio de UYU a USD 
       //Si no existen cookies para el valor, lo obtiene mediante un fetch
   async function getCurrencyRate() {
+    showSpinner();
     if (getCookie("currencyRate")) {//Chequea si existe la cookie
       exchangeRate = await getCookie("currencyRate"); 
+      hideSpinner();
     } else {
       let reqURL = `https://api.apilayer.com/exchangerates_data/latest?symbols=${PESO_SYMBOL}&base=${DOLLAR_SYMBOL}`
       let reqHeader = new Headers();
@@ -133,6 +135,7 @@ function USDConversion(cost){
       let dataRequest = await fetch(reqURL, reqOptions)
       let data = await dataRequest.json()
       exchangeRate = data.rates.UYU;
+      hideSpinner();
       setCookie("currencyRate", exchangeRate, 1) //Para que el valor se actualice cada día
     }
   }
