@@ -7,13 +7,8 @@ const shippingStandardFee = 0.05;
 let subtotalCost = 0;
 let shippingFee = 0;
 
-//Arrays para los productos del servidor y locales
-let fetchedCart = [];
-let localCart = [];
-
-//Carrito local
-let storedLocalCart = JSON.parse(localStorage.getItem("userCart"));
-let storedFetchedCart = JSON.parse(localStorage.getItem("fetchedItems"))
+//Donde irá el carrito del usuario
+let userCart = [];
 
 //Donde irán los productos del carrito
 let cartProductsContainer = document.getElementById("cartProducts");
@@ -61,6 +56,8 @@ function showCartProducts(cartArray) {
       currentValue = parseInt(document.getElementById(`quantity${cartProd.id}`).value);
       document.getElementById(`subtotal${cartProd.id}`).innerHTML = `${cartProd.currency} ${cartProd.unitCost * currentValue}`
     }
+  } else {
+    createBSAlert(`<span class="fa-solid fa-triangle-exclamation"></span> Parece que no tienes productos en tu carrito. <a class="link-secondary" href="categories.html">Encuentra lo que buscas</a>`, "warning");
   }
   setTotalCost();
 }
@@ -74,44 +71,37 @@ function setSubtotalByQuantity(id, currency, cost) {
   }
   setTotalCost();
 }
-//Función que actualiza la cantidad en localStorage
+//Función que actualiza la cantidad en la base de datos
 function updateStorageQuantity(productID, quantity) {
-  let itemToUpdate = undefined;
-  if (fetchedCart.find(item => item.id == productID) != undefined) {//Si el producto está en el array de los traídos con la petición
-    itemToUpdate = storedFetchedCart.find(item => item.id == productID);
-    itemToUpdate.count = parseInt(quantity);
-    localStorage.setItem("fetchedItems", JSON.stringify(storedFetchedCart));
-  }
-  else if (localCart.find(item => item.id == productID) != undefined) { //O si es uno agregado de forma local
-    itemToUpdate = storedLocalCart.find(item => item.id == productID); //Lo encuentra
-    itemToUpdate.count = parseInt(quantity); //Le actualiza la cantidad
-    localStorage.setItem("userCart", JSON.stringify(storedLocalCart)); //Lo almacena con el cambio
+  let itemToUpdate = userCart.find(item => item.id == productID);
+  if (quantity > 0){
+    itemToUpdate.count = parseInt(quantity)
+    let updatedQuantity = {
+      "userCart": userCart,
+    }
+    putInfo(updatedQuantity, currentUserID, USERS_URL).then((res) => { console.log(res)})
   }
 }
-//Chequea si hay items en el carrito local y los muestra
-function retrieveLocalCart() {
-  if (storedLocalCart) {
-    localCart = storedLocalCart;
-    showCartProducts(localCart)
-  }
-}
-//Llamada en el ícono de eliminar
+//Llamada en el ícono de eliminar y al momento de simular la compra
 //Elimina el item
 function removeCartItem(id) {
-  if (storedLocalCart) {
-    for (let i = 0; i < storedLocalCart.length; i++) {
-      let item = storedLocalCart[i];
-      //si el id del producto almacenado coincide con el que quiere remover el usuario
-      if (item.id == id) {
-        //lo remueve del array
-        storedLocalCart.splice(i, 1)
-        //sobre-escribe el array en localStorage pero sin el producto eliminado
-        localStorage.setItem("userCart", JSON.stringify(storedLocalCart))
-      }
-    }
+  let itemToRemove = userCart.find(item => item.id === id);
+  let itemIndex = userCart.indexOf(itemToRemove);
+  userCart.splice(itemIndex, 1);
+  let newCart = {
+    "userCart": userCart
   }
-  document.getElementById(`cartProduct${id}`).innerHTML = "";
-  setTotalCost();
+  putInfo(newCart, currentUserID, USERS_URL).then(res => {
+    if (res.status === "ok"){
+      let elementToRemove = document.getElementById(`cartProduct${id}`);
+      if (elementToRemove != null){
+        elementToRemove.innerHTML = "";
+      }
+      setTotalCost();
+    } else {
+      createBSAlert("No se ha podido eliminar, intente nuevamente", "danger");
+    }
+  });
 }
 //Función que determina el costo total del carrito(subtotal, tarifa de envío y total)
 function setTotalCost() {
@@ -198,7 +188,7 @@ function paymentMethod() {
   })
 };
 //Función que mejora visualmente la experiencia de usuario al ser llamada en eventos 
-  //Muestra la validación del elemento en tiempo real
+//Muestra la validación del elemento en tiempo real
 function validateInput(input) {
   if (!input.checkValidity()) {
     input.classList.add("is-invalid");
@@ -219,9 +209,9 @@ function validateForm() {
   let bankTransfer = document.getElementById("bankTransfer");
   //Check
   let paymentMethodCheck = document.getElementById("paymentMethodCheck");
- 
+
   paymentMethod(); //Para que se deshabiliten los campos de la opción no elegida
-  
+
   form.addEventListener("submit", (e) => {
     e.preventDefault(); //Se previene el submit porque en este caso no es necesario, solo se va a simular la compra
     e.stopPropagation();
@@ -230,20 +220,20 @@ function validateForm() {
     //Para los input de cantidad, muestra su estado de validación onsubmit y luego en tiempo real, no es necesario chequear su validez por el atributo form
     quantityInputs.forEach(input => {
       validateInput(input)
-      input.addEventListener("input", ()=> {
+      input.addEventListener("input", () => {
         validateInput(input)
       })
     })
     //Se chequean los métodos de pago del modal
-      //Si fue elegido el método de tarjeta de crédito
+    //Si fue elegido el método de tarjeta de crédito
     if (creditCard.checked) {
       //Se obtiene cada input
       let cardNum = document.getElementById("cardNumber");
       let secCode = document.getElementById("securityCode");
       let expDate = document.getElementById("expDate");
       //Y todos los anteriores
-      let creditCardControls = document.querySelectorAll(".credit-card-form-control"); 
-      if (cardNum.checkValidity() && secCode.checkValidity() && expDate.checkValidity()){ //Si todos son válidos
+      let creditCardControls = document.querySelectorAll(".credit-card-form-control");
+      if (cardNum.checkValidity() && secCode.checkValidity() && expDate.checkValidity()) { //Si todos son válidos
         paymentMethodCheck.checked = true; //Se chequea el checkbox
       } else {
         paymentMethodCheck.checked = false;
@@ -258,46 +248,40 @@ function validateForm() {
     } else if (bankTransfer.checked) {
       let bankAccNum = document.getElementById("bankAccNum");
       validateInput(bankAccNum)
-      if (bankAccNum.checkValidity()){
+      if (bankAccNum.checkValidity()) {
         paymentMethodCheck.checked = true;
       } else {
         paymentMethodCheck.checked = false;
       }
-      bankAccNum.addEventListener("input", ()=> {
+      bankAccNum.addEventListener("input", () => {
         validateInput(bankAccNum)
       })
     }
-//Se sube solo si todos los campos cumplen con lo requerido (atributos: required, pattern, min)
+    //Se sube solo si todos los campos cumplen con lo requerido (atributos: required, pattern, min)
     if (form.checkValidity()) {
-      document.getElementById("buy-alert-success").classList.replace("d-none", "d-block"); //Se muestra el mensaje de éxito
+      createBSAlert(`<span class="fa-solid fa-check"></span> ¡Tu compra se ha realizado con éxito!`, "success")
       let allCartItems = document.querySelectorAll(".cart-row");
       allCartItems.forEach(cartItem => {
         removeCartItem(cartItem.dataset.id);//Se remueven los items del carrito para simular la compra
       });
-      document.getElementById("cart-content").innerHTML = `
-      <h4 class="text-center fs-5 text-secondary">
-      <span class="fa-solid fa-triangle-exclamation"></span> Ya no tienes productos en tu carrito 
-      <span class="fa-solid fa-triangle-exclamation"></span>
-      </h4>` //Se avisa al usuario que no hay más productos
-    
-    } //else {e.preventDefault()} -> no se utiliza porque la idea fue simular la compra, no subirlo
+      let allInputs = document.querySelectorAll(".form-control");
+      allInputs.forEach(input => { //Vacía los inputs para simular el envío
+        input.value = "";
+      });
+      form.classList.remove("was-validated");
+    }
   })
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   showUser();
-  //por esta vez el usuario es estático
-  let user = 25801;
-  //se concatena para obtener la información 
-  getJSONData(CART_INFO_URL + user + EXT_TYPE).then(result => { //petición al carrito del user
-    if (result.status === "ok") {
-      fetchedCart = result.data.articles; //se almacenan solo los artículos
-      localStorage.setItem("fetchedItems", JSON.stringify(fetchedCart)); //Se guarda en local el carrito traído del servidor
-      getCurrencyRate().then(() => { //Función asíncrona (definida en init.js) que obtiene el valor de exchangeRate de la petición o de la cookie si está disponible
-        showCartProducts(fetchedCart); //Luego se muestran los productos del carrito obtenido con la petición
-        retrieveLocalCart(); //Se chequea el almacenamiento local para mostrar productos si los hay
-        validateForm(); //Se valida el formulario
-      });
+  getSpecificInfo(currentUserID, USERS_URL).then((res) => {
+    if (res.status === "ok") {
+      getCurrencyRate().then(() => {
+        userCart = res.data.userCart;
+        showCartProducts(userCart)
+        validateForm();
+      })
     }
   })
 })

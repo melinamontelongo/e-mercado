@@ -1,10 +1,11 @@
 //Variables donde se guardará la información obtenida con getJSONData
 let productInfo = [];
-let productComments = [];
-let userCart = [];
+let productComments = []; //para los comentarios que vienen del "servidor"
+//let userCart = [];
 let currentProduct = localStorage.getItem("productID"); //Obtiene el ID de producto
 let commentsContainer = document.getElementById("productComments") //Donde se cargarán los comentarios
-let carousel //Será el carousel (todavía no existe).
+let carousel; //Será el carousel (todavía no existe).
+let userAlreadyCommented = false;
 
 //Función para mostrar la información del producto a partir de lo almacenado en productInfo
 function showProductInfo() {
@@ -56,15 +57,15 @@ function showProductInfo() {
     showRelatedProducts();
 }
 //Función que chequea la moneda en la que está el producto para mostrar su valor en dólares si está en pesos
-function checkCurrency(product){
-    if (product.currency == PESO_SYMBOL){
+function checkCurrency(product) {
+    if (product.currency == PESO_SYMBOL) {
         let itemToModify = document.getElementById("product-currency-cost")
         let convertedCost = USDConversion(product.cost);
         itemToModify.innerHTML += ` - <span class="fw-bolder">${DOLLAR_SYMBOL} ${convertedCost}</span>`
     }
 }
- //Para mostrar las imágenes:
-function showProductImages(){
+//Para mostrar las imágenes:
+function showProductImages() {
     let images = productInfo.images;  //las obtiene
     carousel = document.getElementById("carouselInner");
     for (let i = 0; i < images.length; i++) {   //e itera según su cantidad para mostrarlas
@@ -77,12 +78,12 @@ function showProductImages(){
     }
     carousel.firstElementChild.classList.add("active"); //le agrega la clase active al primer elemento para que funcione el carrusel
 }
-function responsiveCarousel(){
+function responsiveCarousel() {
     //Validación para mostrar el modal solo en pantallas grandes
     let largeScreen = window.matchMedia("(min-width: 992px)");
-    if (largeScreen.matches){
-    //Escucha de eventos para cuando el usuario haga click en la imagen, se muestre en un modal
-    carousel.addEventListener("mouseup", function(){
+    if (largeScreen.matches) {
+        //Escucha de eventos para cuando el usuario haga click en la imagen, se muestre en un modal
+        carousel.addEventListener("mouseup", function () {
             carousel.setAttribute("data-bs-target", "#prodImgModal")
             carousel.setAttribute("data-bs-toggle", "modal")
             let modalImg = document.getElementById("modal-img");
@@ -91,7 +92,7 @@ function responsiveCarousel(){
     }
 }
 //Para mostrar productos relacionados:
-function showRelatedProducts(){
+function showRelatedProducts() {
     let relProdArray = productInfo.relatedProducts;
     for (let i = 0; i < relProdArray.length; i++) {
         let relatedProduct = relProdArray[i];
@@ -106,14 +107,11 @@ function showRelatedProducts(){
         </div>
     </div>
         `
-    }  
+    }
 }
 //Función para agregar el producto al carrito
-function addToCart(){
-let alreadyExists = false; //variable bandera, para saber si ya existe -o no- un item en el carrito
-
-//se define un nuevo objeto con la estructura que viene del servidor
-    newItem = {
+function addToCart() {
+    let newItem = {
         "id": productInfo.id,
         "name": productInfo.name,
         "count": 1,
@@ -121,45 +119,39 @@ let alreadyExists = false; //variable bandera, para saber si ya existe -o no- un
         "currency": productInfo.currency,
         "image": productInfo.images[0]
     }
-//Si hay carrito local del usuario
-    if (localStorage.getItem("userCart")){ 
-     userCart = JSON.parse(localStorage.getItem("userCart")); //lo obtiene
-     userCart.forEach(item => { //lo recorre y verifica si coincide el id del nuevo producto con uno ya existente
-        if (item.id == newItem.id){
-            item.count += 1
-            localStorage.setItem("userCart", JSON.stringify(userCart));
-            alreadyExists = true; //Ya existe en local, no se puede agregar.
-        }
-     })
-    }
-//Si hay elementos que vienen del servidor
-    if (localStorage.getItem("fetchedItems")){ 
-        let fetchedItems = JSON.parse(localStorage.getItem("fetchedItems")) //Los obtiene
-        fetchedItems.forEach(item => { //los recorre 
-            if (item.id == newItem.id){
-            item.count += 1; //Igual no se va a cambiar porque esto viene del "servidor" // Habría que hacer un post
-            localStorage.setItem("fetchedItems", JSON.stringify(fetchedItems));
-            alreadyExists = true; //Ya existe un item igual traído desde el servidor, no se puede agregar.
+    //Petición al usuario para obtener su carrito
+    getSpecificInfo(currentUserID, USERS_URL).then((res) => {
+        if (res.status === "ok") {
+            let userCart = res.data.userCart; //Obtiene le carrito del usuario
+            let isRepeated = userCart.find(item => item.id == newItem.id); //Item ya existente o undefined si no existe
+            if (isRepeated != undefined) { //Si ya existe el mismo item en el carrito
+                isRepeated.count++; //Le agrega 1 en cantidad
+            } else { //Si no existe el mismo item
+                userCart.push(newItem); //Lo agrega al carrito
             }
-        });
-    }
-    if (!alreadyExists){ //Si no existe el item en local o desde el servidor
-    userCart.push(newItem) //lo agrega al array (vacío o conteniendo los items locales)
-    localStorage.setItem(`userCart`, JSON.stringify(userCart))  //y lo guarda en localStorage
-    }
-    window.location.href = "cart.html" //redirecciona al carrito
+            let newCart = { //Define el carrito que se va a enviar (contiene los items ya existentes y el nuevo)
+                "userCart": userCart
+            }
+            putInfo(newCart, currentUserID, USERS_URL).then(res => { //Solicitud para enviar el carrito nuevo
+                if (res.status === "ok") {
+                    createBSAlert("Producto agregado correctamente", "success")
+                    window.location = "cart.html";
+                }
+            });
+        } else {
+            createBSAlert("Ha ocurrido un error. Intenta más tarde", "danger");
+        }
+    })
 }
 //Función para mostrar los comentarios obtenidos a partir de la solicitud:
 //Si no hay comentarios (en la lista o en localStorage), muestra un div alertando al usuario
 //Si hay, itera sobre ellos y los muestra
 function showComments() {
-
-    if (productComments == "" && !localStorage.getItem(`${currentProduct}`)) {
-        commentsContainer.innerHTML += `<div id="no-comments-alert"class="list-group list-group-item shadow p-3 mb-2 bg-body rounded border-0 text-muted">
-        <p class="lead text-center"><span class="fa-solid fa-comment-slash"></span>Aún no hay comentarios ¡Sé el primero!</p>
-        </div>`
-
-    } else {
+    if (productComments.length === 0) {
+                commentsContainer.innerHTML += `<div id="no-comments-alert"class="list-group list-group-item shadow p-3 mb-2 bg-body rounded border-0 text-muted">
+                <p class="lead text-center"><span class="fa-solid fa-comment-slash"></span>Aún no hay comentarios ¡Sé el primero!</p>
+                </div>`
+    } else  { 
         for (let i = 0; i < productComments.length; i++) {
             let comment = productComments[i];
             commentsContainer.innerHTML += `<div class="list-group list-group-item shadow p-3 mb-2 bg-body rounded border-0">
@@ -196,23 +188,28 @@ function addStars(score) {
 //Elimina la alerta de que no hay comentarios
 //Limpia los campos e inhabilita el botón
 function addUserComment() {
-    productComments = []; //Vacía el array para no duplicar elementos
-    let newComment = document.getElementById("userComment");
-    let newScore = document.getElementById("userScore");
-    let dateTime = new Date().toLocaleString().replaceAll("/", "-").replace(",", ""); //Conversión a string y al formato de los demás comentarios
-
-    let userComment = { product: parseInt(currentProduct), score: parseInt(newScore.value), description: newComment.value, dateTime: dateTime, user: getUser() }
-    localStorage.setItem(`${currentProduct}`, JSON.stringify(userComment));
-    productComments.push(userComment);
-
-    let noComments = document.getElementById("no-comments-alert")
-    if (noComments != null) {
-        noComments.remove()
+    let noCommentsAlert = document.getElementById("no-comments-alert");
+    let commentInput = document.getElementById("userComment");
+    let scoreInput = document.getElementById("userScore");
+    let dateTime = new Date().toLocaleString().replaceAll("/", "-").replace(",", "")
+    let userProductComments = { //Objeto que será guardado en la base de datos, con los comentarios ya existentes y el nuevo (del usuario)
+        "product": currentProduct, 
+        "comments": []
     }
-
-    newComment.value = "";
-    newScore.value = "";
-    document.getElementById("sendInfo").setAttribute("disabled", "")
+    let newComment = { //Define el nuevo comentario
+        "score": parseInt(scoreInput.value),
+        "description": commentInput.value,
+        "user": getUser(),
+        "dateTime": dateTime
+    }
+    productComments.forEach(comment => {userProductComments.comments.push(comment)}) //Pushea los comentarios ya existentes al objeto que será guardado en la base de datos
+    userProductComments.comments.push(newComment); //Pushea el comentario nuevo
+    putInfo(userProductComments, currentProductDB_ID, COMMENTS_URL).then(res => console.log(res))
+    productComments = [] //Vacía el array para que solo muestre el nuevo comentario
+    productComments.push(newComment); //Pushea el nuevo comentario al array para que solo muestre ese
+    if (noCommentsAlert != null){
+        noCommentsAlert.remove()
+    }
 }
 
 //Función que valida los campos con bootstrap
@@ -222,55 +219,51 @@ function addUserComment() {
 //Llama a addUserComment() y showComments() para añadir y mostrar los comentarios
 function validateUserComment() {
     let form = document.getElementById("submitComment");
-    form.addEventListener('submit', event => {
-        event.preventDefault()
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        e.stopPropagation();
         form.classList.add('was-validated')
         if (form.checkValidity()) {
             form.classList.remove('was-validated');
-            addUserComment();
-            showComments();
+            if (!userAlreadyCommented){ //Si el usuario no ha comentado
+                addUserComment(); //Agrega el comentario
+                showComments(); //Lo muestra junto a los demás
+            } else { //Sino muestra mensaje de error
+                createBSAlert("Ya has comentado en este producto", "danger");
+            }
         }
     })
-}
-
-//Función que obtiene el comentario del usuario almacenado (si existe)
-//Lo agrega al array de comentarios
-//Deshabilita el botón
-//Llama a showComments() para mostrarlo junto a los demás
-function retrieveUserComment() {
-    let userComment = JSON.parse(localStorage.getItem(`${currentProduct}`))
-    if (userComment) {
-        productComments.push(userComment)
-        document.getElementById("sendInfo").setAttribute("disabled", "") //Una vez enviado el comentario, no se le permite añadir más
-        showComments();
-    }
 }
 
 //Cuando se carga el documento
-//Solicita la información del producto actual y si se resuelve:
-    //Muestra la info
-//Solicita los comentarios del producto actual y si se resuelve:
-    //Muestra los comentarios
 //Llama a la función que muestra al usuario
-//y a las que gestionan los comentarios realizados por el usuario
+//Solicita la información del producto actual y si se resuelve:
+//Muestra la info
+//Solicita los comentarios del producto actual y si se resuelve:
+//Muestra los comentarios
+//Valida el comentario del usuario
 document.addEventListener("DOMContentLoaded", function () {
+    showUser(); //Definida en init.js, muestra al user en el nav
     getJSONData(PRODUCT_INFO_URL + currentProduct + EXT_TYPE).then(function (resultObj) {
         if (resultObj.status === "ok") {
             getCurrencyRate().then(() => {
-            productInfo = resultObj.data;
-            showProductInfo();  //Muestra la info
+                productInfo = resultObj.data;
+                showProductInfo();  //Muestra la info
             })
-            getJSONData(PRODUCT_INFO_COMMENTS_URL + currentProduct + EXT_TYPE).then(function (resultObj) {
-                if (resultObj.status === "ok") {
-                    productComments = resultObj.data;
-                    showComments(); //Muestra los comentarios
+            getInfo(COMMENTS_URL).then(res => { //Para obtener el ID con el que se almacenan los comentarios de este producto en la base de datos
+                let currentProductComments = res.find(res => res.product == currentProduct);
+                currentProductDB_ID = currentProductComments.id;
+                productComments = currentProductComments.comments;
+                let currentUserCommented = productComments.find(comment => comment.user === getUser())
+                if (currentUserCommented != undefined){
+                    userAlreadyCommented = true;
                 }
-            })
+                showComments(); 
+                validateUserComment();
+            });
+
         }
     })
-    showUser(); //Definida en init.js, muestra al user en el nav
-    validateUserComment();
-    retrieveUserComment();
 })
 
 

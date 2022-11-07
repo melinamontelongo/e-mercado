@@ -5,12 +5,17 @@ const PRODUCT_INFO_URL = "https://japceibal.github.io/emercado-api/products/";
 const PRODUCT_INFO_COMMENTS_URL = "https://japceibal.github.io/emercado-api/products_comments/";
 const CART_INFO_URL = "https://japceibal.github.io/emercado-api/user_cart/";
 const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
+const USERS_URL = `https://63645a8f8a3337d9a2f5d652.mockapi.io/users/` //"base de datos" de todos los usuarios
+const COMMENTS_URL = `https://63645a8f8a3337d9a2f5d652.mockapi.io/comments/` //"base de datos" de comentarios agregados por los usuarios
 const EXT_TYPE = ".json";
 //Símbolos de monedas que utiliza la página
 const DOLLAR_SYMBOL = "USD";
 const PESO_SYMBOL = "UYU";
 //Valor de cambio de UYU a USD
 let exchangeRate = undefined;
+
+let currentUserID = localStorage.getItem("userID");
+let currentProductDB_ID = undefined;
 
 let showSpinner = function () {
   document.getElementById("spinner-wrapper").style.display = "block";
@@ -52,16 +57,16 @@ function setProductID(id) {
 }
 
 //Modularización para obtener el usuario para las funcionalidades que lo requieran
-function getUser(){   
+function getUser() {
   let user = "";
-  if (localStorage.getItem("user")){
+  if (localStorage.getItem("user")) {
     user = localStorage.getItem("user");
     return user
-  } else if (sessionStorage.getItem("user")){
+  } else if (sessionStorage.getItem("user")) {
     user = sessionStorage.getItem("user");
     return user
   } else {
-    window.location = "login.html" 
+    window.location = "login.html"
   }
 }
 
@@ -84,58 +89,159 @@ function showUser() {
 </li>`
   document.getElementById("log-out").addEventListener("click", function () {
     localStorage.removeItem("user");
-/*     localStorage.removeItem("userProfile");
-    localStorage.removeItem("userProfilePic"); */
+    /*     localStorage.removeItem("userProfile");
+        localStorage.removeItem("userProfilePic"); */
     localStorage.removeItem("userCart");
     sessionStorage.removeItem("user");
     window.location = "login.html";
   })
 }
-
+//Función que crea alertas de bootstrap personalizadas
+function createBSAlert(message, type) {
+  let newAlertContainer = document.createElement("div"); //Crea el elemento contenedor
+  document.body.append(newAlertContainer); //Lo agrega al body
+  let newAlert = document.createElement('div');//Crea el que contiene la alerta
+  let alertID = Math.round(Math.random() * 1000); //Le agrega un id aleatorio para referenciarlo
+  newAlert.innerHTML = //Define su contenido de acuerdo a los parámetros especificados (tipo y mensaje)
+    `<div class="alert alert-${type} alert-dismissible text-center" id="alert${alertID}" role="alert">
+         <span>${message}</span>
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>`
+  newAlertContainer.append(newAlert); //Agrega la alerta al contenedor
+  document.getElementById(`alert${alertID}`).classList.add("show"); //Obtiene la alerta y la muestra
+}
 //Almacena una cookie 
-  //Se utiliza para setear el cambio del día
-  function setCookie(cName, cValue, exDays){
-    let date = new Date();
-    date.setTime(date.getTime() + (exDays*24*60*60*1000))
-    let expires = `expires=${date.toUTCString()}`;
-    document.cookie = `${cName}=${cValue};${expires};path=/`;
-  }
-  //Obtiene una cookie
-    //Se utiliza para obtener el cambio del día
-  function getCookie(cName) {
-    let cookie = {};
-    document.cookie.split(';').forEach( (c)=> {
-    let [key,value] = c.split('=');
+//Se utiliza para setear el cambio del día
+function setCookie(cName, cValue, exDays) {
+  let date = new Date();
+  date.setTime(date.getTime() + (exDays * 24 * 60 * 60 * 1000))
+  let expires = `expires=${date.toUTCString()}`;
+  document.cookie = `${cName}=${cValue};${expires};path=/`;
+}
+//Obtiene una cookie
+//Se utiliza para obtener el cambio del día
+function getCookie(cName) {
+  let cookie = {};
+  document.cookie.split(';').forEach((c) => {
+    let [key, value] = c.split('=');
     cookie[key.trim()] = value;
   })
-    return cookie[cName]; 
-  }
+  return cookie[cName];
+}
 //Realiza la conversión de UYU a USD
-function USDConversion(cost){
+function USDConversion(cost) {
   let result;
   result = Math.round(cost / exchangeRate)
   return result
 }
-  //Función que obtiene el valor de cambio de UYU a USD 
-      //Si no existen cookies para el valor, lo obtiene mediante un fetch
-  async function getCurrencyRate() {
-    showSpinner();
-    if (getCookie("currencyRate")) {//Chequea si existe la cookie
-      exchangeRate = await getCookie("currencyRate"); 
-      hideSpinner();
-    } else {
-      let reqURL = `https://api.apilayer.com/exchangerates_data/latest?symbols=${PESO_SYMBOL}&base=${DOLLAR_SYMBOL}`
-      let reqHeader = new Headers();
-      reqHeader.append("apikey", "6K8EIKfAxplcDrl3Ee39iZXAFUnmW1KZ");
-      let reqOptions = {
-        method: 'GET',
-        redirect: 'follow',
-        headers: reqHeader
-      };
-      let dataRequest = await fetch(reqURL, reqOptions)
-      let data = await dataRequest.json()
-      exchangeRate = data.rates.UYU;
-      hideSpinner();
-      setCookie("currencyRate", exchangeRate, 1) //Para que el valor se actualice cada día
-    }
+//Función que obtiene el valor de cambio de UYU a USD 
+//Si no existen cookies para el valor, lo obtiene mediante un fetch
+async function getCurrencyRate() {
+  showSpinner();
+  if (getCookie("currencyRate")) {//Chequea si existe la cookie
+    exchangeRate = await getCookie("currencyRate");
+    hideSpinner();
+  } else {
+    let reqURL = `https://api.apilayer.com/exchangerates_data/latest?symbols=${PESO_SYMBOL}&base=${DOLLAR_SYMBOL}`
+    let reqHeader = new Headers();
+    reqHeader.append("apikey", "6K8EIKfAxplcDrl3Ee39iZXAFUnmW1KZ");
+    let reqOptions = {
+      method: 'GET',
+      redirect: 'follow',
+      headers: reqHeader
+    };
+    let dataRequest = await fetch(reqURL, reqOptions)
+    let data = await dataRequest.json()
+    exchangeRate = data.rates.UYU;
+    hideSpinner();
+    setCookie("currencyRate", exchangeRate, 1) //Para que el valor se actualice cada día
   }
+}
+//Función asíncrona que realiza un post request con la info del parámetro
+async function postInfo(info, url) {
+  let result = {};
+  showSpinner();
+  let reqOptions = {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(info)
+  };
+  try {
+    let postReq = await fetch(url, reqOptions);
+    let postRes = await postReq.json();
+    if (postReq.ok) { //Si la solicitud se realizó correctamente
+      result.status = "ok"
+      result.data = postRes;
+    } 
+    hideSpinner();
+    return result;
+  } catch (error) {
+    console.error(error);
+    hideSpinner();
+    return error;
+  }
+}
+//Función asíncrona que realiza un get request a todos los usuarios
+async function getInfo(url) {
+  showSpinner();
+  let reqOptions = {
+    method: 'GET',
+  };
+  try {
+    let postReq = await fetch(url, reqOptions);
+    let postRes = await postReq.json();
+    hideSpinner();
+    return postRes;
+  }
+  catch (error) {
+    console.error(error);
+    hideSpinner();
+    return error;
+  }
+}
+async function getSpecificInfo(id, url){
+  showSpinner();
+  let result = {};
+  let reqOptions = {
+    method: 'GET',
+  };
+  try {
+    let postReq = await fetch(url+id, reqOptions);
+    let postRes = await postReq.json();
+    if (postReq.ok){
+      result.status = "ok";
+      result.data = postRes;
+    } 
+    hideSpinner();
+    return result;
+  }
+  catch (error) {
+    console.error(error);
+    hideSpinner();
+    return error;
+  }
+}
+//Función asíncrona que realiza un put request con la info y el id de los parámetros
+async function putInfo(info, id, url) {
+  let result = {};
+  showSpinner();
+  let reqOptions = {
+    method: 'PUT',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(info)
+  };
+  try {
+    let putReq = await fetch(url + id, reqOptions);
+    let putRes = await putReq.json();
+    if (putReq.ok) { //Si la solicitud se realizó correctamente
+      result.status = "ok"
+      result.data = putRes;
+    }
+    hideSpinner();
+    return result;
+  } catch (error) {
+    console.error(error);
+    hideSpinner();
+    return error;
+  }
+}
