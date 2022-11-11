@@ -1,0 +1,20 @@
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+$enable-gradients: true;
+$btn-transition: color .5s ease-in-out, background-color .5s ease-in-out, border-color .5s ease-in-out, box-shadow .5s ease-in-out;
+$custom-colors: (
+  "indigo": #6610f2,
+  "light-indigo": #8540f5,
+  "lighter-indigo": #e0cffc,
+  "pink": #d63384,
+  "lighter-pink": #f7d6e6,
+  "teal": #20c997,
+  "lighter-teal": #d2f4ea,
+  "cyan": #0dcaf0,
+  "yellow": #ffc107
+
+);
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+@import "../node_modules/bootstrap/scss/bootstrap";

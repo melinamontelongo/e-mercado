@@ -26,7 +26,7 @@ function showCartProducts(cartArray) {
       }
       cartProductsContainer.innerHTML +=
         `
-            <tr id="cartProduct${cartProd.id}" data-id="${cartProd.id}" class="align-middle cart-row">
+            <tr id="cartProduct${cartProd.id}" data-id="${cartProd.id}" class="align-middle cart-row text-light ">
               <td class="col-2 text-center">
                 <img src="${cartProd.image}" class="img-fluid w-75 shadow bg-body rounded cart-prod-img" onclick="setProductID(${cartProd.id})"></td>
               <td class="col-2">
@@ -37,7 +37,7 @@ function showCartProducts(cartArray) {
               </td>
               <td class="col-2">
                 <div class="col-12 col-lg-6">
-                  <input type="number" min="1" class="form-control" id="quantity${cartProd.id}" name="itemQuantity${cartProd.id}" form="cartForm"
+                  <input type="number" min="1" class="form-control border border border-2 border-pink" id="quantity${cartProd.id}" name="itemQuantity${cartProd.id}" form="cartForm"
                   value="${cartProd.count}" pattern=".*\S+" oninput="setSubtotalByQuantity('${cartProd.id}', '${cartProd.currency}', '${cartProd.unitCost}')" required>
                 <div class="invalid-feedback">
                   La cantidad debe ser mayor a 0
@@ -48,7 +48,7 @@ function showCartProducts(cartArray) {
                 <p class="fw-bold" id="subtotal${cartProd.id}">${cartProd.currency} ${cartProd.unitCost}</p>
               </td>
               <td class="col-1">
-                <span class="fa-solid fa-trash-can" onclick="removeCartItem(${cartProd.id})"></span>
+                <span class="fa-solid fa-trash-can text-pink" onclick="removeCartItem(${cartProd.id})"></span>
               </td>
             </tr>
               `

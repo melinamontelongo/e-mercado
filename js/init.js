@@ -77,14 +77,14 @@ function showUser() {
   let userField = document.querySelectorAll(".nav-item")[3];
   userField.classList.add("dropdown");
   userField.innerHTML =
-    `<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    <span class="me-2 fa fa-user"></span> 
+    `<a class="nav-link link-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="me-2 fa fa-user text-dark"></span> 
     ${user}
     </a>
-<ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark text-start">
-  <li><a class="dropdown-item" href="cart.html"><span class="me-2 fa-solid fa-cart-shopping"></span>Mi carrito</a></li>
-  <li><a class="dropdown-item" href="my-profile.html"><span class="me-2 fa-solid fa-address-card"></span>Mi perfil</a></li>
-  <li><a class="dropdown-item" href="#" id="log-out"><span class="me-2 fa-solid fa-person-walking-arrow-right"></span>Cerrar sesión</a></li>
+<ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark bg-light-indigo text-start">
+  <li><a class="dropdown-item" href="cart.html"><span class="me-2 fa-solid fa-cart-shopping text-dark"></span>Mi carrito</a></li>
+  <li><a class="dropdown-item" href="my-profile.html"><span class="me-2 fa-solid fa-address-card text-dark"></span>Mi perfil</a></li>
+  <li><a class="dropdown-item" href="#" id="log-out"><span class="me-2 fa-solid fa-person-walking-arrow-right text-dark"></span>Cerrar sesión</a></li>
 </ul>
 </li>`
   document.getElementById("log-out").addEventListener("click", function () {
@@ -181,7 +181,7 @@ async function postInfo(info, url) {
     return error;
   }
 }
-//Función asíncrona que realiza un get request a todos los usuarios
+//Función asíncrona que realiza un get request a la base de datos que se requiera
 async function getInfo(url) {
   showSpinner();
   let reqOptions = {

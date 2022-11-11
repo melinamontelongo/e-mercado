@@ -30,7 +30,7 @@ function visualValidation() {
 
 //Función que muestra la información de perfil almacenada
 function showProfileInfo() {
-    //Realiza la petición
+    //Realiza la petición al ID del usuario, ya obtenido cuando se hace login
     getSpecificInfo(currentUserID, USERS_URL).then(res => {
         if (res.status === "ok"){ //Si la petición fue exitosa
             let user = res.data;
@@ -70,6 +70,8 @@ function storeProfileInfo() {
         convertPic(pictureFile);
         convertedPic = localStorage.getItem("userProfilePic");
         modifiedUser.picture = convertedPic;
+    } else {
+        modifiedUser.picture = profilePic.src;
     }
     putInfo(modifiedUser, currentUserID, USERS_URL).then((res)=>{
         if (res.status === "ok"){

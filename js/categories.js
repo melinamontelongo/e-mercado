@@ -46,10 +46,10 @@ function showCategoriesList() {
         if (!(count < minCount) && !(count > maxCount)) {   //Condiciones optimizadas
 
             htmlContentToAppend += `
-            <div onclick="setCatID(${category.id})" class="list-group-item list-group-item-action list-group-item-category cursor-active shadow p-3 mb-3 bg-body rounded border-0">
+            <div onclick="setCatID(${category.id})" class="list-group-item list-group-item-action list-group-item-category cursor-active shadow p-3 mb-3 bg-dark text-light border border-light-indigo rounded ">
                 <div class="row">
                     <div class="col-6 col-md-3">
-                        <img src="${category.imgSrc}" alt="${category.description}" class="img-thumbnail border-0">
+                        <img src="${category.imgSrc}" alt="${category.description}" class="img-thumbnail p-0 border-0">
                     </div>
                     <div class="col-12 col-md-9">
                         <div class="d-flex w-100 justify-content-between">
@@ -91,8 +91,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     getJSONData(CATEGORIES_URL).then(function (resultObj) {
         if (resultObj.status === "ok") {
             currentCategoriesArray = resultObj.data
-            showCategoriesList()
-            //sortAndShowCategories(ORDER_ASC_BY_NAME, resultObj.data);
+            sortAndShowCategories(ORDER_ASC_BY_NAME, resultObj.data);
         }
     });
 

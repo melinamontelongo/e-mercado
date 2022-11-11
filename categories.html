@@ -10,12 +10,12 @@
   <link href="css/fontawesome.min.css" rel="stylesheet">
   <link href="css/solid.min.css" rel="stylesheet">
   <link href="css/brands.min.css" rel="stylesheet">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 shadow-lg">
+<body class="bg-dark text-light">
+  <nav class="navbar navbar-expand-lg navbar-light-indigo bg-light-indigo p-1 shadow-lg">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,13 +24,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav w-100 justify-content-between">
           <li class="nav-item">
-            <a class="nav-link" href="index.html"><span class="me-2 fa-solid fa-house"></span>Inicio</a>
+            <a class="nav-link link-light" href="index.html"><span class="me-2 fa-solid fa-house text-dark"></span>Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="categories.html"><span class="me-2 fa-solid fa-list-ul"></span>Categorías</a>
+            <a class="nav-link link-light" href="categories.html"><span class="me-2 fa-solid fa-list-ul text-dark"></span>Categorías</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="sell.html"><span class="me-2 fa-solid fa-money-check-dollar"></span>Vender</a>
+            <a class="nav-link link-light" href="sell.html"><span class="me-2 fa-solid fa-money-check-dollar text-dark"></span>Vender</a>
           </li>
           <li class="nav-item">
           </li>
@@ -48,11 +48,11 @@
         <div class="col text-end">
           <div class="btn-group btn-group-toggle mb-4" data-bs-toggle="buttons">
             <input type="radio" class="btn-check" name="options" id="sortAsc">
-            <label class="btn btn-outline-dark" for="sortAsc" title="De la A a la Z"><i class="fa-solid fa-arrow-down-a-z"></i></label>
+            <label class="btn btn-outline-pink" for="sortAsc" title="De la A a la Z"><i class="fa-solid fa-arrow-down-a-z"></i></label>
             <input type="radio" class="btn-check" name="options" id="sortDesc">
-            <label class="btn btn-outline-dark" for="sortDesc" title="De la Z a la A"><i class="fa-solid fa-arrow-up-z-a"></i></label>
+            <label class="btn btn-outline-pink" for="sortDesc" title="De la Z a la A"><i class="fa-solid fa-arrow-up-z-a"></i></label>
             <input type="radio" class="btn-check" name="options" id="sortByCount">
-            <label class="btn btn-outline-dark" for="sortByCount" title="Categorías con más productos"><i class="fas fa-sort-amount-down mr-1"></i></label>
+            <label class="btn btn-outline-pink" for="sortByCount" title="Categorías con más productos"><i class="fas fa-sort-amount-down mr-1"></i></label>
           </div>
         </div>
       </div>
@@ -63,15 +63,15 @@
               <p class="font-weight-normal text-end my-2">Cant.</p>
             </div>
             <div class="col">
-              <input class="form-control shadow mb-3 bg-body rounded border-0" type="number" placeholder="min." id="rangeFilterCountMin">
+              <input class="form-control rounded border border-2 border-pink" type="number" placeholder="min." id="rangeFilterCountMin">
             </div>
             <div class="col">
-              <input class="form-control shadow mb-3 bg-body rounded border-0" type="number" placeholder="máx." id="rangeFilterCountMax">
+              <input class="form-control rounded border border-2 border-pink" type="number" placeholder="máx." id="rangeFilterCountMax">
             </div>
             <div class="col p-0">
               <div class="btn-group" role="group">
-                <button class="btn btn-outline-dark btn-block" id="rangeFilterCount">Filtrar</button>
-                <button class="btn btn-outline-dark btn-sm" id="clearRangeFilter">Limpiar</button>
+                <button class="btn btn-outline-pink btn-md" id="rangeFilterCount">Filtrar</button>
+                <button class="btn btn-outline-pink btn-md" id="clearRangeFilter">Limpiar</button>
               </div>
             </div>
           </div>
@@ -84,21 +84,21 @@
     </div>
   </main>
   <div class="container">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-      <p class="order-2 order-md-0 d-flex col-12 col-md-4 mb-0 text-muted justify-content-center justify-content-md-start">&copy; 2022 <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top border-pink">
+      <p class="order-2 order-md-0 d-flex col-12 col-md-4 mb-0 text-light justify-content-center justify-content-md-start">&copy; 2022 <a class="ms-2 link-teal"href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
   
       <a href="/" class="col-12 col-md-4 d-flex justify-content-center mb-2 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <img class="me-2" width="40" height="32" src="img/jap.PNG">
+        <img class="me-2 footer-img" src="img/jap.PNG">
       </a>
   
       <ul class="order-3 order-md-0 nav col-12 col-md-4 justify-content-center justify-content-md-end">
-        <li class="nav-item"><a href="Letra.pdf" target="_blank" class="nav-link px-2 text-muted"><span class="me-1 fa-solid fa-circle-question"></span>FAQs</a></li>
-        <li class="nav-item"><a href="https://www.linkedin.com/in/melina-montelongo/" target="_blank" class="nav-link px-2 text-muted"><span class="me-1 fa-brands fa-linkedin"></span>Linkedin</a></li>
-        <li class="nav-item"><a href="https://github.com/melinamontelongo" target="_blank" class="nav-link px-2 text-muted"><span class="me-1 fa-brands fa-github"></span>Github</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><span class="me-1 fa-solid fa-up-long"></span>Volver arriba</a></li> 
+        <li class="nav-item"><a href="Letra.pdf" target="_blank" class="nav-link px-2 text-light"><span class="text-teal me-1 fa-solid fa-circle-question"></span>FAQs</a></li>
+        <li class="nav-item"><a href="https://www.linkedin.com/in/melina-montelongo/" target="_blank" class="nav-link px-2 text-light"><span class="text-teal me-1 fa-brands fa-linkedin"></span>Linkedin</a></li>
+        <li class="nav-item"><a href="https://github.com/melinamontelongo" target="_blank" class="nav-link px-2 text-light"><span class="text-teal me-1 fa-brands fa-github"></span>Github</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-light"><span class="text-teal me-1 fa-solid fa-up-long"></span>Volver arriba</a></li> 
       </ul>
     </footer>
-  </div>
+</div>
   <div id="spinner-wrapper">
     <div class="lds-ring">
       <div></div>

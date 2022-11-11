@@ -188,11 +188,17 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
-
+/* 
 .login-form-container {
   min-width: min-content;
-}
+} */
+.login-form-img{
+  width: 30rem;
 
+}
+.footer-img{
+  width: 4rem;
+}
 #carouselIndex img:hover{
   opacity: 0.8;
   transition: transform 2s ease, opacity .5s ease-out;
@@ -268,35 +274,4 @@ a.custom-card:hover {
   height:5rem;
   object-fit: cover;
   float: right;
-}
- 
-/* Icons colouring */
-.fa-star.checked{
-color: #ffd753;
-}
-.fa-star{
-text-shadow: 1px 1px 1px #0c0c0cd3; 
-}
-
-.fa-house{
-  color: #7be5f8;
-}
-.fa-list-ul{
-color: #fc82bd;
-}
-.fa-money-check-dollar{
-  color: #8aeca7;
-
-}
-.fa-user, .fa-cart-shopping, .fa-address-card, .fa-person-walking-arrow-right{
-  color: #fff690;
-}
-
-.fa-location-dot, .fa-trash-can{
-  color: rgb(255, 78, 78);
-
-}
-
-.btn-outline-dark{
-  transition: .3s ease-out;
 }

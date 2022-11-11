@@ -7,20 +7,15 @@
   <title>eMercado - Todo lo que busques está aquí</title>
 
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
   <link href="css/fontawesome.min.css" rel="stylesheet">
   <link href="css/solid.min.css" rel="stylesheet">
   <link href="css/brands.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: rgb(248, 249, 250);
-    }
-  </style>
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 shadow-lg">
+<body class="bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-light-indigo bg-light-indigo p-1 shadow-lg">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,13 +24,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav w-100 justify-content-between">
           <li class="nav-item">
-            <a class="nav-link" href="index.html"><span class="me-2 fa-solid fa-house"></span>Inicio</a>
+            <a class="nav-link link-light" href="index.html"><span class="me-2 fa-solid fa-house text-dark"></span>Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="categories.html"><span class="me-2 fa-solid fa-list-ul"></span>Categorías</a>
+            <a class="nav-link link-light" href="categories.html"><span class="me-2 fa-solid fa-list-ul text-dark"></span>Categorías</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="sell.html"><span class="me-2 fa-solid fa-money-check-dollar"></span>Vender</a>
+            <a class="nav-link link-light" href="sell.html"><span class="me-2 fa-solid fa-money-check-dollar text-dark"></span>Vender</a>
           </li>
           <li class="nav-item">
           </li>
@@ -45,37 +40,37 @@
   </nav>
   <main>
     <div class="text-center">
-      <img src="img/cover_back.png" class="img-fluid d-none d-xl-block">
-      <img src="img/login.png" class="img-fluid d-block d-xl-none">
+      <img src="img/cover_back.png" class="img-fluid d-none d-md-block">
+      <img src="img/login.png" class="img-fluid d-block d-md-none">
     </div>
-    <div class="py-5 bg-light">
+    <div class="py-5">
       <div class="container">
         <div id="carouselIndex" class="carousel slide carousel-dark" data-bs-ride="carousel" data-bs-interval="2000">
-          <div class="carousel-inner text-center">
-            <div class="carousel-item active" >
-              <div class="cards-wrapper d-flex ">
-                <div class="card card-index m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0" id="autos">
+          <div class="carousel-inner text-cente">
+            <div class="carousel-item active">
+              <div class="cards-wrapper d-flex">
+                <div class="card card-index m-3 shadow p-3 mb-3 bg-dark text-light rounded custom-card cursor-active border-0" id="autos">
                   <img class="bd-placeholder-img card-img-top rounded" src="img/cars_index.jpg"
                     alt="Imagen representativa de la categoría 'Autos'">
                   <h3 class="m-3 text-center d-none d-sm-block">Autos</h3>
-                  <div class="card-body border-top border-2 d-none d-xl-block">
+                  <div class="card-body border-top border-2 border-pink d-none d-xl-block">
                     <p class="card-text text-muted">Los mejores precios en autos 0 kilómetro, de alta y media gama.</p>
                   </div>
                 </div>
-                <div class="card card-index m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0 d-none d-lg-block" id="juguetes">
+                <div class="card card-index m-3 shadow p-3 mb-3 bg-dark text-light rounded custom-card cursor-active border-0 d-none d-lg-block" id="juguetes">
                   <img class="bd-placeholder-img card-img-top rounded" src="img/toys_index.jpg"
                     alt="Imagen representativa de la categoría 'Juguetes'">
                   <h3 class="m-3 text-center">Juguetes</h3>
-                  <div class="card-body border-top border-2 d-none d-xl-block">
+                  <div class="card-body border-top border-2  border-pink d-none d-xl-block">
                     <p class="card-text text-muted">Encuentra aquí los mejores precios para niños/as de cualquier edad.
                     </p>
                   </div>
                 </div>
-                <div class="card card-index m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0 d-none d-lg-block" id="muebles">
+                <div class="card card-index m-3 shadow p-3 mb-3 bg-dark text-light rounded custom-card cursor-active border-0 d-none d-lg-block" id="muebles">
                   <img class="bd-placeholder-img card-img-top rounded" src="img/furniture_index.jpg"
                     alt="Imagen representativa de la categoría 'Muebles'">
                   <h3 class="m-3 text-center">Muebles</h3>
-                  <div class="card-body border-top border-2 d-none d-xl-block">
+                  <div class="card-body border-top border-2  border-pink d-none d-xl-block">
                     <p class="card-text text-muted">Muebles antiguos, nuevos y para ser armados por uno mismo.</p>
                   </div>
                 </div>
@@ -83,30 +78,30 @@
             </div>
             <div class="carousel-item">
               <div class="cards-wrapper d-flex">
-                <div class="card card-index m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0"
+                <div class="card card-index m-3 shadow p-3 mb-3 bg-dark text-light rounded custom-card cursor-active border-0"
                   id="herramientas">
                   <img class="bd-placeholder-img card-img-top rounded" src="img/cat104_1.jpg"
                     alt="Imagen representativa de la categoría 'Herramientas'">
                   <h3 class="m-3 text-center d-none d-sm-block">Herramientas</h3>
-                  <div class="card-body border-top border-2 d-none d-xl-block">
+                  <div class="card-body border-top border-2  border-pink d-none d-xl-block">
                     <p class="card-text text-muted">Herramientas para cualquier tipo de trabajo.</p>
                   </div>
                 </div>
-                <div class="card card-index m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0 d-none d-lg-block"
+                <div class="card card-index m-3 shadow p-3 mb-3 bg-dark text-light rounded custom-card cursor-active border-0 d-none d-lg-block"
                   id="computadoras">
                   <img class="bd-placeholder-img card-img-top rounded" src="img/cat105_1.jpg"
                     alt="Imagen representativa de la categoría 'Computadoras'">
                   <h3 class="m-3 text-center">Computadoras</h3>
-                  <div class="card-body border-top border-2 d-none d-xl-block">
+                  <div class="card-body border-top border-2  border-pink d-none d-xl-block">
                     <p class="card-text text-muted">Todo en cuanto a computadoras, para uso de oficina y/o juegos.</p>
                   </div>
                 </div>
-                <div class="card card-index m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0 d-none d-lg-block"
+                <div class="card card-index m-3 shadow p-3 mb-3 bg-dark text-light rounded custom-card cursor-active border-0 d-none d-lg-block"
                   id="vestimenta">
                   <img class="bd-placeholder-img card-img-top rounded" src="img/cat106_1.jpg"
                     alt="Imagen representativa de la categoría 'Vestimenta'">
                   <h3 class="m-3 text-center">Vestimenta</h3>
-                  <div class="card-body border-top border-2 d-none d-xl-block">
+                  <div class="card-body border-top border-2  border-pink d-none d-xl-block">
                     <p class="card-text text-muted">Gran variedad de ropa, nueva y de segunda mano.</p>
                   </div>
                 </div>
@@ -114,28 +109,28 @@
             </div>
             <div class="carousel-item">
               <div class="cards-wrapper d-flex">
-                <div class="card card-index m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0"
+                <div class="card card-index m-3 shadow p-3 mb-3 bg-dark text-light rounded custom-card cursor-active border-0"
                   id="electrodomesticos">
                   <img class="bd-placeholder-img card-img-top rounded" src="img/cat107_1.jpg"
                     alt="Imagen representativa de la categoría 'Electrodomésticos'">
                   <h3 class="m-3 text-center d-none d-sm-block ">Electrodomésticos</h3>
-                  <div class="card-body border-top border-2 d-none d-xl-block">
+                  <div class="card-body border-top border-2  border-pink d-none d-xl-block">
                     <p class="card-text text-muted">Todos los electrodomésticos modernos y de bajo consumo.</p>
                   </div>
                 </div>
-                <div class="card card-index m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0 d-none d-lg-block" id="deporte">
+                <div class="card card-index m-3 shadow p-3 mb-3 bg-dark text-light rounded custom-card cursor-active border-0 d-none d-lg-block" id="deporte">
                   <img class="bd-placeholder-img card-img-top rounded" src="img/cat108_1.jpg"
                     alt="Imagen representativa de la categoría 'Deporte'">
                   <h3 class="m-3 text-center">Deporte</h3>
-                  <div class="card-body border-top border-2 d-none d-xl-block">
+                  <div class="card-body border-top border-2  border-pink d-none d-xl-block">
                     <p class="card-text text-muted">Toda la variedad de indumentaria para todo tipo de deporte.</p>
                   </div>
                 </div>
-                <div class="card card-index m-3 shadow p-3 mb-3 bg-body rounded custom-card cursor-active border-0 d-none d-lg-block" id="celulares">
+                <div class="card card-index m-3 shadow p-3 mb-3 bg-dark text-light rounded custom-card cursor-active border-0 d-none d-lg-block" id="celulares">
                   <img class="bd-placeholder-img card-img-top rounded" src="img/cat109_1.jpg"
                     alt="Imagen representativa de la categoría 'Celulares'">
                   <h3 class="m-3 text-center">Celulares</h3>
-                  <div class="card-body border-top border-2 d-none d-xl-block">
+                  <div class="card-body border-top border-2  border-pink d-none d-xl-block">
                     <p class="card-text text-muted">Celulares de todo tipo para cubrir todas las necesidades.</p>
                   </div>
                 </div>
@@ -154,22 +149,22 @@
           </button>
         </div>
         <div class="row m-3 p-2  d-none d-lg-flex" id="categoriesNextBtn-lg">
-          <a class="btn btn-light shadow p-3 mb-3 bg-body rounded p-2 btn-md w-25 mx-auto rounded-pill" href="categories.html">Ver todas las categorías<span class="ps-3 ms-2 fa fa-arrow-right d-none d-xl-inline"></span></a>
+          <a class="btn btn-pink text-dark fw-bold shadow p-3 mb-3 rounded p-2 btn-md w-25 mx-auto rounded-pill" href="categories.html">Ver todas las categorías<span class="ps-3 ms-2 fa fa-arrow-right d-none d-xl-inline text-dark"></span></a>
         </div>
 
         <div class="row m-3 p-2 mx-auto d-flex d-lg-none" id="categoriesNextBtn-md">
-          <a class="fa fa-arrow-right btn btn-light shadow p-3 mb-3 bg-body rounded p-2  rounded-circle" href="categories.html"></a>
+          <a class="fa fa-arrow-right text-dark btn btn-pink shadow p-3 mb-3 rounded p-2  rounded-circle" href="categories.html"></a>
         </div>
       </div>
     </div>
   </main>
 
   <div class="container">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-      <p class="order-2 order-md-0 d-flex col-12 col-md-4 mb-0 text-muted justify-content-center justify-content-md-start">&copy; 2022 <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top border-pink">
+      <p class="order-2 order-md-0 d-flex col-12 col-md-4 mb-0 text-muted justify-content-center justify-content-md-start">&copy; 2022 <a class="ms-2 link-teal"href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
   
       <a href="/" class="col-12 col-md-4 d-flex justify-content-center mb-2 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <img class="me-2" width="40" height="32" src="img/jap.PNG">
+        <img class="me-2 footer-img" src="img/jap.PNG">
       </a>
   
       <ul class="order-3 order-md-0 nav col-12 col-md-4 justify-content-center justify-content-md-end">

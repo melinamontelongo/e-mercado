@@ -22,7 +22,7 @@ function loginSession(userEmail, userPass){
       } else {
         createBSAlert("La contraseña no coincide. Intenta nuevamente", "danger"); //Sino, muestra la alerta
       }
-    } else if (userProfile == undefined){ //Si el usuario no existe
+    } else if (userProfile == undefined){ //Si el usuario no existe (nuevo usuario)
       let newUser = { //Lo define como objeto
         "email": userEmail,
         "password": userPass,
@@ -36,7 +36,7 @@ function loginSession(userEmail, userPass){
       }
       postInfo(newUser, USERS_URL).then((res)=>{ //Lo almacena en la base de datos
         if (res.status === "ok"){
-          localStorage.setItem("userID", res.data.id)
+          localStorage.setItem("userID", res.data.id) //Almacena el ID del usuario (currentUserID)
           window.location = "index.html"; //Y redirecciona
         } else{
           createBSAlert("Ha ocurrido un error. Intenta nuevamente", "danger");
@@ -67,10 +67,10 @@ window.onload = function () {
     {
       theme: "filled_black",
       size: "medium",
-      type: "standard",
+      type: "icon",
       shape: "rectangular",
       text: "$ {button.text}",
-      logo_alignment: "left",
+      logo_alignment: "center",
       width: 10,     
     }
   );

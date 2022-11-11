@@ -10,7 +10,7 @@
   <link href="css/fontawesome.min.css" rel="stylesheet">
   <link href="css/solid.min.css" rel="stylesheet">
   <link href="css/brands.min.css" rel="stylesheet">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
   <style>
     .bd-placeholder-img {
@@ -30,8 +30,8 @@
   </style>
 </head>
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 shadow-lg">
+<body class="bg-dark text-light">
+  <nav class="navbar navbar-expand-lg navbar-light-indigo bg-light-indigo p-1 shadow-lg">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,13 +40,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav w-100 justify-content-between">
           <li class="nav-item">
-            <a class="nav-link" href="index.html"><span class="me-2 fa-solid fa-house"></span>Inicio</a>
+            <a class="nav-link link-light" href="index.html"><span class="me-2 fa-solid fa-house text-dark"></span>Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="categories.html"><span class="me-2 fa-solid fa-list-ul"></span>Categorías</a>
+            <a class="nav-link link-light" href="categories.html"><span class="me-2 fa-solid fa-list-ul text-dark"></span>Categorías</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="sell.html"><span class="me-2 fa-solid fa-money-check-dollar"></span>Vender</a>
+            <a class="nav-link link-light" href="sell.html"><span class="me-2 fa-solid fa-money-check-dollar text-dark"></span>Vender</a>
           </li>
           <li class="nav-item">
           </li>
@@ -61,65 +61,62 @@
           <h2>Perfil</h2>
         </div>
         <div class="col">
-          <img src="img/img_perfil.png" class="img-thumbnail float-end" id="userProfilePic">
+          <img src="img/img_perfil.png" class="img-thumbnail float-end border border-2 border-light-indigo" id="userProfilePic">
         </div>
       </div>
-      <hr>
+      <hr class="text-pink">
     <form id="userProfileForm" class="needs-validation" novalidate>
       <div class="row">
-        <div class="col">
+        <div class="col-md-6">
           <div class="mb-3">
             <label for="firstName" class="form-label">Primer nombre*</label>
-            <input type="text" class="form-control" id="firstName" name="firstName"  pattern=".*\S+"required>
+            <input type="text" class="form-control border border-2 border-light-indigo bg-lighter-indigo" id="firstName" name="firstName"  pattern=".*\S+"required>
             <div class="invalid-feedback">
               Ingrese su nombre.
             </div>
           </div>
           <div class="mb-3">
             <label for="firstSurname" class="form-label">Primer apellido*</label>
-            <input type="text" class="form-control" id="firstSurname" name="firstSurname"  pattern=".*\S+"required>
+            <input type="text" class="form-control border border-2 border-light-indigo bg-lighter-indigo" id="firstSurname" name="firstSurname"  pattern=".*\S+"required>
             <div class="invalid-feedback">
               Ingrese su apellido.
             </div>
           </div>
           <div class="mb-3">
             <label for="userEmail" class="form-label">E-mail*</label>
-            <input type="email" class="form-control" id="userEmail" name="userEmail"  pattern=".*\S+"required>
+            <input type="email" class="form-control border border-2 border-light-indigo bg-lighter-indigo" id="userEmail" name="userEmail"  pattern=".*\S+"required>
             <div class="invalid-feedback">
               Ingrese una dirección de correo.
             </div>
           </div>
           <div class="mb-3">
             <label for="userPhone" class="form-label">Teléfono de contacto</label>
-            <input type="tel" class="form-control" id="userPhone" name="userPhone" pattern="(.*\S+)(\d+$)">
+            <input type="tel" class="form-control border border-2 border-light-indigo bg-lighter-indigo" id="userPhone" name="userPhone" pattern="(.*\S+)(\d+$)">
             <div class="invalid-feedback">
               Ingrese un teléfono válido.
             </div>
           </div>
         </div>
-        <div class="col">
+        <div class="col-md-6">
           <div class="mb-3">
             <label for="secondName" class="form-label">Segundo nombre</label>
-            <input type="text" class="form-control" id="secondName" name="secondName" pattern=".*\S+">
+            <input type="text" class="form-control border border-2 border-light-indigo bg-lighter-indigo" id="secondName" name="secondName" pattern=".*\S+">
           </div>
           <div class="mb-3">
             <label for="secondSurname" class="form-label">Segundo apellido</label>
-            <input type="text" class="form-control" id="secondSurname" name="secondSurname" pattern=".*\S+">
+            <input type="text" class="form-control border border-2 border-light-indigo bg-lighter-indigo" id="secondSurname" name="secondSurname" pattern=".*\S+">
           </div>
           <div class="mb-3">
             <label for="profilePicFile" class="form-label">Imagen de perfil</label>
-            <input type="file" class="form-control" name="profilePicFile" id="profilePicFile"  accept=".png, .jpeg, .jpg">
-<!--             <div class="invalid-feedback" id="file-error">
-              ¡Se ha producido un error! Intente subir otra imagen.
-            </div> -->
+            <input type="file" class="form-control border border-2 border-light-indigo bg-lighter-indigo" name="profilePicFile" id="profilePicFile"  accept=".png, .jpeg, .jpg">
           </div>
         </div>
       </div>
-      <hr>
+      <hr class="text-pink">
       <div class="row">
-        <div class="col">
+        <div class="col-md-6">
           <div class="mb-3">
-            <button type="submit" class="btn btn-outline-dark" id="saveChanges">Guardar cambios</button>
+            <button type="submit" class="btn btn-light-indigo" id="saveChanges">Guardar cambios</button>
           </div>
         </div>
       </div>
@@ -127,21 +124,21 @@
     </div>
   </main>
   <div class="container">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-      <p class="order-2 order-md-0 d-flex col-12 col-md-4 mb-0 text-muted justify-content-center justify-content-md-start">&copy; 2022 <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top border-pink">
+      <p class="order-2 order-md-0 d-flex col-12 col-md-4 mb-0 text-light justify-content-center justify-content-md-start">&copy; 2022 <a class="ms-2 link-teal"href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
   
       <a href="/" class="col-12 col-md-4 d-flex justify-content-center mb-2 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <img class="me-2" width="40" height="32" src="img/jap.PNG">
+        <img class="me-2 footer-img" src="img/jap.PNG">
       </a>
   
       <ul class="order-3 order-md-0 nav col-12 col-md-4 justify-content-center justify-content-md-end">
-        <li class="nav-item"><a href="Letra.pdf" target="_blank" class="nav-link px-2 text-muted"><span class="me-1 fa-solid fa-circle-question"></span>FAQs</a></li>
-        <li class="nav-item"><a href="https://www.linkedin.com/in/melina-montelongo/" target="_blank" class="nav-link px-2 text-muted"><span class="me-1 fa-brands fa-linkedin"></span>Linkedin</a></li>
-        <li class="nav-item"><a href="https://github.com/melinamontelongo" target="_blank" class="nav-link px-2 text-muted"><span class="me-1 fa-brands fa-github"></span>Github</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted"><span class="me-1 fa-solid fa-up-long"></span>Volver arriba</a></li> 
+        <li class="nav-item"><a href="Letra.pdf" target="_blank" class="nav-link px-2 text-light"><span class="text-teal me-1 fa-solid fa-circle-question"></span>FAQs</a></li>
+        <li class="nav-item"><a href="https://www.linkedin.com/in/melina-montelongo/" target="_blank" class="nav-link px-2 text-light"><span class="text-teal me-1 fa-brands fa-linkedin"></span>Linkedin</a></li>
+        <li class="nav-item"><a href="https://github.com/melinamontelongo" target="_blank" class="nav-link px-2 text-light"><span class="text-teal me-1 fa-brands fa-github"></span>Github</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-light"><span class="text-teal me-1 fa-solid fa-up-long"></span>Volver arriba</a></li> 
       </ul>
     </footer>
-  </div>
+</div>
   <div id="spinner-wrapper">
     <div class="lds-ring">
       <div></div>

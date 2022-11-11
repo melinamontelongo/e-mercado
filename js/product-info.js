@@ -11,7 +11,7 @@ let userAlreadyCommented = false;
 function showProductInfo() {
     document.getElementById("product-info-container").innerHTML = `
     <div class="col-12 col-sm-12 col-md-12 col-lg-8 p-4">
-            <div id="productsCarousel" class="carousel slide carousel-dark mt-4" data-bs-ride="carousel" data-bs-interval="2000">
+            <div id="productsCarousel" class="carousel slide carousel-light mt-4" data-bs-ride="carousel" data-bs-interval="2000">
                     <div class="carousel-inner" id="carouselInner">
      
                     </div>
@@ -38,7 +38,7 @@ function showProductInfo() {
 </div>
 
     <div class="col-12 col-lg-4 p-4">
-            <h2 class="border-bottom pb-2">${productInfo.name}</h2>
+            <h2 class="border-bottom border-light-indigo pb-2">${productInfo.name}</h2>
             <strong>Precio</strong>
             <p id="product-currency-cost">${productInfo.currency} ${productInfo.cost}</p>
             <strong>Descripción</strong>
@@ -47,8 +47,8 @@ function showProductInfo() {
             <p>${productInfo.category}</p>
             <strong>Cantidad de vendidos</strong>
             <p>${productInfo.soldCount}</p>
-            <button class="m-2 btn btn-dark d-block rounded-pill" onclick="addToCart()"><span class="me-2 fa-solid fa-cart-plus"></span>Agregar al carrito</button>
-            <a href="products.html" class="m-2 btn btn-outline-dark rounded-pill"><span class="fa-solid fa-left-long me-2"></span>Volver al listado</a>
+            <button class="m-2 btn btn-teal d-block rounded-pill" onclick="addToCart()"><span class="me-2 fa-solid fa-cart-plus"></span>Agregar al carrito</button>
+            <a href="products.html" class="m-2 btn btn-outline-teal rounded-pill"><span class="fa-solid fa-left-long me-2"></span>Volver al listado</a>
     </div>
         `
     checkCurrency(productInfo)
@@ -99,9 +99,9 @@ function showRelatedProducts() {
         document.getElementById("relatedProducts").innerHTML +=
             `
     <div onclick="setProductID(${relatedProduct.id})" class="relproducts-card col-lg-3 col-md-12 mx-2 border-0">
-        <div class="card shadow mb-3 bg-body rounded border-0" style="width: 18rem;">
+        <div class="card border border-light-indigo shadow mb-3 bg-dark rounded" style="width: 18rem;">
                 <img src="${relatedProduct.image}" class="card-img-top" alt="image">
-            <div class="card-body border-top">
+            <div class="card-body">
                 <p class="card-text text-center">${relatedProduct.name}</p>
             </div>
         </div>
@@ -148,13 +148,13 @@ function addToCart() {
 //Si hay, itera sobre ellos y los muestra
 function showComments() {
     if (productComments.length === 0) {
-                commentsContainer.innerHTML += `<div id="no-comments-alert"class="list-group list-group-item shadow p-3 mb-2 bg-body rounded border-0 text-muted">
+                commentsContainer.innerHTML += `<div id="no-comments-alert"class="list-group list-group-item shadow p-3 mb-2 bg-dark text-light rounded border-0 text-muted">
                 <p class="lead text-center"><span class="fa-solid fa-comment-slash"></span>Aún no hay comentarios ¡Sé el primero!</p>
                 </div>`
     } else  { 
         for (let i = 0; i < productComments.length; i++) {
             let comment = productComments[i];
-            commentsContainer.innerHTML += `<div class="list-group list-group-item shadow p-3 mb-2 bg-body rounded border-0">
+            commentsContainer.innerHTML += `<div class="list-group list-group-item shadow p-3 mb-2 bg-dark text-light rounded border border-light-indigo">
             <p class="commentsInfo"><strong>${comment.user}</strong> - ${comment.dateTime} - ${addStars(comment.score)}</p>
             <p>${comment.description}</p>
             </div>`
@@ -171,7 +171,7 @@ function addStars(score) {
 
     for (let i = 0; i < score; i++) {
         spans +=
-            `<span class="fa fa-star checked"></span>`
+            `<span class="fa fa-star checked text-pink"></span>`
         num--
     }
     if (num > 0) {
