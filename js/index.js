@@ -10,7 +10,7 @@ function getCategory(id, catID){
 document.addEventListener("DOMContentLoaded", function(){
 
     showUser();   //Muestra al usuario en la barra de navegación
-
+    cookiesAlert(); //Muestra el aviso de cookies si ya no fue mostrado
    let cards = document.querySelectorAll(".card");        //Obtiene todos los elementos que necesitan la escucha de evento
    let catID = 101;                                      //Inicializa catID en 101 (primer categoría)
    cards.forEach(card => getCategory(card.id, catID++)) //Para cada elemento llama la función con el Id del mismo 

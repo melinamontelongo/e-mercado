@@ -32,11 +32,6 @@ function sortCategories(criteria, array) {
     return result;
 }
 
-function setCatID(id) {
-    localStorage.setItem("catID", id);
-    window.location = "products.html"
-}
-
 function showCategoriesList() {
 
     let htmlContentToAppend = "";
@@ -53,8 +48,8 @@ function showCategoriesList() {
                     </div>
                     <div class="col-12 col-md-9">
                         <div class="d-flex w-100 justify-content-between">
-                            <h4 class="mb-1">${category.name}</h4>
-                            <small class="text-muted">${category.productCount} artículos</small>
+                            <h4 class="mb-1 text-lighter-indigo">${category.name}</h4>
+                            <small class="text-light-indigo">${category.productCount} artículos</small>
                         </div>
                         <p class="mb-1">${category.description}</p>
                     </div>

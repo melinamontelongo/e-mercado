@@ -101,7 +101,7 @@ function readFiles(fileList) {
             let fileReader = new FileReader();
             fileReader.addEventListener("load", () => {
                 let fileUrl = fileReader.result;
-                let newImage = `<li class="list-group-item d-flex flex-wrap justify-content-between align-items-center text-break">${file.name}<img class="img-fluid" src="${fileUrl}" alt="${file.name}"></li>`
+                let newImage = `<li class="list-group-item d-flex flex-wrap justify-content-between align-items-center text-break bg-dark border border-light-indigo text-light">${file.name}<img class="img-fluid" src="${fileUrl}" alt="${file.name}"></li>`
                 imagesURL.push(fileUrl);
                 imagesContainer.innerHTML += newImage;
             })

@@ -188,10 +188,7 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
-/* 
-.login-form-container {
-  min-width: min-content;
-} */
+
 .login-form-img{
   width: 30rem;
 

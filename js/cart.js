@@ -37,7 +37,7 @@ function showCartProducts(cartArray) {
               </td>
               <td class="col-2">
                 <div class="col-12 col-lg-6">
-                  <input type="number" min="1" class="form-control border border border-2 border-pink" id="quantity${cartProd.id}" name="itemQuantity${cartProd.id}" form="cartForm"
+                  <input type="number" min="1" class="form-control border border border-2 border-indigo bg-lighter-indigo" id="quantity${cartProd.id}" name="itemQuantity${cartProd.id}" form="cartForm"
                   value="${cartProd.count}" pattern=".*\S+" oninput="setSubtotalByQuantity('${cartProd.id}', '${cartProd.currency}', '${cartProd.unitCost}')" required>
                 <div class="invalid-feedback">
                   La cantidad debe ser mayor a 0
@@ -166,9 +166,11 @@ function paymentMethod() {
         case "creditCard": //Fue elegida tarjeta de crédito
           creditCardControls.forEach(control => { //Controles de pago con tarjeta
             control.removeAttribute("disabled"); //Los habilita
+            control.classList.replace("bg-secondary", "bg-lighter-pink");//Para que se muestre visualmente la habilitación
           });
           bankTransferControls.forEach(control => { //Controles de pago con transferencia
             control.setAttribute("disabled", "");  //Los deshabilita
+            control.classList.replace("bg-lighter-pink","bg-secondary");//Para que se muestre visualmente la deshabilitación
             control.classList.remove("is-invalid") //Para evitar que se siga mostrando el campo con error aunque se haya seleccionado la otra opción
           });
           break;
@@ -176,9 +178,11 @@ function paymentMethod() {
           chosenPaymentMethodInputs = bankTransferControls
           bankTransferControls.forEach(control => {//Controles de pago con transferencia
             control.removeAttribute("disabled"); //Los habilita
+            control.classList.replace("bg-secondary","bg-lighter-pink");//Para que se muestre visualmente la habilitación
           });
           creditCardControls.forEach(control => { //Controles de pago con tarjeta
             control.setAttribute("disabled", ""); //Los deshabilita
+            control.classList.replace("bg-lighter-pink","bg-secondary");//Para que se muestre visualmente la deshabilitación
             control.classList.remove("is-invalid") //Para evitar que se siga mostrando el campo con error aunque se haya seleccionado la otra opción
           });
           break;
@@ -216,7 +220,6 @@ function validateForm() {
     e.preventDefault(); //Se previene el submit porque en este caso no es necesario, solo se va a simular la compra
     e.stopPropagation();
     form.classList.add("was-validated");
-
     //Para los input de cantidad, muestra su estado de validación onsubmit y luego en tiempo real, no es necesario chequear su validez por el atributo form
     quantityInputs.forEach(input => {
       validateInput(input)

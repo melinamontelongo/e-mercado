@@ -56,8 +56,8 @@ function showProductsList() {
                             </div>
                             <div class="col-12 col-md-9">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h4 class="mb-1 product-header">${product.name} - ${product.currency} ${product.cost}</h4>
-                                    <small class="text-muted">${product.soldCount} vendidos</small>
+                                    <h4 class="mb-1 product-header text-lighter-indigo">${product.name} - ${product.currency} ${product.cost}</h4>
+                                    <small class="text-light-indigo">${product.soldCount} vendidos</small>
                                 </div>
                                 <p class="mb-1">${product.description}</p>
                             </div>
@@ -73,8 +73,8 @@ function showProductsList() {
     }
     document.getElementById("product-list-heading").innerHTML =
 
-        `<h1 class="fw-light">Productos</h1>
-        <h4 class="lead fs-5 text-muted">Verás aquí todos los productos de la categoría <strong>${currentCategoryName}</strong></h4>`
+        `<h1 class="fw-light text-lighter-indigo">Productos</h1>
+        <h4 class="lead fs-5">Verás aquí todos los productos de la categoría <strong>${currentCategoryName}</strong></h4>`
 }
 
 function sortAndShowProducts(sortCriteria, productsArray) {     //Función para ordenar y mostrar productos

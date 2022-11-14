@@ -2,8 +2,6 @@ const CATEGORIES_URL = "https://japceibal.github.io/emercado-api/cats/cat.json";
 const PUBLISH_PRODUCT_URL = "https://japceibal.github.io/emercado-api/sell/publish.json";
 const PRODUCTS_URL = "https://japceibal.github.io/emercado-api/cats_products/";
 const PRODUCT_INFO_URL = "https://japceibal.github.io/emercado-api/products/";
-const PRODUCT_INFO_COMMENTS_URL = "https://japceibal.github.io/emercado-api/products_comments/";
-const CART_INFO_URL = "https://japceibal.github.io/emercado-api/user_cart/";
 const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const USERS_URL = `https://63645a8f8a3337d9a2f5d652.mockapi.io/users/` //"base de datos" de todos los usuarios
 const COMMENTS_URL = `https://63645a8f8a3337d9a2f5d652.mockapi.io/comments/` //"base de datos" de comentarios agregados por los usuarios
@@ -55,7 +53,10 @@ function setProductID(id) {
   localStorage.setItem("productID", id);
   window.location = "product-info.html"
 }
-
+function setCatID(id) {
+  localStorage.setItem("catID", id);
+  window.location = "products.html"
+}
 //Modularización para obtener el usuario para las funcionalidades que lo requieran
 function getUser() {
   let user = "";
@@ -69,14 +70,13 @@ function getUser() {
     window.location = "login.html"
   }
 }
-
 //Nueva función para mostrar el usuario en el nav de todas las páginas
-//Funcionalidad de cerrar sesión esta vez en un dropdown
+//Funcionalidad de cerrar sesión en un dropdown
 function showUser() {
   let user = getUser();
-  let userField = document.querySelectorAll(".nav-item")[3];
-  userField.classList.add("dropdown");
-  userField.innerHTML =
+  let userField = document.querySelectorAll(".nav-item")[3]; //Obtiene el elemento donde irá el correo del usuario
+  userField.classList.add("dropdown");//Lo convierte en un dropdown
+  userField.innerHTML = //Le agrega lo siguiente para mostrar al usuario y las opciones correspondientes.
     `<a class="nav-link link-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="me-2 fa fa-user text-dark"></span> 
     ${user}
@@ -88,14 +88,43 @@ function showUser() {
 </ul>
 </li>`
   document.getElementById("log-out").addEventListener("click", function () {
-    localStorage.removeItem("user");
-    /*     localStorage.removeItem("userProfile");
-        localStorage.removeItem("userProfilePic"); */
-    localStorage.removeItem("userCart");
-    sessionStorage.removeItem("user");
-    window.location = "login.html";
+    localStorage.removeItem("user"); //Remueve el correo del usuario almacenado 
+    sessionStorage.removeItem("user");//Remueve el correo del usuario almacenado 
+    localStorage.removeItem("userID"); //Remueve el valor que identifica al usuario en la base de datos
+    localStorage.removeItem("userProfilePic");//Remueve la foto de perfil del usuario
+    window.location = "login.html";//Redirecciona
   })
 }
+//Función que crea y muestra el modal con el aviso de uso de Cookies. 
+//Una vez mostrado se guarda el consentimiento en sessionStorage
+function cookiesAlert(){
+  if (!sessionStorage.getItem("cookieConsent")){
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("modal");
+    newDiv.setAttribute("tabindex", "-1");
+    newDiv.innerHTML = `<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header border-pink">
+        <h5 class="modal-title"><i class="me-2 fa-solid fa-cookie-bite text-light-indigo"></i>Aviso de Cookies</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Este sitio utiliza cookies para mejorar tu experiencia. Si continúas, se considera que aceptas el uso de cookies</p>
+      </div>
+      <div class="modal-footer border-pink">
+        <button type="button" class="btn btn-light-indigo" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>`
+  document.body.appendChild(newDiv)
+  let cookieModal = new bootstrap.Modal(newDiv)
+  cookieModal.show()
+  newDiv.addEventListener("hide.bs.modal", ()=>{
+    sessionStorage.setItem("cookieConsent", true);
+  })
+  }
+}
+
 //Función que crea alertas de bootstrap personalizadas
 function createBSAlert(message, type) {
   let newAlertContainer = document.createElement("div"); //Crea el elemento contenedor
@@ -157,30 +186,6 @@ async function getCurrencyRate() {
     setCookie("currencyRate", exchangeRate, 1) //Para que el valor se actualice cada día
   }
 }
-//Función asíncrona que realiza un post request con la info del parámetro
-async function postInfo(info, url) {
-  let result = {};
-  showSpinner();
-  let reqOptions = {
-    method: 'POST',
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(info)
-  };
-  try {
-    let postReq = await fetch(url, reqOptions);
-    let postRes = await postReq.json();
-    if (postReq.ok) { //Si la solicitud se realizó correctamente
-      result.status = "ok"
-      result.data = postRes;
-    } 
-    hideSpinner();
-    return result;
-  } catch (error) {
-    console.error(error);
-    hideSpinner();
-    return error;
-  }
-}
 //Función asíncrona que realiza un get request a la base de datos que se requiera
 async function getInfo(url) {
   showSpinner();
@@ -216,6 +221,30 @@ async function getSpecificInfo(id, url){
     return result;
   }
   catch (error) {
+    console.error(error);
+    hideSpinner();
+    return error;
+  }
+}
+//Función asíncrona que realiza un post request con la info del parámetro
+async function postInfo(info, url) {
+  let result = {};
+  showSpinner();
+  let reqOptions = {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(info)
+  };
+  try {
+    let postReq = await fetch(url, reqOptions);
+    let postRes = await postReq.json();
+    if (postReq.ok) { //Si la solicitud se realizó correctamente
+      result.status = "ok"
+      result.data = postRes;
+    } 
+    hideSpinner();
+    return result;
+  } catch (error) {
     console.error(error);
     hideSpinner();
     return error;

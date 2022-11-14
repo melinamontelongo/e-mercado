@@ -38,14 +38,14 @@ function showProductInfo() {
 </div>
 
     <div class="col-12 col-lg-4 p-4">
-            <h2 class="border-bottom border-light-indigo pb-2">${productInfo.name}</h2>
-            <strong>Precio</strong>
+            <h2 class="border-bottom border-light-indigo pb-2 text-lighter-indigo">${productInfo.name}</h2>
+            <strong class="text-lighter-indigo">Precio</strong>
             <p id="product-currency-cost">${productInfo.currency} ${productInfo.cost}</p>
-            <strong>Descripción</strong>
+            <strong class="text-lighter-indigo">Descripción</strong>
             <p>${productInfo.description}</p>
-            <strong>Categoría</strong>
+            <strong class="text-lighter-indigo">Categoría</strong>
             <p>${productInfo.category}</p>
-            <strong>Cantidad de vendidos</strong>
+            <strong class="text-lighter-indigo">Cantidad de vendidos</strong>
             <p>${productInfo.soldCount}</p>
             <button class="m-2 btn btn-teal d-block rounded-pill" onclick="addToCart()"><span class="me-2 fa-solid fa-cart-plus"></span>Agregar al carrito</button>
             <a href="products.html" class="m-2 btn btn-outline-teal rounded-pill"><span class="fa-solid fa-left-long me-2"></span>Volver al listado</a>
@@ -154,10 +154,17 @@ function showComments() {
     } else  { 
         for (let i = 0; i < productComments.length; i++) {
             let comment = productComments[i];
-            commentsContainer.innerHTML += `<div class="list-group list-group-item shadow p-3 mb-2 bg-dark text-light rounded border border-light-indigo">
-            <p class="commentsInfo"><strong>${comment.user}</strong> - ${comment.dateTime} - ${addStars(comment.score)}</p>
-            <p>${comment.description}</p>
-            </div>`
+            commentsContainer.innerHTML += `
+   
+        <div class="list-group list-group-item shadow p-3 mb-2 bg-dark text-light rounded border border-light-indigo">
+            <div class="row commentsInfo">
+            <p class="col"><strong class="text-teal">${comment.user}</strong> - ${comment.dateTime}</p>
+            <div class="col-sm-6 text-start text-sm-end mb-3 mb-sm-0">${addStars(comment.score)}</div>
+            </div>
+            <div class="row">
+            <div class="col"><p>${comment.description}</p></div>
+            </div>
+        </div>`
         }
     }
 }
@@ -176,7 +183,7 @@ function addStars(score) {
     }
     if (num > 0) {
         for (let i = 0; i < num; i++) {
-            spans += `<span class="fa fa-star"></span>`
+            spans += `<span class="fa fa-star text-lighter-pink"></span>`
         }
     }
     return spans;
@@ -204,7 +211,16 @@ function addUserComment() {
     }
     productComments.forEach(comment => {userProductComments.comments.push(comment)}) //Pushea los comentarios ya existentes al objeto que será guardado en la base de datos
     userProductComments.comments.push(newComment); //Pushea el comentario nuevo
-    putInfo(userProductComments, currentProductDB_ID, COMMENTS_URL).then(res => console.log(res))
+    putInfo(userProductComments, currentProductDB_ID, COMMENTS_URL).then(res => {
+        if (res.status === "ok"){ //Si se realiza la solicitud correctamente (se agrega el comentario)
+            userAlreadyCommented = true; //Se establece que el usuario ya comentó en este producto
+            //Se vacían los campos
+            commentInput.value = "";
+            scoreInput.value = "";
+        } else {
+            createBSAlert("No se ha podido agregar tu comentario. Intenta nuevamente", "danger");
+        }
+    })
     productComments = [] //Vacía el array para que solo muestre el nuevo comentario
     productComments.push(newComment); //Pushea el nuevo comentario al array para que solo muestre ese
     if (noCommentsAlert != null){
@@ -254,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 let currentProductComments = res.find(res => res.product == currentProduct);
                 currentProductDB_ID = currentProductComments.id;
                 productComments = currentProductComments.comments;
-                let currentUserCommented = productComments.find(comment => comment.user === getUser())
+                let currentUserCommented = productComments.find(comment => comment.user === getUser()) //Verifica si el usuario ya comentó
                 if (currentUserCommented != undefined){
                     userAlreadyCommented = true;
                 }

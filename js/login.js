@@ -20,6 +20,7 @@ function loginSession(userEmail, userPass){
       if (userProfile.password === userPass){ //Verifica que la contraseña sea igual
         window.location = "index.html"; //Si lo es, redirige
       } else {
+        password.setCustomValidity("La contraseña no coincide"); //Para que muestre el input como inválido
         createBSAlert("La contraseña no coincide. Intenta nuevamente", "danger"); //Sino, muestra la alerta
       }
     } else if (userProfile == undefined){ //Si el usuario no existe (nuevo usuario)
@@ -78,7 +79,8 @@ window.onload = function () {
   form.addEventListener('submit', e => {  
     e.preventDefault();     
     e.stopPropagation();
-    form.classList.add('was-validated')  //agrega las clases de validación de bootstrap
+    form.classList.add('was-validated');  //agrega las clases de validación de bootstrap
+    password.setCustomValidity("");
     if (form.checkValidity()) {//valida lo ingresado por el usuario (que no sean campos vacíos)
       loginSession(email.value, password.value);        //Llama a la función que almacena el usuario en almacenamiento local
     }})  
