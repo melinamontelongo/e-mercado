@@ -13,36 +13,38 @@ function loginSession(userEmail, userPass){
   } else {
     sessionStorage.setItem("user", userEmail)
   }
-  getInfo(USERS_URL).then(users => { //Petición get a la base de datos de usuarios
-    let userProfile = users.find(user => user.email === userEmail) //Busca el usuario en la base de datos
-    if (userProfile != undefined){ //Si el usuario existe
-      localStorage.setItem("userID", userProfile.id) //Almacena el id
-      if (userProfile.password === userPass){ //Verifica que la contraseña sea igual
-        window.location = "index.html"; //Si lo es, redirige
-      } else {
-        password.setCustomValidity("La contraseña no coincide"); //Para que muestre el input como inválido
-        createBSAlert("La contraseña no coincide. Intenta nuevamente", "danger"); //Sino, muestra la alerta
-      }
-    } else if (userProfile == undefined){ //Si el usuario no existe (nuevo usuario)
-      let newUser = { //Lo define como objeto
-        "email": userEmail,
-        "password": userPass,
-        "firstName": "",
-        "secondName": "",
-        "firstSurname": "",
-        "secondSurname": "",
-        "phone": "",
-        "picture": "",
-        "userCart": []
-      }
-      postInfo(newUser, USERS_URL).then((res)=>{ //Lo almacena en la base de datos
-        if (res.status === "ok"){
-          localStorage.setItem("userID", res.data.id) //Almacena el ID del usuario (currentUserID)
-          window.location = "index.html"; //Y redirecciona
-        } else{
-          createBSAlert("Ha ocurrido un error. Intenta nuevamente", "danger");
+  getInfo(USERS_URL).then(res => { //Petición get a la base de datos de usuarios
+    if (res.status === "ok"){
+      let userProfile = res.data.find(user => user.email === userEmail) //Busca el usuario en la base de datos
+      if (userProfile != undefined){ //Si el usuario existe
+        localStorage.setItem("userID", userProfile.id) //Almacena el id
+        if (userProfile.password === userPass){ //Verifica que la contraseña sea igual
+          window.location = "index.html"; //Si lo es, redirige
+        } else {
+          password.setCustomValidity("La contraseña no coincide"); //Para que muestre el input como inválido
+          createBSAlert("La contraseña no coincide. Intenta nuevamente", "danger"); //Sino, muestra la alerta
         }
-      })
+      } else if (userProfile == undefined){ //Si el usuario no existe (nuevo usuario)
+        let newUser = { //Lo define como objeto
+          "email": userEmail,
+          "password": userPass,
+          "firstName": "",
+          "secondName": "",
+          "firstSurname": "",
+          "secondSurname": "",
+          "phone": "",
+          "picture": "",
+          "userCart": []
+        }
+        postInfo(newUser, USERS_URL).then((res)=>{ //Lo almacena en la base de datos
+          if (res.status === "ok"){
+            localStorage.setItem("userID", res.data.id) //Almacena el ID del usuario (currentUserID)
+            window.location = "index.html"; //Y redirecciona
+          } else{
+            createBSAlert("Ha ocurrido un error. Intenta nuevamente", "danger");
+          }
+        })
+      }
     }
   })
 }
