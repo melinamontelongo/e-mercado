@@ -11,48 +11,23 @@ const DOLLAR_SYMBOL = "USD";
 const PESO_SYMBOL = "UYU";
 //Valor de cambio de UYU a USD
 let exchangeRate = undefined;
-
+//ID del usuario actual (para hacer las peticiones necesarias, se almacena en el login)
 let currentUserID = localStorage.getItem("userID");
+//ID del producto actual (para agregar el comentario del usuario a determinado producto)
 let currentProductDB_ID = undefined;
 
-let showSpinner = function () {
+function showSpinner(){
   document.getElementById("spinner-wrapper").style.display = "block";
 }
-
-let hideSpinner = function () {
+function hideSpinner(){
   document.getElementById("spinner-wrapper").style.display = "none";
 }
-
-let getJSONData = function (url) {
-  let result = {};
-  showSpinner();
-  return fetch(url)
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        throw Error(response.statusText);
-      }
-    })
-    .then(function (response) {
-      result.status = 'ok';
-      result.data = response;
-      hideSpinner();
-      return result;
-    })
-    .catch(function (error) {
-      result.status = 'error';
-      result.data = error;
-      hideSpinner();
-      return result;
-    });
-}
-
 //Función que guarda el id del producto en localStorage y redirecciona
 function setProductID(id) {
   localStorage.setItem("productID", id);
   window.location = "product-info.html"
 }
+//Función que guarda el id de la categoría en localStorage y redirecciona
 function setCatID(id) {
   localStorage.setItem("catID", id);
   window.location = "products.html"
@@ -124,7 +99,6 @@ function cookiesAlert(){
   })
   }
 }
-
 //Función que crea alertas de bootstrap personalizadas
 function createBSAlert(message, type) {
   let newAlertContainer = document.createElement("div"); //Crea el elemento contenedor
@@ -189,14 +163,19 @@ async function getCurrencyRate() {
 //Función asíncrona que realiza un get request a la base de datos que se requiera
 async function getInfo(url) {
   showSpinner();
+  let result = {};
   let reqOptions = {
     method: 'GET',
   };
   try {
-    let postReq = await fetch(url, reqOptions);
-    let postRes = await postReq.json();
+    let getReq = await fetch(url, reqOptions);
+    let getRes = await getReq.json();
+    if (getReq.ok){
+      result.status = "ok";
+      result.data = getRes;
+    } 
     hideSpinner();
-    return postRes;
+    return result;
   }
   catch (error) {
     console.error(error);
@@ -211,11 +190,11 @@ async function getSpecificInfo(id, url){
     method: 'GET',
   };
   try {
-    let postReq = await fetch(url+id, reqOptions);
-    let postRes = await postReq.json();
-    if (postReq.ok){
+    let getReq = await fetch(url+id, reqOptions);
+    let getRes = await getReq.json();
+    if (getReq.ok){
       result.status = "ok";
-      result.data = postRes;
+      result.data = getRes;
     } 
     hideSpinner();
     return result;

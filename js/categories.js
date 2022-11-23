@@ -83,10 +83,10 @@ function sortAndShowCategories(sortCriteria, categoriesArray) {
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function (e) {
     showUser();     //Llama a la función que muestra el user
-    getJSONData(CATEGORIES_URL).then(function (resultObj) {
-        if (resultObj.status === "ok") {
-            currentCategoriesArray = resultObj.data
-            sortAndShowCategories(ORDER_ASC_BY_NAME, resultObj.data);
+    getInfo(CATEGORIES_URL).then((res)=> {
+        if (res.status === "ok") {
+            currentCategoriesArray = res.data
+            sortAndShowCategories(ORDER_ASC_BY_NAME, res.data);
         }
     });
 

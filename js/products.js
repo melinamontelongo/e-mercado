@@ -89,14 +89,14 @@ function sortAndShowProducts(sortCriteria, productsArray) {     //Función para 
     showProductsList();
 }
 
-document.addEventListener("DOMContentLoaded", function (e) {    //Cuando se cargue el documento sucede lo siguiente:
+document.addEventListener("DOMContentLoaded", ()=> {    //Cuando se cargue el documento sucede lo siguiente:
     showUser();                                                 //Llama la función definida en init.js para mostrar al usuario
     let currentCategory = localStorage.getItem("catID");        //Accede a categoría seleccionada por el usuario
-    getJSONData(PRODUCTS_URL + currentCategory + EXT_TYPE).then(function (resultObj) {       //Como parámetro la url del .json concatenada
-        if (resultObj.status === "ok") {
+    getInfo(PRODUCTS_URL + currentCategory + EXT_TYPE).then((res)=> {  //Como parámetro la url del .json concatenada
+        if (res.status === "ok") {
             getCurrencyRate().then(() => { //Obtiene el valor del dolar
-                currentCategoryName = resultObj.data.catName;       //Se obtiene y almacena el nombre de la categoría para mostrarlo
-                currentProductsArray = resultObj.data.products;     //Se obtiene y almacena el array de productos
+                currentCategoryName = res.data.catName;       //Se obtiene y almacena el nombre de la categoría para mostrarlo
+                currentProductsArray = res.data.products;     //Se obtiene y almacena el array de productos
                 showProductsList();
             })
         }

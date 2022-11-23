@@ -260,14 +260,14 @@ function validateUserComment() {
 //Valida el comentario del usuario
 document.addEventListener("DOMContentLoaded", function () {
     showUser(); //Definida en init.js, muestra al user en el nav
-    getJSONData(PRODUCT_INFO_URL + currentProduct + EXT_TYPE).then(function (resultObj) {
-        if (resultObj.status === "ok") {
+    getInfo(PRODUCT_INFO_URL + currentProduct + EXT_TYPE).then((res)=> {
+        if (res.status === "ok") {
             getCurrencyRate().then(() => {
-                productInfo = resultObj.data;
+                productInfo = res.data;
                 showProductInfo();  //Muestra la info
             })
             getInfo(COMMENTS_URL).then(res => { //Para obtener el ID con el que se almacenan los comentarios de este producto en la base de datos
-                let currentProductComments = res.find(res => res.product == currentProduct);
+                let currentProductComments = res.data.find(res => res.product == currentProduct);
                 currentProductDB_ID = currentProductComments.id;
                 productComments = currentProductComments.comments;
                 let currentUserCommented = productComments.find(comment => comment.user === getUser()) //Verifica si el usuario ya comentó
