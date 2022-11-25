@@ -68,7 +68,7 @@ function setTotalCost() {
         updateTotalCosts();
     })
 }
-
+//Función que maneja la función de drag and drop para las imágenes
 function dropzone() {
     let dropzone = document.getElementById("file-upload");
     let dropArea = document.getElementById("drop-area");
@@ -88,7 +88,6 @@ function dropzone() {
         dropArea.innerHTML = "Arrastra tus fotos aquí";
     })
 }
-
 //Función que verifica que los archivos sean de tipo válido y los lee, agregándolos al documento y al array de imágenes
 function readFiles(fileList) {
     let validFileExts = ["image/jpeg", "image/jpg", "image/png"];
@@ -111,8 +110,6 @@ function readFiles(fileList) {
         }
     })
 }
-
-
 //Función que se ejecuta una vez que se haya lanzado el evento de
 //que el documento se encuentra cargado, es decir, se encuentran todos los
 //elementos HTML presentes.
@@ -145,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "images": imagesURL
             }
             localStorage.setItem("userItemsToSell", JSON.stringify(itemToPublish));
-            getJSONData(PUBLISH_PRODUCT_URL).then(resultObj => {
+            getInfo(PUBLISH_PRODUCT_URL).then(resultObj => {
                 let successMsg = resultObj.data.msg //El mensaje de éxito que viene de la petición
                 let errorMsg = "¡Ha ocurrido un error! Intenta nuevamente";
                 let msgToShowHTML = document.getElementById("resultSpan");

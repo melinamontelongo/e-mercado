@@ -13,6 +13,9 @@ let userCart = [];
 //Donde irán los productos del carrito
 let cartProductsContainer = document.getElementById("cartProducts");
 
+//Variable global donde se guardará la información del método de envío elegido
+let chosenPaymentMethodInputs = undefined;
+
 //Función para mostrar los productos que recibe por parámetro
 function showCartProducts(cartArray) {
   if (cartArray.length > 0) { //si el carrito no está vacío
@@ -74,12 +77,12 @@ function setSubtotalByQuantity(id, currency, cost) {
 //Función que actualiza la cantidad en la base de datos
 function updateStorageQuantity(productID, quantity) {
   let itemToUpdate = userCart.find(item => item.id == productID);
-  if (quantity > 0){
+  if (quantity > 0) {
     itemToUpdate.count = parseInt(quantity)
     let updatedQuantity = {
       "userCart": userCart,
     }
-    putInfo(updatedQuantity, currentUserID, USERS_URL).then((res) => { console.log(res)})
+    putInfo(updatedQuantity, currentUserID, USERS_URL).then((res) => { console.log(res) })
   }
 }
 //Llamada en el ícono de eliminar y al momento de simular la compra
@@ -92,9 +95,9 @@ function removeCartItem(id) {
     "userCart": userCart
   }
   putInfo(newCart, currentUserID, USERS_URL).then(res => {
-    if (res.status === "ok"){
+    if (res.status === "ok") {
       let elementToRemove = document.getElementById(`cartProduct${id}`);
-      if (elementToRemove != null){
+      if (elementToRemove != null) {
         elementToRemove.innerHTML = "";
       }
       setTotalCost();
@@ -164,25 +167,26 @@ function paymentMethod() {
     input.addEventListener("change", (e) => {
       switch (e.target.id) {
         case "creditCard": //Fue elegida tarjeta de crédito
+          chosenPaymentMethodInputs = creditCardControls;
           creditCardControls.forEach(control => { //Controles de pago con tarjeta
             control.removeAttribute("disabled"); //Los habilita
             control.classList.replace("bg-secondary", "bg-lighter-pink");//Para que se muestre visualmente la habilitación
           });
           bankTransferControls.forEach(control => { //Controles de pago con transferencia
             control.setAttribute("disabled", "");  //Los deshabilita
-            control.classList.replace("bg-lighter-pink","bg-secondary");//Para que se muestre visualmente la deshabilitación
+            control.classList.replace("bg-lighter-pink", "bg-secondary");//Para que se muestre visualmente la deshabilitación
             control.classList.remove("is-invalid") //Para evitar que se siga mostrando el campo con error aunque se haya seleccionado la otra opción
           });
           break;
         case "bankTransfer": //Fue elegida transferencia bancaria
-          chosenPaymentMethodInputs = bankTransferControls
+          chosenPaymentMethodInputs = bankTransferControls;
           bankTransferControls.forEach(control => {//Controles de pago con transferencia
             control.removeAttribute("disabled"); //Los habilita
-            control.classList.replace("bg-secondary","bg-lighter-pink");//Para que se muestre visualmente la habilitación
+            control.classList.replace("bg-secondary", "bg-lighter-pink");//Para que se muestre visualmente la habilitación
           });
           creditCardControls.forEach(control => { //Controles de pago con tarjeta
             control.setAttribute("disabled", ""); //Los deshabilita
-            control.classList.replace("bg-lighter-pink","bg-secondary");//Para que se muestre visualmente la deshabilitación
+            control.classList.replace("bg-lighter-pink", "bg-secondary");//Para que se muestre visualmente la deshabilitación
             control.classList.remove("is-invalid") //Para evitar que se siga mostrando el campo con error aunque se haya seleccionado la otra opción
           });
           break;
@@ -202,12 +206,28 @@ function validateInput(input) {
     input.classList.add("is-valid")
   }
 }
+//Función para obtener la información del método de pago
+function getPaymentInfo() {
+  let info = [];
+  let item;
+  chosenPaymentMethodInputs.forEach(input => {
+    item = {
+      [input.id]: input.value
+    }
+    info.push(item);
+  })
+  chosenPaymentMethodInputs = info;
+}
 //Función que valida el formulario
 function validateForm() {
   //Formulario
   let form = document.getElementById("cartForm");
   //Inputs de cantidad de producto
   let quantityInputs = document.querySelectorAll('[id^="quantity"]');
+  //Inputs de la dirección
+  let addressStreet = document.getElementById("addressStreet");
+  let addressNum = document.getElementById("addressNumber");
+  let addressCorner = document.getElementById("addressCorner")
   //Radios del modal
   let creditCard = document.getElementById("creditCard");
   let bankTransfer = document.getElementById("bankTransfer");
@@ -262,16 +282,34 @@ function validateForm() {
     }
     //Se sube solo si todos los campos cumplen con lo requerido (atributos: required, pattern, min)
     if (form.checkValidity()) {
-      createBSAlert(`<span class="fa-solid fa-check"></span> ¡Tu compra se ha realizado con éxito!`, "success")
-      let allCartItems = document.querySelectorAll(".cart-row");
-      allCartItems.forEach(cartItem => {
-        removeCartItem(cartItem.dataset.id);//Se remueven los items del carrito para simular la compra
-      });
-      let allInputs = document.querySelectorAll(".form-control");
-      allInputs.forEach(input => { //Vacía los inputs para simular el envío
-        input.value = "";
-      });
-      form.classList.remove("was-validated");
+      e.preventDefault();
+      getPaymentInfo();
+      let newPurchase = {
+        "userID": currentUserID,
+        "userName": getUser(),
+        "shippingFee": shippingFee,
+        "shippingAddress": [{
+          "street": addressStreet.value,
+          "number": addressNum.value,
+          "corner": addressCorner.value
+        }],
+        "paymentMethod": chosenPaymentMethodInputs,
+        "boughtItems": userCart
+      }
+      postInfo(newPurchase, SALES_URL).then(res => {
+        if (res.status === "ok") {
+          createBSAlert(`<span class="fa-solid fa-check"></span> ¡Tu compra se ha realizado con éxito!`, "success");
+          let allCartItems = document.querySelectorAll(".cart-row");
+          allCartItems.forEach(cartItem => {
+            removeCartItem(cartItem.dataset.id);//Se remueven los items del carrito para simular la compra
+          });
+          let allInputs = document.querySelectorAll(".form-control");
+          allInputs.forEach(input => { //Vacía los inputs para simular el envío
+            input.value = "";
+          });
+          form.classList.remove("was-validated");
+        }
+      })
     }
   })
 }

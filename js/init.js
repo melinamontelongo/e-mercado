@@ -5,6 +5,7 @@ const PRODUCT_INFO_URL = "https://japceibal.github.io/emercado-api/products/";
 const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const USERS_URL = `https://63645a8f8a3337d9a2f5d652.mockapi.io/users/` //"base de datos" de todos los usuarios
 const COMMENTS_URL = `https://63645a8f8a3337d9a2f5d652.mockapi.io/comments/` //"base de datos" de comentarios agregados por los usuarios
+const SALES_URL = `https://63645a8f8a3337d9a2f5d652.mockapi.io/sales/` //"base de datos" para publicar las ventas
 const EXT_TYPE = ".json";
 //Símbolos de monedas que utiliza la página
 const DOLLAR_SYMBOL = "USD";
