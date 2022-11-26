@@ -82,7 +82,7 @@ function updateStorageQuantity(productID, quantity) {
     let updatedQuantity = {
       "userCart": userCart,
     }
-    putInfo(updatedQuantity, currentUserID, USERS_URL).then((res) => { console.log(res) })
+    putInfo(updatedQuantity, currentUserID, USERS_URL).then(() => {return})
   }
 }
 //Llamada en el ícono de eliminar y al momento de simular la compra
