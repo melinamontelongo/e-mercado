@@ -27,25 +27,28 @@ function sortProducts(criteria, array) {
             return b.soldCount - a.soldCount
         });
     }
-
+console.log(array)
     return result;
 }
-
+//Función que chequea la moneda y si está en pesos retorna el valor convertido como una nueva propiedad del producto
+function checkCurrency(product){
+    if (product.currency == PESO_SYMBOL){
+        Object.defineProperty(product, "USDCost", {
+            value: USDConversion(product.cost)
+        })
+        return `- ${DOLLAR_SYMBOL} ${product.USDCost}`;
+    }
+}
 //Función para mostrar los productos en products.html
 function showProductsList() {
     let htmlContentToAppend = "";   //Se inicializa la variable a la que luego se le "cargará" la información
 
     for (let i = 0; i < currentProductsArray.length; i++) {  //Iteración que recorre el arreglo de productos tantas veces como su largo (5)
-
         let product = currentProductsArray[i];  //Se define la forma de acceder a las propiedades del objeto producto
-
         if (!(product.cost < minCost) && !(product.cost > maxCost) &&  //Filtros para mostrar los productos según el precio ingresado *Condiciones optimizadas
             ((search == undefined) ||
                 (product.name.toLowerCase().includes(search) ||
                     product.description.toLowerCase().includes(search)))) { //Filtros para mostrar los productos según lo que ingrese el usuario en el buscador
-                        if (product.currency == PESO_SYMBOL){ //Para mostrar el valor en dólares si está en pesos
-                            product.cost = `${product.cost} - ${DOLLAR_SYMBOL} ${USDConversion(product.cost)} `
-                        }
 
             htmlContentToAppend += `            
 
@@ -56,7 +59,7 @@ function showProductsList() {
                             </div>
                             <div class="col-12 col-md-9">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h4 class="mb-1 product-header text-lighter-indigo">${product.name} - ${product.currency} ${product.cost}</h4>
+                                    <h4 class="mb-1 product-header text-lighter-indigo product-cost">${product.name} - ${product.currency} ${product.cost} ${checkCurrency(product)}</h4>
                                     <small class="text-light-indigo">${product.soldCount} vendidos</small>
                                 </div>
                                 <p class="mb-1">${product.description}</p>
@@ -66,7 +69,6 @@ function showProductsList() {
                     `
         }
         document.getElementById("product-list-container").innerHTML = htmlContentToAppend
-      
     }
     if (document.getElementById("product-list-container").innerHTML == "") {
         document.getElementById("product-list-container").innerHTML = `<h3 class="lead text-center p-5"><span class="me-2 fa-solid fa-ban"></span>No se han encontrado productos que coincidan</h3>`
